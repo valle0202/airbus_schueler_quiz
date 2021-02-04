@@ -1,0 +1,98 @@
+import 'package:flutter/material.dart';
+import 'package:quiz_web_app/Screens/Quiz/quiz_screen.dart';
+import 'package:flutter/widgets.dart';
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  double x = 0.0;
+  double y = 0.0;
+  bool defaultPosition = true;
+  double buttonWidth = 420.0;
+  double buttonHeight = 140.0;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size; //height and width of the screen
+
+    double percentageX = (x / buttonWidth) * 100;
+    double percentageY = (y / buttonHeight) * 100;
+
+    return Stack(
+          children: [
+            /*Transform(
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.001)
+                ..rotateX(defaultPosition ? 0 : (0.2 * (percentageY / 50) -0.2))
+                ..rotateY(defaultPosition ? 0 : (-0.2 * (percentageX / 50) + 0.2)),
+              alignment: FractionalOffset.center,*/
+              Container(
+                height: size.height,
+                width: size.width,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/zeroEAll.jpg"),
+                    fit: BoxFit.cover)
+                    ),
+              ),
+            //),
+            Center(
+              child: MouseRegion(
+                onEnter: (_) {setState(() {
+                  defaultPosition = false;
+                });},
+                onExit: (_) {setState(() {
+                  x = size.width / 2;
+                  y = size.height / 2;
+                  defaultPosition = true;
+                });},
+                onHover: (details) {
+                  if (mounted) setState(() => defaultPosition = false);
+                  if (details.localPosition.dx > 0 && details.localPosition.dy > 0){
+                    if (details.localPosition.dx < buttonWidth && details.localPosition.dy < buttonHeight){
+                      x = details.localPosition.dx;
+                      y = details.localPosition.dy;
+                    }
+                  }
+                },
+                child: Transform(
+                  transform: Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateX(defaultPosition ? 0 : (0.2 * (percentageY / 50) -0.2))
+                    ..rotateY(defaultPosition ? 0 : (-0.2 * (percentageX / 50) + 0.2)),
+                  alignment: FractionalOffset.center,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white70,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+                      elevation: 5.0,
+                      fixedSize: Size(buttonWidth, buttonHeight),
+                    ),
+                    child: Transform(
+                      transform: Matrix4.identity()
+                        ..translate(defaultPosition ? 0.0 : (10 * (percentageX / 50) + -10),
+                                    defaultPosition ? 0.0 : (10 * (percentageY / 50) + -10), 0.0),
+                      alignment: FractionalOffset.center,
+                      child: Text(
+                        'START THE \n      CHALLENGE!', 
+                        style: TextStyle(
+                          color: Colors.blueGrey[900],
+                          fontSize: 50,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {return QuizScreen();}));
+                    },
+                  ),
+                ),
+              ),
+          ),
+        ],
+    );
+  }
+}
