@@ -42,12 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           child: Stack(
             children: [
-            /*Transform(
-              transform: Matrix4.identity()
-                ..setEntry(3, 2, 0.001)
-                ..rotateX(defaultPosition ? 0 : (0.2 * (percentageY / 50) -0.2))
-                ..rotateY(defaultPosition ? 0 : (-0.2 * (percentageX / 50) + 0.2)),
-              alignment: FractionalOffset.center,*/
               Container(
                 height: size.height,
                 width: size.width,
@@ -57,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     fit: BoxFit.cover)
                     ),
               ),
-            //),
             Center(
                 child: Transform(
                   transform: Matrix4.identity()
