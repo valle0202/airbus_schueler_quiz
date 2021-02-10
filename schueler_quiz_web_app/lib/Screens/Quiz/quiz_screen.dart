@@ -99,7 +99,7 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
           ),
-          Center(
+          Expanded(
             child: quizWidgets.elementAt(selectedIndex),
             //child: Text("$selectedIndex"),
             ),
