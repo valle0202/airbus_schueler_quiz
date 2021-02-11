@@ -39,7 +39,7 @@ Widget puzzle1 (){
           style: TextStyle(fontSize: 20, color: Colors.grey[800]), 
         ),
         //SizedBox(width: 50,),
-        answer(100),
+        //answer(100),
       ],
     ),
   );
@@ -47,24 +47,29 @@ Widget puzzle1 (){
 
 
 Widget answer (double width) {
-  return Container(
+  return AnimatedContainer(
+    curve: Curves.easeOutQuad,
+    duration: Duration(milliseconds: 900),
     width: width,
-    child: TextField(
-      decoration: InputDecoration(
-        hintText: 'Antwort',
-        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide:
-              BorderSide(color: secondaryBlue, width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide:
-              BorderSide(color: primaryBlue, width: 2.0),
-          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+    child: Visibility(
+      visible: width == 0? false:true,
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: 'Antwort',
+          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: secondaryBlue, width: 1.0),
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: primaryBlue, width: 2.0),
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          ),
         ),
       ),
     ),

@@ -57,6 +57,8 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  List answerSize = [100, 0, 100, 500, 400, 0, 600, 300, 100];
+
   List quizPunkte = [3,4,6,7,3,2,4,3,7];
 
   List quizWidgets = [
@@ -102,7 +104,11 @@ class _QuizScreenState extends State<QuizScreen> {
           Expanded(
             child: quizWidgets.elementAt(selectedIndex),
             //child: Text("$selectedIndex"),
-            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: answer(answerSize[selectedIndex]),
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
