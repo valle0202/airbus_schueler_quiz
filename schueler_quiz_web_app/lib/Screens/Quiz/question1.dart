@@ -1,10 +1,8 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:schueler_quiz_web_app/constants.dart';
 
 bool showQuestion = true;
+var answerController = TextEditingController();
 
 Widget question1() {
   if(showQuestion){
@@ -20,9 +18,9 @@ Widget info1 (){
 
 Widget puzzle1 (){
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 100),
+    padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Für die Produktions des A320 werden 2 triebwerke, 2 Flügel, 3 Rumpfteile und 1 Leitwerk benötigt. \nAktuell werden folgende Produktionszeiten benötigt:\n",
           style: TextStyle(fontSize: 20),
@@ -46,32 +44,3 @@ Widget puzzle1 (){
 }
 
 
-Widget answer (double width) {
-  return AnimatedContainer(
-    curve: Curves.easeOutQuad,
-    duration: Duration(milliseconds: 900),
-    width: width,
-    child: Visibility(
-      visible: width == 0? false:true,
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Antwort',
-          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: secondaryBlue, width: 1.0),
-            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: primaryBlue, width: 2.0),
-            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-          ),
-        ),
-      ),
-    ),
-  );
-}

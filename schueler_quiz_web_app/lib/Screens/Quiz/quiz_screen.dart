@@ -21,7 +21,8 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
 
   int selectedIndex = 0;
-  int tipsLeft = 5;
+  int tipsLeft = 4;
+  bool tiptaken = false;
 
   Timer _timer;
   int seconds = 0;
@@ -50,12 +51,23 @@ class _QuizScreenState extends State<QuizScreen> {
       ),
     );
   }
+
+  List answers = ['', '', '', '', '', '', '', '', '',];
   
   onItemClicked(int index){
     setState(() {
       selectedIndex = index;
+      if(answers[selectedIndex] == ''){
+        answerController.clear();
+      } else {
+        answerController.text = answers[selectedIndex];
+      }
+      tiptaken = false;
     });
   }
+
+  List tips = ['überlege dir zuerst wie viele A320 an einem Tag produziert werden können, dann wie viele Triebwerke pro Tag übrig bleiben', 
+  'tip2', 'tip2', 'Der Anfang ist 5, 3, 2, 9, 7, ', 'tip2', 'tip2', 'tip2', 'tip2', 'tip2', ];
 
   List answerSize = [100, 0, 100, 500, 400, 0, 600, 300, 100];
 
@@ -73,13 +85,45 @@ class _QuizScreenState extends State<QuizScreen> {
     question9(),
   ] ;
 
+  Widget answer (double width) {
+  return AnimatedContainer(
+    curve: Curves.easeOutQuad,
+    duration: Duration(milliseconds: 1500),
+    width: width,
+    child: Visibility(
+      visible: width == 0? false:true,
+      child: TextField(
+        controller: answerController,
+        decoration: InputDecoration(
+          hintText: 'Antwort',
+          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: secondaryBlue, width: 1.0),
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: primaryBlue, width: 2.0),
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          ),
+        ),
+        onSubmitted: (String s) {answers[selectedIndex] = s;},
+      ),
+    ),
+  );
+}
+
   Widget bottomNavBar () {
     return Scaffold(
       body: Column(
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
+        children: [ 
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 200),
+            padding: const EdgeInsets.fromLTRB(200, 20, 200, 0),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.grey[200],
@@ -93,7 +137,11 @@ class _QuizScreenState extends State<QuizScreen> {
                     Text("Punkte: " + quizPunkte[selectedIndex].toString()),
                     Text(minutes.toString() + ':' + seconds.toString()),
                     TextButton(
-                      onPressed: (){setState(() {tipsLeft--;});}, 
+                      onPressed: (){setState(() {
+                        if(tipsLeft > 0){
+                          tipsLeft--; tiptaken = true;
+                        }
+                      });}, 
                       child: Text("Tip (" + tipsLeft.toString() + " übrig)")
                     ),
                   ],
@@ -101,6 +149,10 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
           ),
+          tiptaken? Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Text("Tip: " + tips[selectedIndex], style: TextStyle(fontSize: 16, color: Colors.orange),),
+          ) : SizedBox(height: 39,),
           Expanded(
             child: quizWidgets.elementAt(selectedIndex),
             //child: Text("$selectedIndex"),
