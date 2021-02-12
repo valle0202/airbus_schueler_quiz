@@ -13,6 +13,8 @@ import 'package:schueler_quiz_web_app/Screens/Quiz/question8.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question9.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
 
+import 'package:panorama/panorama.dart';
+
 class QuizScreen extends StatefulWidget {
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -117,6 +119,29 @@ class _QuizScreenState extends State<QuizScreen> {
   );
 }
 
+ Widget hotspotButton({String text, IconData icon, VoidCallback onPressed}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+          style: TextButton.styleFrom(
+            shape: CircleBorder(),
+            backgroundColor: Colors.black38,
+          ),
+          child: Icon(icon),
+          onPressed: onPressed,
+        ),
+        text != null
+            ? Container(
+                padding: EdgeInsets.all(4.0),
+                decoration: BoxDecoration(color: Colors.black38, borderRadius: BorderRadius.all(Radius.circular(4))),
+                child: Center(child: Text(text)),
+              )
+            : Container(),
+      ],
+    );
+  }
+
   Widget bottomNavBar () {
     return Scaffold(
       body: Column(
@@ -217,7 +242,28 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      title: 'Panorama',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Panorama(
+        child: Image.asset('assets/images/a.jpeg'),
+        onTap: (longitude, latitude, tilt) => print('onTap: $longitude, $latitude, $tilt'),
+        hotspots: [
+          Hotspot(
+            latitude: -15.0,
+            longitude: -129.0,
+            width: 90,
+            height: 75,
+            widget: hotspotButton(text: "A320 Produktion", icon: Icons.airplanemode_active, onPressed: () {}),
+          )
+        ],
+      ),
+    );
+  }
+    /*return Scaffold(
       bottomNavigationBar: bottomNavBar(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: greenSuccess,
@@ -225,5 +271,5 @@ class _QuizScreenState extends State<QuizScreen> {
         onPressed: (){},
       ),
     );
-  }
+  }*/
 }
