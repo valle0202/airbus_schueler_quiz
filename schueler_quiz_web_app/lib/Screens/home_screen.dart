@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/quiz_screen.dart';
 import 'package:flutter/widgets.dart';
+import 'package:panorama/panorama.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -22,7 +23,20 @@ class _HomeScreenState extends State<HomeScreen> {
     double percentageX = (x / size.width) * 100;
     double percentageY = (y / size.height) * 100;
 
-    return MouseRegion(
+    return MaterialApp(
+      title: 'Panorama',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Panorama(
+        child: Image.asset('assets/images/a.jpeg'),
+        onTap: (longitude, latitude, tilt) => print('onTap: $longitude, $latitude, $tilt'),
+      ),
+    );
+  }
+
+    /*return MouseRegion(
             onEnter: (_) {setState(() {
               defaultPosition = false;
             });},
@@ -87,5 +101,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
     ),
     );
-  }
+  }*/
 }
