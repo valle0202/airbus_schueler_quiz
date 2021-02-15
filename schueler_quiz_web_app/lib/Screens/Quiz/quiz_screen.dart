@@ -25,10 +25,14 @@ class _QuizScreenState extends State<QuizScreen> {
   int selectedIndex = 0;
   int tipsLeft = 4;
   bool tiptaken = false;
+  bool show360 = true; //if true displays the panorama, else a question
+  bool noTimeLeft = false;
 
   double _lon = 0;
   double _lat = 0;
   double _tilt = 0;
+  double lastLon = 0;
+  double lastLat = 0;
 
 
   void onViewChanged(longitude, latitude, tilt) {
@@ -39,9 +43,10 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  // ignore: unused_field
   Timer _timer;
-  int seconds = 0;
-  int minutes = 0;
+  int seconds = 59;
+  int minutes = 59;
   //int hours = 0;
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -49,13 +54,16 @@ class _QuizScreenState extends State<QuizScreen> {
       oneSec,
       (Timer timer) => setState(
         () {
-          if (seconds < 0) {
+          if (seconds == 0 && minutes == 0) {
             timer.cancel();
+            setState(() {
+              noTimeLeft = true;
+            });
           } else {
-            seconds += 1;
-            if (seconds > 59) {
-              minutes += 1;
-              seconds = 0;
+            seconds--;
+            if (seconds < 0) {
+              minutes--;
+              seconds = 59;
               /*if (minutes > 59) {
                 hours += 1;
                 minutes = 0;
@@ -71,6 +79,10 @@ class _QuizScreenState extends State<QuizScreen> {
   
   onItemClicked(int index){
     setState(() {
+      //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
+      lastLon = _lon;
+      lastLat = _lat;
+      show360 = false;
       selectedIndex = index;
       if(answers[selectedIndex] == ''){
         answerController.clear();
@@ -164,94 +176,61 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget bottomNavBar () {
-    return Scaffold(
-      body: Column(
-        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [ 
-          Padding(
-            padding: const EdgeInsets.fromLTRB(200, 20, 200, 0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text("Punkte: " + quizPunkte[selectedIndex].toString()),
-                    Text(minutes.toString() + ':' + seconds.toString()),
-                    TextButton(
-                      onPressed: (){setState(() {
-                        if(tipsLeft > 0){
-                          tipsLeft--; tiptaken = true;
-                        }
-                      });}, 
-                      child: Text("Tip (" + tipsLeft.toString() + " übrig)")
-                    ),
-                  ],
-                ),
+  Widget questionScreen () {
+    return Column(
+      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [ 
+        topBar(show360),
+        tiptaken? Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text("Tip: " + tips[selectedIndex], style: TextStyle(fontSize: 16, color: Colors.orange),),
+        ) : SizedBox(height: 39,),
+        Expanded(
+          child: quizWidgets.elementAt(selectedIndex),
+          //child: Text("$selectedIndex"),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: answer(answerSize[selectedIndex]),
+        ),
+      ],
+    );
+  }
+
+  Widget topBar (bool onlyTime) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: onlyTime? Colors.white54 : Colors.grey[200],
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if(!onlyTime) Text("Punkte: " + quizPunkte[selectedIndex].toString()),
+                  if(!onlyTime) SizedBox(width:20),
+                  Text(minutes.toString() + ':' + seconds.toString()),
+                  if(!onlyTime) SizedBox(width:20),
+                  if (!onlyTime) TextButton(
+                    onPressed: (){setState(() {
+                      if(tipsLeft > 0){
+                        tipsLeft--; tiptaken = true;
+                      }
+                    });}, 
+                    child: Text("Tip (" + tipsLeft.toString() + " übrig)")
+                  ),
+                ],
               ),
             ),
           ),
-          tiptaken? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Text("Tip: " + tips[selectedIndex], style: TextStyle(fontSize: 16, color: Colors.orange),),
-          ) : SizedBox(height: 39,),
-          Expanded(
-            child: quizWidgets.elementAt(selectedIndex),
-            //child: Text("$selectedIndex"),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: answer(answerSize[selectedIndex]),
-          ),
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.airplanemode_active),
-            label: "1",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.grid_on),
-            label: "2",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.alt_route),
-            label: "3",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.cases),
-            label: "4",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.no_encryption),
-            label: "5",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.code),
-            label: "6",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.coronavirus),
-            label: "7",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.hearing),
-            label: "8",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.vertical_split),
-            label: "9",
-          ),
-        ],
-        currentIndex: selectedIndex,
-        onTap: onItemClicked,
       ),
     );
   }
@@ -264,7 +243,10 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
     Widget panorama = Panorama(
+      longitude: lastLon,
+      latitude: lastLat,
       child: Image.asset('assets/images/a.jpeg'),
       onViewChanged: onViewChanged,
       onTap: (longitude, latitude, tilt) => print('onTap: $longitude, $latitude, $tilt'),
@@ -274,24 +256,66 @@ class _QuizScreenState extends State<QuizScreen> {
           longitude: 114.01527664,
           width: 80,
           height: 80,
-          widget: hotspotButton(text: "A320 Produktion", icon: Icons.airplanemode_active, onPressed: () {}),
+          widget: hotspotButton(text: "A320 Produktion", icon: Icons.airplanemode_active, onPressed: () {setState(() {
+            onItemClicked(0);
+          });}),
+        ),
+        Hotspot(
+          latitude: -1.5,
+          longitude: 55.47,
+          width: 80,
+          height: 80,
+          widget: hotspotButton(text: "Produktionsplan", icon: Icons.grid_on, onPressed: () {setState(() {
+            onItemClicked(1);
+          });}),
+        ),
+        Hotspot(
+          latitude: 80,
+          longitude: 10,
+          width: 80,
+          height: 80,
+          widget: hotspotButton(text: "Kabelgewirr", icon: Icons.alt_route, onPressed: () {setState(() {
+            onItemClicked(2);
+          });}),
+        ),
+        Hotspot(
+          latitude: 0,
+          longitude: 0,
+          width: 80,
+          height: 80,
+          widget: hotspotButton(text: "Flugplan", icon: Icons.cases, onPressed: () {setState(() {
+            onItemClicked(3);
+          });}),
+        ),
+        Hotspot(
+          latitude: -14,
+          longitude: -100,
+          width: 80,
+          height: 80,
+          widget: hotspotButton(text: "Verschlüsselung", icon: Icons.no_encryption, onPressed: () {setState(() {
+            onItemClicked(4);
+          });}),
         )
       ],
     );
   
     return Scaffold(
-      //bottomNavigationBar: bottomNavBar(),
-      /*floatingActionButton: FloatingActionButton(
-        backgroundColor: greenSuccess,
-        child: Text('save', style: TextStyle(fontSize: 20),),
-        onPressed: (){},
-      ),*/
-      body: Stack(
+      body: show360? Stack(
         children: [
-          panorama,
+          show360? panorama : quizWidgets.elementAt(selectedIndex),
           Text('${_lon.toStringAsFixed(3)}, ${_lat.toStringAsFixed(3)}, ${_tilt.toStringAsFixed(3)}'),
+          topBar(show360),
         ],
-      ),
+      ) :
+      questionScreen()
+      ,
+      floatingActionButton: !show360? FloatingActionButton(
+        child: Icon(Icons.check),
+        backgroundColor: greenSuccess,
+        onPressed: ()  {setState(() {
+          show360 = true;
+        });},
+        ): SizedBox(height:0),
     );
   }
 }
