@@ -13,6 +13,7 @@ import 'package:schueler_quiz_web_app/Screens/Quiz/question6.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question7.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question8.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question9.dart';
+import 'package:schueler_quiz_web_app/Screens/afterRare.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -22,9 +23,9 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
 
+  int currentLevel = 0; //if the user is on first second or third panorama(/difficulty)
   int selectedIndex = 0;
   int tipsLeft = 4;
-  bool tiptaken = false;
   bool show360 = true; //if true displays the panorama, else a question
   bool noTimeLeft = false;
 
@@ -89,12 +90,18 @@ class _QuizScreenState extends State<QuizScreen> {
       } else {
         answerController.text = answers[selectedIndex];
       }
-      tiptaken = false;
+      //tiptaken = false;
     });
   }
 
+  List tiptaken = [false, false, false, false, false, false, false, false, false];
+
+  List richtige = [false, false, false, false, false, false, false, false, false];
+
+  List correctAnswers = ['22', '', '', '5,3,2,9,7,6,4,1,8,5', 'rmulinzgrp', '', '', '', '0.25'];
+
   List tips = ['überlege dir zuerst wie viele A320 an einem Tag produziert werden können, dann wie viele Triebwerke pro Tag übrig bleiben', 
-  'tip2', 'tip2', 'Der Anfang ist 5, 3, 2, 9, 7, ', 'tip2', 'tip2', 'tip2', 'tip2', 'tip2', ];
+  'tip2', 'tip2', 'Der Anfang ist 5, 3, 2, 9, 7, ', 'Die Wörter airbus und zriyfh gehören zusammen', 'tip2', 'tip2', 'tip2', 'tip2', ];
 
   List answerSize = [100, 0, 100, 500, 400, 0, 600, 300, 100];
 
@@ -111,6 +118,23 @@ class _QuizScreenState extends State<QuizScreen> {
     question8(),
     question9(),
   ] ;
+
+  bool checkAnswers () {
+    if(currentLevel == 0){
+      if(correctAnswers[0] == answers[0] && correctAnswers[1] == answers[1] && correctAnswers[2] == answers[2] && correctAnswers[3] == answers[3] && correctAnswers[4] == answers[4]){
+        return true;
+      }
+    } else if (currentLevel == 1) {
+      if(correctAnswers[5] == answers[5] && correctAnswers[6] == answers[6]){
+        return true;
+      }
+    } else {
+      if(correctAnswers[7] == answers[7] && correctAnswers[8] == answers[8]){
+        return true;
+      }
+    }
+    return false;
+  }
 
   Widget answer (double width) {
   return AnimatedContainer(
@@ -144,7 +168,7 @@ class _QuizScreenState extends State<QuizScreen> {
   );
 }
 
- Widget hotspotButton({String text, IconData icon, VoidCallback onPressed}) {
+ Widget hotspotButton({String text, IconData icon, VoidCallback onPressed, Color color}) {
     return /*TextButton(
       style: TextButton.styleFrom(
         shape: CircleBorder(),
@@ -162,7 +186,7 @@ class _QuizScreenState extends State<QuizScreen> {
             shape: CircleBorder(),
             backgroundColor: Colors.black38,
           ),
-          child: Icon(icon),
+          child: Icon(icon, color: color,),
           onPressed: onPressed,
         ),
         text != null
@@ -181,7 +205,7 @@ class _QuizScreenState extends State<QuizScreen> {
       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [ 
         topBar(show360),
-        tiptaken? Padding(
+        tiptaken[selectedIndex]? Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Text("Tip: " + tips[selectedIndex], style: TextStyle(fontSize: 16, color: Colors.orange),),
         ) : SizedBox(height: 39,),
@@ -216,12 +240,15 @@ class _QuizScreenState extends State<QuizScreen> {
                 children: [
                   if(!onlyTime) Text("Punkte: " + quizPunkte[selectedIndex].toString()),
                   if(!onlyTime) SizedBox(width:20),
-                  Text(minutes.toString() + ':' + seconds.toString()),
+                  if(seconds > 9 && minutes > 9)Text(minutes.toString() + ':' + seconds.toString()),
+                  if(seconds < 9 && minutes > 9)Text(minutes.toString() + ':' + '0' + seconds.toString()),
+                  if(seconds > 9 && minutes < 9)Text('0' + minutes.toString() + ':' + seconds.toString()),
+                  if(seconds < 9 && minutes < 9)Text('0' + minutes.toString() + ':' + '0' + seconds.toString()),
                   if(!onlyTime) SizedBox(width:20),
                   if (!onlyTime) TextButton(
                     onPressed: (){setState(() {
-                      if(tipsLeft > 0){
-                        tipsLeft--; tiptaken = true;
+                      if(tipsLeft > 0 && tiptaken[selectedIndex] == false){
+                        tipsLeft--; tiptaken[selectedIndex] = true;
                       }
                     });}, 
                     child: Text("Tip (" + tipsLeft.toString() + " übrig)")
@@ -243,61 +270,99 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
-    Widget panorama = Panorama(
-      longitude: lastLon,
-      latitude: lastLat,
-      child: Image.asset('assets/images/a.jpeg'),
-      onViewChanged: onViewChanged,
-      onTap: (longitude, latitude, tilt) => print('onTap: $longitude, $latitude, $tilt'),
-      hotspots: [
-        Hotspot(
-          latitude: -35.7054290,
-          longitude: 114.01527664,
-          width: 80,
-          height: 80,
-          widget: hotspotButton(text: "A320 Produktion", icon: Icons.airplanemode_active, onPressed: () {setState(() {
-            onItemClicked(0);
-          });}),
-        ),
-        Hotspot(
-          latitude: -1.5,
-          longitude: 55.47,
-          width: 80,
-          height: 80,
-          widget: hotspotButton(text: "Produktionsplan", icon: Icons.grid_on, onPressed: () {setState(() {
-            onItemClicked(1);
-          });}),
-        ),
-        Hotspot(
-          latitude: 80,
-          longitude: 10,
-          width: 80,
-          height: 80,
-          widget: hotspotButton(text: "Kabelgewirr", icon: Icons.alt_route, onPressed: () {setState(() {
-            onItemClicked(2);
-          });}),
-        ),
-        Hotspot(
-          latitude: 0,
-          longitude: 0,
-          width: 80,
-          height: 80,
-          widget: hotspotButton(text: "Flugplan", icon: Icons.cases, onPressed: () {setState(() {
-            onItemClicked(3);
-          });}),
-        ),
-        Hotspot(
-          latitude: -14,
-          longitude: -100,
-          width: 80,
-          height: 80,
-          widget: hotspotButton(text: "Verschlüsselung", icon: Icons.no_encryption, onPressed: () {setState(() {
-            onItemClicked(4);
-          });}),
-        )
-      ],
-    );
+    //print("lon:" + lastLon.toString() + " lat: " + lastLat.toString());
+    Widget panorama;
+    switch (currentLevel) {
+      case 1:
+        panorama = Panorama(
+        child: Image.asset('assets/images/a.jpeg'),
+        onViewChanged: onViewChanged,
+        onTap: (longitude, latitude, tilt) => print('onTap: $longitude, $latitude, $tilt'),
+        hotspots: [
+          Hotspot(
+            latitude: -35.7054290,
+            longitude: 114.01527664,
+            width: 80,
+            height: 80,
+            widget: hotspotButton(text: "Sortieren", icon: Icons.code, onPressed: () {setState(() {
+              onItemClicked(5);
+            });},
+            color: (correctAnswers[5] == answers[5])? greenSuccess : Colors.blue,
+            ),
+          ),
+          Hotspot(
+            latitude: -1.5,
+            longitude: 55.47,
+            width: 80,
+            height: 80,
+            widget: hotspotButton(text: "Transportbänder", icon: Icons.transfer_within_a_station, onPressed: () {setState(() {
+              onItemClicked(6);
+            });},
+            color: (correctAnswers[6] == answers[6])? greenSuccess : secondaryBlue,),
+          ),
+        ],
+      );
+        break;
+      default:
+        panorama = Panorama(
+        child: Image.asset('assets/images/a.jpeg'),
+        onViewChanged: onViewChanged,
+        onTap: (longitude, latitude, tilt) => print('onTap: $longitude, $latitude, $tilt'),
+        hotspots: [
+          Hotspot(
+            latitude: -35.7054290,
+            longitude: 114.01527664,
+            width: 80,
+            height: 80,
+            widget: hotspotButton(text: "A320 Produktion", icon: Icons.airplanemode_active, onPressed: () {setState(() {
+              onItemClicked(0);
+            });},
+            color: (correctAnswers[0] == answers[0])? greenSuccess : secondaryBlue,
+            ),
+          ),
+          Hotspot(
+            latitude: -1.5,
+            longitude: 55.47,
+            width: 80,
+            height: 80,
+            widget: hotspotButton(text: "Produktionsplan", icon: Icons.grid_on, onPressed: () {setState(() {
+              onItemClicked(1);
+            });},
+            color: (correctAnswers[1] == answers[1])? greenSuccess : secondaryBlue,),
+          ),
+          Hotspot(
+            latitude: 20,
+            longitude: 80,
+            width: 80,
+            height: 80,
+            widget: hotspotButton(text: "Kabelgewirr", icon: Icons.alt_route, onPressed: () {setState(() {
+              onItemClicked(2);
+            });},
+            color: (correctAnswers[2] == answers[2])? greenSuccess : secondaryBlue,),
+          ),
+          Hotspot(
+            latitude: 0,
+            longitude: 0,
+            width: 80,
+            height: 80,
+            widget: hotspotButton(text: "Flugplan", icon: Icons.cases, onPressed: () {setState(() {
+              onItemClicked(3);
+            });},
+            color: (correctAnswers[3] == answers[3])? greenSuccess : secondaryBlue,),
+          ),
+          Hotspot(
+            latitude: -14,
+            longitude: -100,
+            width: 80,
+            height: 80,
+            widget: hotspotButton(text: "Verschlüsselung", icon: Icons.no_encryption, onPressed: () {setState(() {
+              onItemClicked(4);
+            });},
+            color: (correctAnswers[4] == answers[4])? greenSuccess : secondaryBlue,),
+          )
+        ],
+      );
+    }
   
     return Scaffold(
       body: show360? Stack(
@@ -313,7 +378,12 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Icon(Icons.check),
         backgroundColor: greenSuccess,
         onPressed: ()  {setState(() {
+          answers[selectedIndex] = answerController.text;
           show360 = true;
+          if(checkAnswers()) {
+            currentLevel++;
+            Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
+           } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
         });},
         ): SizedBox(height:0),
     );

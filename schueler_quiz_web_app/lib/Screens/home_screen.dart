@@ -7,13 +7,40 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+
+
 class _HomeScreenState extends State<HomeScreen> {
 
+  bool loginComplete = false;
   double x = 0.0;
   double y = 0.0;
   bool defaultPosition = true;
   double buttonWidth = 420.0;
   double buttonHeight = 140.0;
+
+  Widget loginField () {
+    return Center(
+      child: Container(
+        width: 400,
+        height: 60,
+        child: TextField(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
+            hintText: 'persönliches Passwort',
+            fillColor: Colors.white60,
+            filled: true,
+          ),
+          onChanged: (String value) {
+            if(value == 'Airbus') {
+              setState(() {
+                loginComplete = true;
+              });
+            }
+          },
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,69 +49,75 @@ class _HomeScreenState extends State<HomeScreen> {
     double percentageX = (x / size.width) * 100;
     double percentageY = (y / size.height) * 100;
 
-    return MouseRegion(
-      onEnter: (_) {setState(() {
-        defaultPosition = false;
-      });},
-      onExit: (_) {setState(() {
-        x = size.width / 2;
-        y = size.height / 2;
-        defaultPosition = true;
-      });},
-      onHover: (details) {
-        if (mounted) setState(() => defaultPosition = false);
-        if (details.localPosition.dx > 0 && details.localPosition.dy > 0){
-          if (details.localPosition.dx < size.width && details.localPosition.dy < size.height){
-            x = details.localPosition.dx;
-            y = details.localPosition.dy;
-          }
-        }
-      },
-      child: Stack(
-        children: [
-          Container(
-            height: size.height,
-            width: size.width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/zeroEAll.jpg"),
-                fit: BoxFit.cover)
-                ),
-          ),
-          Center(
+    Widget startButton(){
+      return Center(
+        child: Transform(
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..rotateX(defaultPosition ? 0 : (0.3 * (percentageY / 50) -0.3))
+            ..rotateY(defaultPosition ? 0 : (-0.3 * (percentageX / 50) + 0.3)),
+          alignment: FractionalOffset.center,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white70,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+              elevation: 5.0,
+              fixedSize: Size(buttonWidth, buttonHeight),
+            ),
             child: Transform(
               transform: Matrix4.identity()
-                ..setEntry(3, 2, 0.001)
-                ..rotateX(defaultPosition ? 0 : (0.3 * (percentageY / 50) -0.3))
-                ..rotateY(defaultPosition ? 0 : (-0.3 * (percentageX / 50) + 0.3)),
+                ..translate(defaultPosition ? 0.0 : (30 * (percentageX / 50) + -30),
+                            defaultPosition ? 0.0 : (22 * (percentageY / 50) + -22), 0.0),
               alignment: FractionalOffset.center,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.white70,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-                  elevation: 5.0,
-                  fixedSize: Size(buttonWidth, buttonHeight),
+              child: Text(
+                'START THE \n      CHALLENGE!', 
+                style: TextStyle(
+                  color: Colors.blueGrey[900],
+                  fontSize: 45,
                 ),
-                child: Transform(
-                  transform: Matrix4.identity()
-                    ..translate(defaultPosition ? 0.0 : (30 * (percentageX / 50) + -30),
-                                defaultPosition ? 0.0 : (22 * (percentageY / 50) + -22), 0.0),
-                  alignment: FractionalOffset.center,
-                  child: Text(
-                    'START THE \n      CHALLENGE!', 
-                    style: TextStyle(
-                      color: Colors.blueGrey[900],
-                      fontSize: 45,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {return QuizScreen();}));
-                },
               ),
             ),
+            onPressed: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {return QuizScreen();}));
+            },
           ),
-        ],
+        ),
+      );
+    }
+
+    return Scaffold(
+      body: MouseRegion(
+        onEnter: (_) {setState(() {
+          defaultPosition = false;
+        });},
+        onExit: (_) {setState(() {
+          x = size.width / 2;
+          y = size.height / 2;
+          defaultPosition = true;
+        });},
+        onHover: (details) {
+          if (mounted) setState(() => defaultPosition = false);
+          if (details.localPosition.dx > 0 && details.localPosition.dy > 0){
+            if (details.localPosition.dx < size.width && details.localPosition.dy < size.height){
+              x = details.localPosition.dx;
+              y = details.localPosition.dy;
+            }
+          }
+        },
+        child: Stack(
+          children: [
+            Container(
+              height: size.height,
+              width: size.width,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/zeroEAll.jpg"),
+                  fit: BoxFit.cover)
+                  ),
+            ),
+            loginComplete? startButton() : loginField(),
+          ],
+        ),
       ),
     );
   }
