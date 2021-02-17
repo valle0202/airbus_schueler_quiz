@@ -133,6 +133,7 @@ class _QuizScreenState extends State<QuizScreen> {
     child: Visibility(
       visible: width == 0? false:true,
       child: TextField(
+        style: Theme.of(context).textTheme.bodyText1,
         controller: answerController,
         decoration: InputDecoration(
           hintText: 'Antwort',
@@ -257,23 +258,27 @@ class _QuizScreenState extends State<QuizScreen> {
   ] ;
 
   Widget questionScreen () {
-    return Column(
-      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [ 
-        topBar(show360),
-        tiptaken[selectedIndex]? Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Text("Tip: " + tips[selectedIndex], style: TextStyle(fontSize: 16, color: Colors.orange),),
-        ) : SizedBox(height: 39,),
-        Expanded(
-          child: quizWidgets.elementAt(selectedIndex),
-          //child: Text("$selectedIndex"),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: answer(answerSize[selectedIndex]),
-        ),
-      ],
+    return Stack(
+      children: [Column(
+        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [ 
+          topBar(show360),
+          tiptaken[selectedIndex]? Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Text("Tip: " + tips[selectedIndex], style: TextStyle(fontSize: 16, color: Colors.orange),),
+          ) : SizedBox(height: 39,),
+          Expanded(
+            child: quizWidgets.elementAt(selectedIndex),
+            //child: Text("$selectedIndex"),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: answer(answerSize[selectedIndex]),
+          ),
+        ],
+      ),
+      Container(child: Image.asset('assets/images/AIRBUS_White.png'), height: 60,),
+      ]
     );
   }
 
@@ -381,7 +386,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ) :
       Container(
         child: questionScreen(), 
-        decoration: BoxDecoration(gradient: LinearGradient(colors: [primaryBlue, tertiaryBlue], begin: Alignment.topLeft, end: Alignment.bottomRight)),
+        decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.black, primaryBlue], begin: Alignment.topLeft, end: Alignment.bottomRight)),
         )
       ,
       floatingActionButton: !show360? FloatingActionButton(
@@ -392,7 +397,12 @@ class _QuizScreenState extends State<QuizScreen> {
           show360 = true;
           if(checkAnswers()) {
             currentLevel++;
-            Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
+            if (currentLevel == 0)
+              Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
+            //if (currentLevel == 1)
+              //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
+            //if (currentLevel == 2)
+              //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
            } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
         });},
         ): SizedBox(height:0),
