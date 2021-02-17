@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-Widget question9() {
+Widget question9(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
     child: Column(

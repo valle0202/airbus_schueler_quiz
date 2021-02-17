@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 bool showQuestion = true;
 var answerController = TextEditingController();
 
-Widget question1() {
+Widget question1(BuildContext context) {
   if(showQuestion){
     return puzzle1();
   } else {

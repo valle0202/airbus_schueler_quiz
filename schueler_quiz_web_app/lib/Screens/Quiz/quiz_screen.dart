@@ -14,6 +14,7 @@ import 'package:schueler_quiz_web_app/Screens/Quiz/question7.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question8.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question9.dart';
 import 'package:schueler_quiz_web_app/Screens/afterRare.dart';
+import 'package:schueler_quiz_web_app/Screens/ende.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -107,18 +108,6 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List quizPunkte = [3,4,6,7,3,2,4,3,7];
 
-  List quizWidgets = [
-    question1(),
-    question2(),
-    question3(),
-    question4(),
-    question5(),
-    question6(),
-    question7(),
-    question8(),
-    question9(),
-  ] ;
-
   bool checkAnswers () {
     if(currentLevel == 0){
       if(correctAnswers[0] == answers[0] && correctAnswers[1] == answers[1] && correctAnswers[2] == answers[2] && correctAnswers[3] == answers[3] && correctAnswers[4] == answers[4]){
@@ -147,6 +136,7 @@ class _QuizScreenState extends State<QuizScreen> {
         controller: answerController,
         decoration: InputDecoration(
           hintText: 'Antwort',
+          hintStyle: TextStyle(color: Colors.white70),
           contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
@@ -200,27 +190,6 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget questionScreen () {
-    return Column(
-      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [ 
-        topBar(show360),
-        tiptaken[selectedIndex]? Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Text("Tip: " + tips[selectedIndex], style: TextStyle(fontSize: 16, color: Colors.orange),),
-        ) : SizedBox(height: 39,),
-        Expanded(
-          child: quizWidgets.elementAt(selectedIndex),
-          //child: Text("$selectedIndex"),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: answer(answerSize[selectedIndex]),
-        ),
-      ],
-    );
-  }
-
   Widget topBar (bool onlyTime) {
     return Padding(
       padding: const EdgeInsets.only(top: 15),
@@ -241,9 +210,9 @@ class _QuizScreenState extends State<QuizScreen> {
                   if(!onlyTime) Text("Punkte: " + quizPunkte[selectedIndex].toString()),
                   if(!onlyTime) SizedBox(width:20),
                   if(seconds > 9 && minutes > 9)Text(minutes.toString() + ':' + seconds.toString()),
-                  if(seconds < 9 && minutes > 9)Text(minutes.toString() + ':' + '0' + seconds.toString()),
-                  if(seconds > 9 && minutes < 9)Text('0' + minutes.toString() + ':' + seconds.toString()),
-                  if(seconds < 9 && minutes < 9)Text('0' + minutes.toString() + ':' + '0' + seconds.toString()),
+                  if(seconds < 10 && minutes > 9)Text(minutes.toString() + ':' + '0' + seconds.toString()),
+                  if(seconds > 9 && minutes < 10)Text('0' + minutes.toString() + ':' + seconds.toString()),
+                  if(seconds < 10 && minutes < 10)Text('0' + minutes.toString() + ':' + '0' + seconds.toString()),
                   if(!onlyTime) SizedBox(width:20),
                   if (!onlyTime) TextButton(
                     onPressed: (){setState(() {
@@ -270,6 +239,44 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    if(noTimeLeft == true){
+      Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context) {return ende();}));
+    }
+
+    List quizWidgets = [
+    question1(context),
+    question2(context),
+    question3(context),
+    question4(context),
+    question5(context),
+    question6(context),
+    question7(context),
+    question8(context),
+    question9(context),
+  ] ;
+
+  Widget questionScreen () {
+    return Column(
+      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [ 
+        topBar(show360),
+        tiptaken[selectedIndex]? Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text("Tip: " + tips[selectedIndex], style: TextStyle(fontSize: 16, color: Colors.orange),),
+        ) : SizedBox(height: 39,),
+        Expanded(
+          child: quizWidgets.elementAt(selectedIndex),
+          //child: Text("$selectedIndex"),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: answer(answerSize[selectedIndex]),
+        ),
+      ],
+    );
+  }
+
     //print("lon:" + lastLon.toString() + " lat: " + lastLat.toString());
     Widget panorama;
     switch (currentLevel) {
