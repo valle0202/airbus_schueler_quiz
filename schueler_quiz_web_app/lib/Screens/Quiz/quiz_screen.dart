@@ -367,12 +367,15 @@ class _QuizScreenState extends State<QuizScreen> {
     return Scaffold(
       body: show360? Stack(
         children: [
-          show360? panorama : quizWidgets.elementAt(selectedIndex),
+          panorama,
           Text('${_lon.toStringAsFixed(3)}, ${_lat.toStringAsFixed(3)}, ${_tilt.toStringAsFixed(3)}'),
           topBar(show360),
         ],
       ) :
-      questionScreen()
+      Container(
+        child: questionScreen(), 
+        decoration: BoxDecoration(gradient: LinearGradient(colors: [primaryBlue, tertiaryBlue], begin: Alignment.topLeft, end: Alignment.bottomRight)),
+        )
       ,
       floatingActionButton: !show360? FloatingActionButton(
         child: Icon(Icons.check),

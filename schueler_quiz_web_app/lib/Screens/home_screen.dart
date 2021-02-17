@@ -1,6 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/quiz_screen.dart';
 import 'package:flutter/widgets.dart';
+import 'package:schueler_quiz_web_app/constants.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //final appName = 'Custom Themes';
+
+    return MaterialApp(
+      title: 'Airbus Schüler Quiz',
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        //brightness: Brightness.dark,
+        primaryColor: primaryBlue,
+        highlightColor: highlightColor1,
+        accentColor: secondaryBlue,
+        backgroundColor: primaryBlue,
+        focusColor: primaryBlue,
+        errorColor: redDanger,
+
+        // Define the default font family.
+        fontFamily: 'Roboto',
+
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+          bodyText1: TextStyle(fontSize: 14, color: tertiaryBlue),
+          //headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          //headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          //bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+      ),
+      home: HomeScreen(),
+    );
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,16 +60,26 @@ class _HomeScreenState extends State<HomeScreen> {
   double buttonHeight = 140.0;
 
   Widget loginField () {
+    //var focusNode = FocusNode();
+    //focusNode.requestFocus();
     return Center(
       child: Container(
         width: 400,
         height: 60,
         child: TextField(
+          //focusNode: focusNode,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
             hintText: 'persönliches Passwort',
             fillColor: Colors.white60,
             filled: true,
+            suffixIcon: Tooltip(message: 'Dein persönliches Passwort findest du in deinem \nPaket und auf der Anmeldeseite.',
+              preferBelow: false,
+              verticalOffset: 15,
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
+              child: IconButton(icon: Icon(Icons.info), onPressed: () {}, mouseCursor: SystemMouseCursors.click,)
+            ),
           ),
           onChanged: (String value) {
             if(value == 'Airbus') {
@@ -37,6 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
               });
             }
           },
+          //onSubmitted: , Fehlermeldung
         ),
       ),
     );
