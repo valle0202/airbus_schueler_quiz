@@ -62,38 +62,54 @@ class _HomeScreenState extends State<HomeScreen> {
     double percentageY = (y / size.height) * 100;
 
     Widget startButton(){
-      return Center(
-        child: Transform(
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.001)
-            ..rotateX(defaultPosition ? 0 : (0.3 * (percentageY / 50) -0.3))
-            ..rotateY(defaultPosition ? 0 : (-0.3 * (percentageX / 50) + 0.3)),
-          alignment: FractionalOffset.center,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white70,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-              elevation: 5.0,
-              fixedSize: Size(buttonWidth, buttonHeight),
-            ),
+      return Column(
+        children: [
+          SizedBox(height: size.height/2 - 70),
+          Center(
             child: Transform(
               transform: Matrix4.identity()
-                ..translate(defaultPosition ? 0.0 : (30 * (percentageX / 50) + -30),
-                            defaultPosition ? 0.0 : (22 * (percentageY / 50) + -22), 0.0),
+                ..setEntry(3, 2, 0.001)
+                ..rotateX(defaultPosition ? 0 : (0.3 * (percentageY / 50) -0.3))
+                ..rotateY(defaultPosition ? 0 : (-0.3 * (percentageX / 50) + 0.3)),
               alignment: FractionalOffset.center,
-              child: Text(
-                'START THE \n      CHALLENGE!', 
-                style: TextStyle(
-                  color: Colors.blueGrey[900],
-                  fontSize: 45,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white70,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+                  elevation: 5.0,
+                  fixedSize: Size(buttonWidth, buttonHeight),
                 ),
+                child: Transform(
+                  transform: Matrix4.identity()
+                    ..translate(defaultPosition ? 0.0 : (30 * (percentageX / 50) + -30),
+                                defaultPosition ? 0.0 : (22 * (percentageY / 50) + -22), 0.0),
+                  alignment: FractionalOffset.center,
+                  child: Text(
+                    'START THE \n      CHALLENGE!', 
+                    style: TextStyle(
+                      color: Colors.blueGrey[900],
+                      fontSize: 45,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {return QuizScreen();}));
+                },
               ),
             ),
-            onPressed: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {return QuizScreen();}));
-            },
           ),
-        ),
+          SizedBox(height: 20),
+          Container(
+            decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.all(Radius.circular(20))),
+            width: 420,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text('Info: Das folgende Quiz besteht aus 3 360 Bildern mit jeweils ein par Fragen. Wenn du auf ein Symbol in diesem Bild klickst kommst du zu der Frage sobald du eine Frage richtig beantwortet hast wird diese grün usw. Du musst alle Fragen richtig haben um in die nächste Stufe zu kommen, Für jede Frage gibt es unterschiedlich viele Punkte, du hast insgesamt 4 Tips nutze sie weise',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ),
+          ),
+        ],
       );
     }
 
