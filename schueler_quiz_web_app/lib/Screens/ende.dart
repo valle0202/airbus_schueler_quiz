@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ende extends StatelessWidget {
+class Ende extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

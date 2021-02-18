@@ -29,6 +29,9 @@ class _QuizScreenState extends State<QuizScreen> {
   int tipsLeft = 4;
   bool show360 = true; //if true displays the panorama, else a question
   bool noTimeLeft = false;
+  bool showEasyDone = false;
+  bool showMediumDone = false;
+  bool showHardDone = false;
 
   double _lon = 0;
   double _lat = 0;
@@ -56,20 +59,22 @@ class _QuizScreenState extends State<QuizScreen> {
       oneSec,
       (Timer timer) => setState(
         () {
-          if (seconds == 0 && minutes == 0) {
-            timer.cancel();
-            setState(() {
-              noTimeLeft = true;
-            });
-          } else {
-            seconds--;
-            if (seconds < 0) {
-              minutes--;
-              seconds = 59;
-              /*if (minutes > 59) {
-                hours += 1;
-                minutes = 0;
-              }*/
+          if (showEasyDone == false && showHardDone == false && showMediumDone == false){
+            if (seconds == 0 && minutes == 0) {
+              timer.cancel();
+              setState(() {
+                noTimeLeft = true;
+              });
+            } else {
+              seconds--;
+              if (seconds < 0) {
+                minutes--;
+                seconds = 59;
+                /*if (minutes > 59) {
+                  hours += 1;
+                  minutes = 0;
+                }*/
+              }
             }
           }
         },
@@ -99,10 +104,10 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List richtige = [false, false, false, false, false, false, false, false, false];
 
-  List correctAnswers = ['22', '', '', '5,3,2,9,7,6,4,1,8,5', 'rmulinzgrp', '', '', '', '0.25'];
+  List correctAnswers = ['22', '', '1', '5,3,2,9,7,6,4,1,8,5', 'rmulinzgrp', '', '', '', '0.25'];
 
   List tips = ['überlege dir zuerst wie viele A320 an einem Tag produziert werden können, dann wie viele Triebwerke pro Tag übrig bleiben', 
-  'tip2', 'tip2', 'Der Anfang ist 5, 3, 2, 9, 7, ', 'Die Wörter airbus und zriyfh gehören zusammen', 'tip2', 'tip2', 'tip2', 'tip2', ];
+  'tip2', 'Kabel 1 endet bei 5, Kabel 2 endet bei 2 und Kabel 3 endet bei 4', 'Der Anfang ist 5, 3, 2, 9, 7, ', 'Die Wörter airbus und zriyfh gehören zusammen', 'tip2', 'tip2', 'tip2', 'tip2', ];
 
   List answerSize = [100, 0, 100, 500, 400, 0, 600, 300, 100];
 
@@ -152,6 +157,24 @@ class _QuizScreenState extends State<QuizScreen> {
                 BorderSide(color: primaryBlue, width: 2.0),
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
+          suffixIcon: IconButton(
+            color: greenSuccess,
+            icon: Icon(Icons.check), 
+            onPressed: ()  {setState(() {
+              answers[selectedIndex] = answerController.text;
+              show360 = true;
+              if(checkAnswers()) {
+                currentLevel++;
+                if (currentLevel == 1){
+                  showEasyDone = true;
+                }
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
+                //if (currentLevel == 2)
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
+                //if (currentLevel == 3)
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
+              } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+            });},)
         ),
         onSubmitted: (String s) {answers[selectedIndex] = s;},
       ),
@@ -241,8 +264,10 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
 
+    //Size size = MediaQuery.of(context).size; //height and width of the screen
+
     if(noTimeLeft == true){
-      Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context) {return ende();}));
+      Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context) {return Ende();}));
     }
 
     List quizWidgets = [
@@ -377,18 +402,23 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   
     return Scaffold(
-      body: show360? Stack(
+      body: Stack(
         children: [
           panorama,
           Text('${_lon.toStringAsFixed(3)}, ${_lat.toStringAsFixed(3)}, ${_tilt.toStringAsFixed(3)}'),
           topBar(show360),
+          Container(child: Image.asset('assets/images/airbusblue.png'), height: 60),
+          show360? SizedBox(height: 0) : Center(
+            child: Container(
+              //height: size.height - 50,
+              //width: size.width - 50,
+              child: questionScreen(), 
+              decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.black, primaryBlue], begin: Alignment.topLeft, end: Alignment.bottomRight)),
+            ),
+          ),
+          if(showEasyDone) easyDone(context),
         ],
-      ) :
-      Container(
-        child: questionScreen(), 
-        decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.black, primaryBlue], begin: Alignment.topLeft, end: Alignment.bottomRight)),
-        )
-      ,
+      ), 
       floatingActionButton: !show360? FloatingActionButton(
         child: Icon(Icons.check),
         backgroundColor: greenSuccess,
@@ -397,11 +427,13 @@ class _QuizScreenState extends State<QuizScreen> {
           show360 = true;
           if(checkAnswers()) {
             currentLevel++;
-            if (currentLevel == 0)
-              Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
-            //if (currentLevel == 1)
-              //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
+            if (currentLevel == 1){
+              showEasyDone = true;
+            }
+              //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
             //if (currentLevel == 2)
+              //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
+            //if (currentLevel == 3)
               //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
            } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
         });},
