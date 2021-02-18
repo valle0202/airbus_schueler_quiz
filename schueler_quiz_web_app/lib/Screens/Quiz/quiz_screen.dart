@@ -342,7 +342,7 @@ class _QuizScreenState extends State<QuizScreen> {
         break;
       default:
         panorama = Panorama(
-        child: Image.asset('assets/images/a.jpeg'),
+        child: Image.asset('assets/images/eurofighter360.jpg'),
         onViewChanged: onViewChanged,
         onTap: (longitude, latitude, tilt) => print('onTap: $longitude, $latitude, $tilt'),
         hotspots: [
