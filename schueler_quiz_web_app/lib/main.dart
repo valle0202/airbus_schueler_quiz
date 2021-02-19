@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
           bodyText1: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w300),
+          bodyText2: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w300),
           //headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
           //headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
           //bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
