@@ -540,7 +540,25 @@ class _QuizScreenState extends State<QuizScreen> {
                     ? greenSuccess
                     : secondaryBlue,
               ),
-            )
+            ),
+            Hotspot(
+              latitude: 0,
+              longitude: -20,
+              width: 80,
+              height: 80,
+              widget: hotspotButton(
+                text: "Sequence",
+                icon: Icons.no_encryption,
+                onPressed: () {
+                  setState(() {
+                    onItemClicked(7);
+                  });
+                },
+                color: (correctAnswers[7] == answers[7])
+                    ? greenSuccess
+                    : secondaryBlue,
+              ),
+            ),
           ],
         );
     }

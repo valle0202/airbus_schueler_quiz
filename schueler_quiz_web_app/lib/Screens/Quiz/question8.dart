@@ -16,12 +16,11 @@ Widget question8(BuildContext context) {
         ),
         Flexible(
             flex: 10,
-            child: Container(
-                child: Image.asset('assets/images/Aufgabe_3_Ver_1_Weiss.png'))),
+            child: Container(child: Image.asset('assets/images/Sequence.png'))),
         Flexible(
           flex: 1,
           child: Text(
-            '1 | 11 | 21 | 1211 | 111221 | 312211 | 12112221 | . . . . . . . . . .',
+            'What is the next entry?',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )
