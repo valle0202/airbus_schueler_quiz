@@ -1,5 +1,26 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-Widget question3() {
-  return Text("frage3");
+Widget question3(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          flex: 1,
+          child: Text('Oh nein! In einer Schublade haben sich 6 Kabel ineinander verhäddert.',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ),
+        Flexible(flex: 10, child: Container(child: Image.asset('assets/images/Aufgabe_3_Ver_1_Weiss.png'))),
+        Flexible(
+          flex: 1,
+          child: Text('Frage: Welches Kabelende gehört zu dem Kabel mit der Startnummer 4?',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        )
+      ],
+    ),
+  );
 }

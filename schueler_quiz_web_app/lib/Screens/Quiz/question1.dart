@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 bool showQuestion = true;
 var answerController = TextEditingController();
 
-Widget question1() {
+Widget question1(BuildContext context) {
   if(showQuestion){
-    return puzzle1();
+    return puzzle1(context);
   } else {
     return info1();
   }
@@ -16,25 +16,37 @@ Widget info1 (){
   return Text("some nice info about the A320");
 }
 
-Widget puzzle1 (){
+Widget puzzle1 (BuildContext context){
   return Padding(
     padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Für die Produktions des A320 werden 2 triebwerke, 2 Flügel, 3 Rumpfteile und 1 Leitwerk benötigt. \nAktuell werden folgende Produktionszeiten benötigt:\n",
-          style: TextStyle(fontSize: 20),
+        Flexible(
+          flex: 1,
+          child: Text("Für die Produktions des A320 werden 2 triebwerke, 2 Flügel, 3 Rumpfteile und 1 Leitwerk benötigt. Aktuell werden folgende Produktionszeiten benötigt:\n",
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
         ),
-        Row(children: [
-          Text("Triebwerk: 4h\nFlügel: 5h \nRumpfteil: 4h \nLeitwerk: 11h",
-            style: TextStyle(fontSize: 28, height: 2.5),
+        Flexible(
+          flex: 5,
+          child: Row(children: [
+            Flexible(
+              flex: 1,
+              child: Text("Triebwerk: 4h\n\nFlügel: 5h \n\nRumpfteil: 4h \n\nLeitwerk: 11h",
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ),
+            Flexible(flex: 2, child: Container(child: Image(image: AssetImage("assets/images/a320.jpg")))),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ),
+        ),
+        Flexible(
+          flex: 1,
+          child: Text("Frage: Wie viele überschüssige Triebwerke stauen sich nach 11 Werktagen(24h/Tag Produktion) Tagen auf dem Werksgelände an? ",
+            style: Theme.of(context).textTheme.bodyText1,
           ),
-          Container(child: Image(image: AssetImage("assets/images/a320.jpg"), height: 280,)),
-          ],
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
-        Text("Frage: Wie viele überschüssige Triebwerke stauen sich nach 11 Werktagen(24h/Tag Produktion) Tagen auf dem Werksgelände an? ",
-          style: TextStyle(fontSize: 20, color: Colors.grey[800]), 
         ),
         //SizedBox(width: 50,),
         //answer(100),
