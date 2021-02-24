@@ -210,26 +210,30 @@ class _QuizScreenState extends State<QuizScreen> {
                 borderSide: BorderSide(color: primaryBlue, width: 2.0),
                 borderRadius: BorderRadius.all(Radius.circular(32.0)),
               ),
-              suffixIcon: IconButton(
-                color: greenSuccess,
-                icon: Icon(Icons.check),
-                onPressed: () {
-                  setState(() {
-                    answers[selectedIndex] = answerController.text;
-                    show360 = true;
-                    if (checkAnswers()) {
-                      currentLevel++;
-                      if (currentLevel == 1) {
-                        showEasyDone = true;
-                      }
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
-                      //if (currentLevel == 2)
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
-                      //if (currentLevel == 3)
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
-                    } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
-                  });
-                },
+              suffixIcon: Tooltip(
+                decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
+                message: 'Eingabe Speichern und zurück zum 360° Bild',
+                child: IconButton(
+                  color: greenSuccess,
+                  icon: Icon(Icons.check),
+                  onPressed: () {
+                    setState(() {
+                      answers[selectedIndex] = answerController.text;
+                      show360 = true;
+                      if (checkAnswers()) {
+                        currentLevel++;
+                        if (currentLevel == 1) {
+                          showEasyDone = true;
+                        }
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
+                        //if (currentLevel == 2)
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
+                        //if (currentLevel == 3)
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
+                      } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+                    });
+                  },
+                ),
               )),
           onSubmitted: (String s) {
             answers[selectedIndex] = s;
@@ -349,6 +353,7 @@ class _QuizScreenState extends State<QuizScreen> {
       }));
     }
 
+
     List quizWidgets = [
       question1(context),
       question2(context),
@@ -368,24 +373,24 @@ class _QuizScreenState extends State<QuizScreen> {
           children: [
             topBar(show360),
             tiptaken[selectedIndex]
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Text(
-                      "Tip: " + tips[selectedIndex],
-                      style: TextStyle(fontSize: 16, color: Colors.orange),
-                    ),
-                  )
-                : SizedBox(
-                    height: 39,
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Text(
+                    "Tip: " + tips[selectedIndex],
+                    style: TextStyle(fontSize: 16, color: Colors.orange),
                   ),
+                )
+              : SizedBox(
+                  height: 39,
+                ),
             Expanded(
               child: quizWidgets.elementAt(selectedIndex),
               //child: Text("$selectedIndex"),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: answer(answerSize[selectedIndex]),
-            ),
+                  child: answer(answerSize[selectedIndex]),
+              ),
           ],
         ),
         Container(
@@ -400,7 +405,7 @@ class _QuizScreenState extends State<QuizScreen> {
     switch (currentLevel) {
       case 1:
         panorama = Panorama(
-          child: Image.asset('assets/images/a.jpeg'),
+          child: Image.asset('assets/images/eurofighter360.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -446,7 +451,12 @@ class _QuizScreenState extends State<QuizScreen> {
         break;
       default:
         panorama = Panorama(
-          child: Image.asset('assets/images/a.jpeg'),
+          // zoom: 1.6,
+          // minLongitude: -135,
+          // maxLongitude: 135,
+          // minLatitude: -30,
+          // maxLatitude: 30,
+          child: Image.asset('assets/images/eurofighter.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -564,6 +574,7 @@ class _QuizScreenState extends State<QuizScreen> {
     }
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: Stack(
         children: [
           panorama,
@@ -573,45 +584,66 @@ class _QuizScreenState extends State<QuizScreen> {
           Container(
               child: Image.asset('assets/images/airbusblue.png'), height: 60),
           show360
-              ? SizedBox(height: 0)
-              : Center(
-                  child: Container(
-                    //height: size.height - 50,
-                    //width: size.width - 50,
-                    child: questionScreen(),
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [Colors.black, primaryBlue],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight)),
-                  ),
+            ? SizedBox(height: 0)
+            : Center(
+              child: Container(
+                //height: size.height - 50,
+                //width: size.width - 50,
+                child: questionScreen(),
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.black, primaryBlue],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight)),
                 ),
+              ),
           if (showEasyDone) easyDone(context),
         ],
       ),
-      floatingActionButton: !show360
-          ? FloatingActionButton(
-              child: Icon(Icons.check),
-              backgroundColor: greenSuccess,
-              onPressed: () {
+      floatingActionButton: !show360? 
+        /*FloatingActionButton(
+          child: Icon(Icons.check),
+          backgroundColor: greenSuccess,
+          onPressed: () {
+            setState(() {
+              answers[selectedIndex] = answerController.text;
+              show360 = true;
+              if (checkAnswers()) {
+                currentLevel++;
+                if (currentLevel == 1) {
+                  showEasyDone = true;
+                }
+                //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
+                //if (currentLevel == 2)
+                //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
+                //if (currentLevel == 3)
+                //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
+              } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+            });
+          },
+        )*/
+        Padding(
+          padding: const EdgeInsets.only(left: 0),
+          child: Tooltip(
+            decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: TextButton.icon(
+              onPressed: (){
                 setState(() {
-                  answers[selectedIndex] = answerController.text;
                   show360 = true;
-                  if (checkAnswers()) {
-                    currentLevel++;
-                    if (currentLevel == 1) {
-                      showEasyDone = true;
-                    }
-                    //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
-                    //if (currentLevel == 2)
-                    //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
-                    //if (currentLevel == 3)
-                    //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
-                  } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+                  answerController.text = '';
                 });
-              },
-            )
-          : SizedBox(height: 0),
+              }, 
+              icon: Icon(Icons.arrow_back), 
+              label: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Zurück', style: TextStyle(color: primaryBlue),),
+              ), 
+              style: TextButton.styleFrom(backgroundColor: Colors.yellow, ),
+            ),
+            message: 'zurück zum 360° Bild ohne die Eingabe zu speichern',
+          ),
+        )
+      : SizedBox(height: 0),
     );
   }
 }

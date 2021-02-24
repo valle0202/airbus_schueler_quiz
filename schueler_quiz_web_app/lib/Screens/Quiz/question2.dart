@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 Widget question2(BuildContext context) {
   Size size = MediaQuery.of(context).size;
   return Padding(
@@ -12,6 +13,7 @@ Widget question2(BuildContext context) {
         Draggable(
           child: timeSlot(2, size, context), 
           feedback: timeSlot(2, size, context),
+          //data: 2,
         ),
         Column(
           children: [
@@ -37,6 +39,10 @@ Widget dtRow(String time, Size size, BuildContext context){
 
 Widget dragtarget(Size size){
   return DragTarget(
+    onWillAccept: (value) => value != Colors.black,
+    onAccept: (value) {
+      //setState(){}
+    },
     builder: (context, candidates, rejects){
       return Padding(
         padding: const EdgeInsets.all(1.0),
