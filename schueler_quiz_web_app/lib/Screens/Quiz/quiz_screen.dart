@@ -32,6 +32,7 @@ class _QuizScreenState extends State<QuizScreen> {
   bool showEasyDone = false;
   bool showMediumDone = false;
   bool showHardDone = false;
+  int beantwortet = 0;
 
   double _lon = 0;
   double _lat = 0;
@@ -82,6 +83,8 @@ class _QuizScreenState extends State<QuizScreen> {
       ),
     );
   }
+
+  List questionsPerLevel = [4, 3, 2];
 
   List answers = [
     '',
@@ -218,6 +221,8 @@ class _QuizScreenState extends State<QuizScreen> {
                   icon: Icon(Icons.check),
                   onPressed: () {
                     setState(() {
+                      if(answers[selectedIndex] == '' && answerController.text != '') beantwortet++;
+                      if(answers[selectedIndex] != '' && answerController.text == '') beantwortet--;
                       answers[selectedIndex] = answerController.text;
                       show360 = true;
                       if (checkAnswers()) {
@@ -283,7 +288,7 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget topBar(bool onlyTime) {
+  Widget topBar() {
     return Padding(
       padding: const EdgeInsets.only(top: 15),
       child: Row(
@@ -291,7 +296,7 @@ class _QuizScreenState extends State<QuizScreen> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: onlyTime ? Colors.white54 : Colors.grey[200],
+              color: show360 ? Colors.white54 : Colors.grey[200],
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             child: Padding(
@@ -300,9 +305,14 @@ class _QuizScreenState extends State<QuizScreen> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (!onlyTime)
+                  show360?
+                    Tooltip(
+                      decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
+                      message: 'Jedes Level nimmt an Schwierigkeit zu, aber an Anzahl der Fragen ab.',
+                      child: Text("Level: " + (currentLevel+1).toString() + "/3")
+                    ):
                     Text("Punkte: " + quizPunkte[selectedIndex].toString()),
-                  if (!onlyTime) SizedBox(width: 20),
+                  SizedBox(width: 20),
                   if (seconds > 9 && minutes > 9)
                     Text(minutes.toString() + ':' + seconds.toString()),
                   if (seconds < 10 && minutes > 9)
@@ -311,23 +321,26 @@ class _QuizScreenState extends State<QuizScreen> {
                     Text('0' + minutes.toString() + ':' + seconds.toString()),
                   if (seconds < 10 && minutes < 10)
                     Text('0' +
-                        minutes.toString() +
-                        ':' +
-                        '0' +
-                        seconds.toString()),
-                  if (!onlyTime) SizedBox(width: 20),
-                  if (!onlyTime)
+                        minutes.toString() + ':' + '0' + seconds.toString()),
+                  SizedBox(width: 20),
+                  show360?
+                    Tooltip(
+                      decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
+                      message: 'Anzahl an Fragen in dieser Stufe die du bereits beantwortet hast ',
+                      child: Text('beantwortet: ' + beantwortet.toString() + '/' + questionsPerLevel[currentLevel].toString()),  
+                    ):
                     TextButton(
-                        onPressed: () {
-                          setState(() {
-                            if (tipsLeft > 0 &&
-                                tiptaken[selectedIndex] == false) {
-                              tipsLeft--;
-                              tiptaken[selectedIndex] = true;
-                            }
-                          });
-                        },
-                        child: Text("Tip (" + tipsLeft.toString() + " übrig)")),
+                      onPressed: () {
+                        setState(() {
+                          if (tipsLeft > 0 &&
+                              tiptaken[selectedIndex] == false) {
+                            tipsLeft--;
+                            tiptaken[selectedIndex] = true;
+                          }
+                        });
+                      },
+                      child: Text("Tip (" + tipsLeft.toString() + " übrig)")
+                    ),
                 ],
               ),
             ),
@@ -371,7 +384,7 @@ class _QuizScreenState extends State<QuizScreen> {
         Column(
           //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            topBar(show360),
+            topBar(),
             tiptaken[selectedIndex]
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -451,12 +464,15 @@ class _QuizScreenState extends State<QuizScreen> {
         break;
       default:
         panorama = Panorama(
+          //latSegments: 3,
+          //animSpeed: 3,
+          sensitivity: 1.5,
            //zoom: 1.2,
            //minLongitude: -135,
            //maxLongitude: 135,
-           minLatitude: -30,
-           maxLatitude: 30,
-          child: Image.asset('assets/images/stade2.jpg'),
+           //minLatitude: -30,
+           //maxLatitude: 30,
+          child: Image.asset('assets/images/a340Cockpit.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -578,9 +594,15 @@ class _QuizScreenState extends State<QuizScreen> {
       body: Stack(
         children: [
           panorama,
-          Text(
-              '${_lon.toStringAsFixed(3)}, ${_lat.toStringAsFixed(3)}, ${_tilt.toStringAsFixed(3)}'),
-          topBar(show360),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              child: Text('© Airbus - Schwarzbild Medienproduktion - Kevin Müller', style: TextStyle(color: Colors.white),), 
+              color: Colors.black45,
+            ),
+          ),
+          //Text('${_lon.toStringAsFixed(3)}, ${_lat.toStringAsFixed(3)}, ${_tilt.toStringAsFixed(3)}'),
+          topBar(),
           Container(
               child: Image.asset('assets/images/airbusblue.png'), height: 60),
           show360

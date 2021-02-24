@@ -10,11 +10,7 @@ Widget question2(BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text('Ziehe die Teile in eine Reihenfolge die Sinn ergibt', style: Theme.of(context).textTheme.bodyText1,),
-        Draggable(
-          child: timeSlot(2, size, context), 
-          feedback: timeSlot(2, size, context),
-          //data: 2,
-        ),
+        draggable(2, size, context),
         Column(
           children: [
             dtRow('08:00 - 09:00 ', size, context), dtRow('09:00 - 10:00 ', size, context), dtRow('10:00 - 11:00 ', size, context), dtRow('11:00 - 12:00 ', size, context),
@@ -52,9 +48,18 @@ Widget dragtarget(Size size){
   );
 }
 
+Widget draggable(double time, Size size, BuildContext context){
+  return Draggable(
+    child: timeSlot(2, size, context), 
+    feedback: timeSlot(2, size, context),
+    childWhenDragging: SizedBox(),
+    //data: 2,
+  );
+}
+
 Widget timeSlot(double time, Size size, BuildContext context){
   return Container(
-    child: Center(child: Text('2h', style: Theme.of(context).textTheme.bodyText2,)), 
+    child: time != 0? Center(child: Text(time.toString() + 'h', style: Theme.of(context).textTheme.bodyText2,)) : SizedBox(height: 0,), 
     height: time * ((size.height-400)/8), 
     width: (size.width-200)/6, 
     decoration: BoxDecoration(color: Colors.white70),
