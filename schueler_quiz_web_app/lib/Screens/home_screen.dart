@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 20),
           Container(
-            decoration: BoxDecoration(color: mainBlue, borderRadius: BorderRadius.all(Radius.circular(20))),
+            decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.all(Radius.circular(20))),
             width: 420,
             child: Padding(
               padding: const EdgeInsets.all(12.0),

@@ -32,11 +32,12 @@ class _QuizScreenState extends State<QuizScreen> {
   bool showEasyDone = false;
   bool showMediumDone = false;
   bool showHardDone = false;
+  bool isLoading = true;
   int beantwortet = 0;
 
   double _lon = 0;
   double _lat = 0;
-  double _tilt = 0;
+  //double _tilt = 0;
   double lastLon = 0;
   double lastLat = 0;
 
@@ -44,7 +45,7 @@ class _QuizScreenState extends State<QuizScreen> {
     setState(() {
       _lon = longitude;
       _lat = latitude;
-      _tilt = tilt;
+      //_tilt = tilt;
     });
   }
 
@@ -464,7 +465,6 @@ class _QuizScreenState extends State<QuizScreen> {
         break;
       default:
         panorama = Panorama(
-          //latSegments: 3,
           //animSpeed: 3,
           sensitivity: 1.5,
            //zoom: 1.2,
@@ -597,14 +597,25 @@ class _QuizScreenState extends State<QuizScreen> {
           Align(
             alignment: Alignment.bottomRight,
             child: Container(
-              child: Text('© Airbus - Schwarzbild Medienproduktion - Kevin Müller', style: TextStyle(color: Colors.white),), 
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text('© Airbus - Schwarzbild Medienproduktion - Kevin Müller', style: TextStyle(color: Colors.white, fontSize: 10),),
+              ), 
               color: Colors.black45,
             ),
           ),
           //Text('${_lon.toStringAsFixed(3)}, ${_lat.toStringAsFixed(3)}, ${_tilt.toStringAsFixed(3)}'),
           topBar(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
+            child: Container(color: mainBlue, height: 2,),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 10),
+            child: Container(color: mainBlue, height: 6, width: 150,),
+          ),
           Container(
-              child: Image.asset('assets/images/airbusblue.png'), height: 60),
+              child: Image.asset('assets/images/airbusblue.png'), height: 70),
           show360
             ? SizedBox(height: 0)
             : Center(
