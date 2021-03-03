@@ -480,7 +480,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 icon: Icons.vertical_split,
                 onPressed: () {
                   setState(() {
-                    onItemClicked(9);
+                    onItemClicked(8);
                   });
                 },
                 color: (correctAnswers[0] == answers[0])
@@ -551,7 +551,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 icon: Icons.vertical_split,
                 onPressed: () {
                   setState(() {
-                    onItemClicked(9);
+                    onItemClicked(8);
                   });
                 },
                 color: (correctAnswers[0] == answers[0])
