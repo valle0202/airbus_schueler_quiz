@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white70,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                   elevation: 5.0,
                   fixedSize: Size(buttonWidth, buttonHeight),
                 ),
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 20),
           Container(
-            decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.all(Radius.circular(20))),
+            decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.all(Radius.circular(10))),
             width: 420,
             child: Padding(
               padding: const EdgeInsets.all(12.0),

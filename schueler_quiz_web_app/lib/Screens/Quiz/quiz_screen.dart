@@ -155,7 +155,7 @@ class _QuizScreenState extends State<QuizScreen> {
     'überlege dir zuerst wie viele A320 an einem Tag produziert werden können, dann wie viele Triebwerke pro Tag übrig bleiben',
     'tip2',
     'Kabel 1 endet bei 5, Kabel 2 endet bei 2 und Kabel 3 endet bei 4',
-    'Der Anfang ist 5, 3, 2, 9, 7, ',
+    'Der Anfang ist 5, 3, 2, 9,',
     'Die Wörter airbus und zriyfh gehören zusammen',
     'tip2',
     'tip2',
@@ -204,15 +204,15 @@ class _QuizScreenState extends State<QuizScreen> {
               contentPadding:
                   EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: secondaryBlue, width: 1.0),
-                borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: primaryBlue, width: 2.0),
-                borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
               suffixIcon: Tooltip(
                 decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -298,7 +298,7 @@ class _QuizScreenState extends State<QuizScreen> {
           Container(
             decoration: BoxDecoration(
               color: show360 ? Colors.white54 : Colors.grey[200],
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: BorderRadius.all(Radius.circular(6)),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
@@ -463,6 +463,52 @@ class _QuizScreenState extends State<QuizScreen> {
           ],
         );
         break;
+      case 2:
+        panorama = Panorama(
+          child: Image.asset('assets/images/eurofighter360.jpg'),
+          onViewChanged: onViewChanged,
+          onTap: (longitude, latitude, tilt) =>
+              print('onTap: $longitude, $latitude, $tilt'),
+          hotspots: [
+            Hotspot(
+              latitude: -35.7054290,
+              longitude: 114.01527664,
+              width: 80,
+              height: 80,
+              widget: hotspotButton(
+                text: "Sortieren",
+                icon: Icons.code,
+                onPressed: () {
+                  setState(() {
+                    onItemClicked(5);
+                  });
+                },
+                color: (correctAnswers[5] == answers[5])
+                    ? greenSuccess
+                    : Colors.blue,
+              ),
+            ),
+            Hotspot(
+              latitude: -1.5,
+              longitude: 55.47,
+              width: 80,
+              height: 80,
+              widget: hotspotButton(
+                text: "Transportbänder",
+                icon: Icons.transfer_within_a_station,
+                onPressed: () {
+                  setState(() {
+                    onItemClicked(6);
+                  });
+                },
+                color: (correctAnswers[6] == answers[6])
+                    ? greenSuccess
+                    : secondaryBlue,
+              ),
+            ),
+          ],
+        );
+        break;
       default:
         panorama = Panorama(
           //animSpeed: 3,
@@ -478,8 +524,8 @@ class _QuizScreenState extends State<QuizScreen> {
               print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
-              latitude: -35.7054290,
-              longitude: 114.01527664,
+              latitude: -3.5,
+              longitude: 44.5,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -496,6 +542,24 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             Hotspot(
+              latitude: 0,
+              longitude: 0,
+              width: 80,
+              height: 80,
+              widget: hotspotButton(
+                text: "Dreieck",
+                icon: Icons.vertical_split,
+                onPressed: () {
+                  setState(() {
+                    onItemClicked(9);
+                  });
+                },
+                color: (correctAnswers[0] == answers[0])
+                    ? greenSuccess
+                    : secondaryBlue,
+              ),
+            ),
+            /*Hotspot(
               latitude: -1.5,
               longitude: 55.47,
               width: 80,
@@ -512,10 +576,10 @@ class _QuizScreenState extends State<QuizScreen> {
                     ? greenSuccess
                     : secondaryBlue,
               ),
-            ),
+            ),*/
             Hotspot(
-              latitude: 20,
-              longitude: 80,
+              latitude: -29.7,
+              longitude: -177.1,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -532,13 +596,13 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             Hotspot(
-              latitude: 0,
-              longitude: 0,
+              latitude: -12.9,
+              longitude: -77.4,
               width: 80,
               height: 80,
               widget: hotspotButton(
                 text: "Flugplan",
-                icon: Icons.cases,
+                icon: Icons.router,
                 onPressed: () {
                   setState(() {
                     onItemClicked(3);
@@ -550,8 +614,8 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             Hotspot(
-              latitude: -14,
-              longitude: -100,
+              latitude: -57.6,
+              longitude: -5.4,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -573,7 +637,7 @@ class _QuizScreenState extends State<QuizScreen> {
               width: 80,
               height: 80,
               widget: hotspotButton(
-                text: "Sequence",
+                text: "Sequenz",
                 icon: Icons.no_encryption,
                 onPressed: () {
                   setState(() {
@@ -607,12 +671,12 @@ class _QuizScreenState extends State<QuizScreen> {
           //Text('${_lon.toStringAsFixed(3)}, ${_lat.toStringAsFixed(3)}, ${_tilt.toStringAsFixed(3)}'),
           topBar(),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 28),
             child: Container(color: mainBlue, height: 2,),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 10),
-            child: Container(color: mainBlue, height: 6, width: 150,),
+            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 28),
+            child: Container(color: mainBlue, height: 6, width: 140,),
           ),
           Container(
               child: Image.asset('assets/images/airbusblue.png'), height: 70),
