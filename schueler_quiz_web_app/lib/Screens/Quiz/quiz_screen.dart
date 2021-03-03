@@ -419,7 +419,7 @@ class _QuizScreenState extends State<QuizScreen> {
     switch (currentLevel) {
       case 1:
         panorama = Panorama(
-          child: Image.asset('assets/images/eurofighter360.jpg'),
+          child: Image.asset('assets/images/helicopter.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -471,37 +471,37 @@ class _QuizScreenState extends State<QuizScreen> {
               print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
-              latitude: -35.7054290,
-              longitude: 114.01527664,
+              latitude: 0,
+              longitude: 0,
               width: 80,
               height: 80,
               widget: hotspotButton(
-                text: "Sortieren",
-                icon: Icons.code,
+                text: "Dreieck",
+                icon: Icons.vertical_split,
                 onPressed: () {
                   setState(() {
-                    onItemClicked(5);
+                    onItemClicked(9);
                   });
                 },
-                color: (correctAnswers[5] == answers[5])
+                color: (correctAnswers[0] == answers[0])
                     ? greenSuccess
-                    : Colors.blue,
+                    : secondaryBlue,
               ),
             ),
             Hotspot(
-              latitude: -1.5,
-              longitude: 55.47,
+              latitude: 0,
+              longitude: -20,
               width: 80,
               height: 80,
               widget: hotspotButton(
-                text: "Transportbänder",
-                icon: Icons.transfer_within_a_station,
+                text: "Sequenz",
+                icon: Icons.no_encryption,
                 onPressed: () {
                   setState(() {
-                    onItemClicked(6);
+                    onItemClicked(7);
                   });
                 },
-                color: (correctAnswers[6] == answers[6])
+                color: (correctAnswers[7] == answers[7])
                     ? greenSuccess
                     : secondaryBlue,
               ),
