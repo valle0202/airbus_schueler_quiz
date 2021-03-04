@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 Widget question9(BuildContext context) {
   return Padding(
@@ -6,8 +7,30 @@ Widget question9(BuildContext context) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Ein Eurofighter soll ein großes Gebiet überwachen. Um die Flugroute unvorhersehbar zu machen soll die geplante Flugstrecke in 3 zufällig lange Teilstrecken unterteilt werden.'),
-        Text('Wie hoch ist die Wahrscheinlichkeit, dass aus den 3 Teilstrecken ein Dreieck gebildet werden kann und der Eurofighter somit zum Startflugplatz zurückkommt? \n Hinweis: Bitte gebe die Lösung als Dezimalzahl an. Ist deine Lösung 50%, dann schreibe 0.5')
+        Flexible(
+          flex: 1,
+          child: Text(
+            'In einem Kriegsgebiet kommt es durch ein Attentat zu vielen Verletzten, ' +
+                'welches zu einem Mangel an Bluttransfusionen führt. Es werden daher umgehend' +
+                ' 300 weitere Transfusion aus dem nächstligenden Krankenhaus (300km entfernt)  angefordert. ' +
+                'Zum Transport dieser liegt dem Krankhaus leider nur ein Helikopter (durchnittsgeschwindigkeit 180kmh) ' +
+                'mit einer Tragfähigkeit von 200 Transfusionen zur verfügung. Zudem können aber entlang der Gesamten Strecke ' +
+                'Autos (durchnittsgeschwindigkeit 45kmh) genutzt werden, welche eine uneingeschränkte Tragfähigkeit haben.',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ),
+        Flexible(
+            flex: 10,
+            child:
+                Container(child: Image.asset('assets/images/Transport.png'))),
+        Flexible(
+          flex: 1,
+          child: Text(
+            'Wenn Umlandungszeiten ignoriert werden, wie schnell (minimale Dauer) kann das Blut transportiert werden' +
+                ' (Antwort in Minuten)? ',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ),
       ],
     ),
   );
