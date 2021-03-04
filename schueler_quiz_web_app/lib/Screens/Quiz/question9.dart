@@ -8,7 +8,7 @@ Widget question9(BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          flex: 1,
+          flex: 2,
           child: Text(
             'In einem Kriegsgebiet kommt es durch ein Attentat zu vielen Verletzten, ' +
                 'welches zu einem Mangel an Bluttransfusionen führt. Es werden daher umgehend' +
