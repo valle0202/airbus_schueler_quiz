@@ -351,6 +351,57 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
+  List tileColors = [highlightColor1, highlightColor2, highlightColor3, highlightColor4, highlightColor5, highlightColor6, highlightColor1, highlightColor2, highlightColor3, highlightColor1];
+
+  List<String> item = ['Es sei i eine Variable, die ganze Zahlen Speichert', 'solange i kleiner als die Länge der Liste ist, wird i um 1 erhöht und folgendes ausgeführt: {', '}', 
+    'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird', 'Es sei j eine Variable, in die der aktuelle Wert von i+1 gespeichert wird', 
+    'solange j kleiner als die Länge der Liste ist, wird j um 1 erhöht und folgendes ausgeführt: {', '}', 'Falls der Eintrag der Liste an der Stelle j kleiner ist als der Eintrag an der Stelle min, dann: {', 
+    '}', 'weise der Variable min den aktuellen Wert von j zu', 'Falls der Wert von min nicht der gleiche ist, wie der von i: {', '}', 'tausche das Listenelement an der Stelle i mit dem an der Stelle min', ];
+
+  void reorderData(int oldindex, int newindex){
+    setState(() {
+      if(newindex>oldindex){
+        newindex-=1;
+      }
+      final items =item.removeAt(oldindex);
+      item.insert(newindex, items);
+    });
+  }
+
+  Widget question7(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          flex: 1,
+          child: Text('Bringe den folgenden Code in die richtige Reihenfolge, damit eine Liste in aufsteigender Reihenfolge sortiert wird',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ),
+        Flexible(
+          flex: 10, 
+          child: ReorderableListView(
+            children: [
+              for(final items in item)
+                Card(
+                  //color: tileColors[],
+                  key: ValueKey(items),
+                  elevation: 2,
+                  child: ListTile(
+                    title: Text(items, style: Theme.of(context).textTheme.bodyText1,),
+                  ),
+                ),
+            ],
+            onReorder: reorderData,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
   @override
   void initState() {
     startTimer();
@@ -551,7 +602,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 icon: Icons.vertical_split,
                 onPressed: () {
                   setState(() {
-                    onItemClicked(8);
+                    onItemClicked(6);
                   });
                 },
                 color: (correctAnswers[0] == answers[0])
