@@ -22,7 +22,7 @@ class PseudoCode {
   String title;
   Color color;
 
-  PseudoCode ({
+  PseudoCode({
     @required this.id,
     @required this.title,
     @required this.color,
@@ -157,9 +157,10 @@ class _QuizScreenState extends State<QuizScreen> {
     '1',
     '5;3;2;9;7;6;4;1;8;5',
     'rmulinzgrp',
-    '10; 4; 9; 6; 3; 12; 11; 8; 7; 1; 5; 13; 2; ',
     '1;2;3;6;8;7;4;1;5;9',
+    '10; 4; 9; 6; 3; 12; 11; 8; 7; 1; 5; 13; 2; ',
     '1112213211',
+    '',
     '1;4;7;8;6;3;2;1;5;9'
   ];
 
@@ -395,42 +396,81 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   List<PseudoCode> items = [
-    PseudoCode(id: '4', title: 'solange i kleiner als die Länge der Liste ist, wird i um 1 erhöht und folgendes ausgeführt: {', color: highlightColor2), 
-    PseudoCode(id: '2', title: '}', color: highlightColor2), 
-    PseudoCode(id: '6', title: 'Es sei j eine Variable, in die der aktuelle Wert von i+1 gespeichert wird', color: highlightColor4), 
-    PseudoCode(id: '9', title: 'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird', color: highlightColor3), 
-    PseudoCode(id: '1', title: 'Falls der Wert von min nicht der gleiche ist, wie der von i: {', color: highlightColor3),
-    PseudoCode(id: '13', title: '}', color: highlightColor3), 
-    PseudoCode(id: '3', title: 'solange j kleiner als die Länge der Liste ist, wird j um 1 erhöht und folgendes ausgeführt: {', color: highlightColor5), 
-    PseudoCode(id: '7', title: '}', color: highlightColor5), 
-    PseudoCode(id: '12', title: 'Falls der Eintrag der Liste an der Stelle j kleiner ist als der Eintrag an der Stelle min, dann: {', color: highlightColor6), 
-    PseudoCode(id: '8', title: '}', color: highlightColor6), 
-    PseudoCode(id: '10', title: 'Es sei i eine Variable, die ganze Zahlen speichert', color: highlightColor1), 
-    PseudoCode(id: '5', title: 'tausche das Listenelement an der Stelle i mit dem an der Stelle min', color: highlightColor4), 
-    PseudoCode(id: '11', title: 'weise der Variable min den aktuellen Wert von j zu', color: highlightColor7), 
+    PseudoCode(
+        id: '4',
+        title:
+            'solange i kleiner als die Länge der Liste ist, wird i um 1 erhöht und folgendes ausgeführt: {',
+        color: highlightColor2),
+    PseudoCode(id: '2', title: '}', color: highlightColor2),
+    PseudoCode(
+        id: '6',
+        title:
+            'Es sei j eine Variable, in die der aktuelle Wert von i+1 gespeichert wird',
+        color: highlightColor4),
+    PseudoCode(
+        id: '9',
+        title:
+            'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird',
+        color: highlightColor3),
+    PseudoCode(
+        id: '1',
+        title: 'Falls der Wert von min nicht der gleiche ist, wie der von i: {',
+        color: highlightColor3),
+    PseudoCode(id: '13', title: '}', color: highlightColor3),
+    PseudoCode(
+        id: '3',
+        title:
+            'solange j kleiner als die Länge der Liste ist, wird j um 1 erhöht und folgendes ausgeführt: {',
+        color: highlightColor5),
+    PseudoCode(id: '7', title: '}', color: highlightColor5),
+    PseudoCode(
+        id: '12',
+        title:
+            'Falls der Eintrag der Liste an der Stelle j kleiner ist als der Eintrag an der Stelle min, dann: {',
+        color: highlightColor6),
+    PseudoCode(id: '8', title: '}', color: highlightColor6),
+    PseudoCode(
+        id: '10',
+        title: 'Es sei i eine Variable, die ganze Zahlen speichert',
+        color: highlightColor1),
+    PseudoCode(
+        id: '5',
+        title:
+            'tausche das Listenelement an der Stelle i mit dem an der Stelle min',
+        color: highlightColor4),
+    PseudoCode(
+        id: '11',
+        title: 'weise der Variable min den aktuellen Wert von j zu',
+        color: highlightColor7),
   ];
 
-  Widget pseudoCodeTile (PseudoCode pseudoCode){
+  Widget pseudoCodeTile(PseudoCode pseudoCode) {
     return Card(
       color: pseudoCode.color,
       key: Key(pseudoCode.id),
       elevation: 12,
       child: ListTile(
-        leading: Text(pseudoCode.id, style: Theme.of(context).textTheme.bodyText1,),
-        title: Text(pseudoCode.title, style: Theme.of(context).textTheme.bodyText1,),
+        leading: Text(
+          pseudoCode.id,
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        title: Text(
+          pseudoCode.title,
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
       ),
     );
   }
 
-  void reorderData(int oldindex, int newindex){
+  void reorderData(int oldindex, int newindex) {
     setState(() {
-      if(newindex>oldindex){
-        newindex-=1;
+      if (newindex > oldindex) {
+        newindex -= 1;
       }
-      final item =items.removeAt(oldindex);
+      final item = items.removeAt(oldindex);
       items.insert(newindex, item);
       String selectedOrder = '';
-      for(int i=0; i < items.length; i++){
+      for (int i = 0; i < items.length; i++) {
         selectedOrder += items[i].id + '; ';
       }
       answerController.text = selectedOrder;
@@ -438,36 +478,37 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Widget question7(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Text('Bringe den folgenden Code in die richtige Reihenfolge, damit eine Liste in aufsteigender Reihenfolge sortiert wird. Nutze dazu die zwei Striche am rechten Rand.',
-              style: Theme.of(context).textTheme.bodyText1,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                'Bringe den folgenden Code in die richtige Reihenfolge, damit eine Liste in aufsteigender Reihenfolge sortiert wird. Nutze dazu die zwei Striche am rechten Rand.',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
             ),
           ),
-        ),
-        Flexible(
-          flex: 10, 
-          child: Container(
-            constraints: BoxConstraints(maxWidth: 1000),
-            child: ReorderableListView(
-              children: items.map((pseudoCode) {
-                return pseudoCodeTile(pseudoCode);
-              }).toList(),
-              onReorder: reorderData,
+          Flexible(
+            flex: 10,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 1000),
+              child: ReorderableListView(
+                children: items.map((pseudoCode) {
+                  return pseudoCodeTile(pseudoCode);
+                }).toList(),
+                onReorder: reorderData,
+              ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 
   @override
   void initState() {
