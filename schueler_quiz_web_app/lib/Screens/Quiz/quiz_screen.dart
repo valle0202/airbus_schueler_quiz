@@ -158,7 +158,7 @@ class _QuizScreenState extends State<QuizScreen> {
     '5,3,2,9,7,6,4,1,8,5',
     'rmulinzgrp',
     '',
-    '',
+    '10; 4; 9; 6; 3; 12; 11; 8; 7; 1; 5; 13; 2; ',
     '1112213211',
     '0.25'
   ];
@@ -208,6 +208,8 @@ class _QuizScreenState extends State<QuizScreen> {
       child: Visibility(
         visible: width == 0 ? false : true,
         child: TextField(
+          autocorrect: false,
+          readOnly: selectedIndex == 6 ? true : false,
           style: Theme.of(context).textTheme.bodyText1,
           controller: answerController,
           decoration: InputDecoration(
@@ -256,12 +258,15 @@ class _QuizScreenState extends State<QuizScreen> {
           onSubmitted: (String s) {
             answers[selectedIndex] = s;
           },
-          onChanged: (String s) {
+          /*onChanged: (String s) {
             if(selectedIndex == 7){
-              //TODO: reorder list 'items'
+              List newOrder = s.split('; ');
+              for(int i=0; i<items.length; i++){
+                print(newOrder[i] + ' ');
+              }
               //reorderData(oldindex, newindex)
             }
-          },
+          },*/
         ),
       ),
     );
@@ -370,19 +375,19 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   List<PseudoCode> items = [
-    PseudoCode(id: '1', title: 'Es sei i eine Variable, die ganze Zahlen speichert', color: highlightColor1), 
-    PseudoCode(id: '2', title: 'solange i kleiner als die Länge der Liste ist, wird i um 1 erhöht und folgendes ausgeführt: {', color: highlightColor2), 
-    PseudoCode(id: '3', title: '}', color: highlightColor2), 
-    PseudoCode(id: '4', title: 'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird', color: highlightColor3), 
-    PseudoCode(id: '5', title: 'Es sei j eine Variable, in die der aktuelle Wert von i+1 gespeichert wird', color: highlightColor4), 
-    PseudoCode(id: '6', title: 'solange j kleiner als die Länge der Liste ist, wird j um 1 erhöht und folgendes ausgeführt: {', color: highlightColor5), 
+    PseudoCode(id: '4', title: 'solange i kleiner als die Länge der Liste ist, wird i um 1 erhöht und folgendes ausgeführt: {', color: highlightColor2), 
+    PseudoCode(id: '2', title: '}', color: highlightColor2), 
+    PseudoCode(id: '6', title: 'Es sei j eine Variable, in die der aktuelle Wert von i+1 gespeichert wird', color: highlightColor4), 
+    PseudoCode(id: '9', title: 'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird', color: highlightColor3), 
+    PseudoCode(id: '1', title: 'Falls der Wert von min nicht der gleiche ist, wie der von i: {', color: highlightColor3),
+    PseudoCode(id: '13', title: '}', color: highlightColor3), 
+    PseudoCode(id: '3', title: 'solange j kleiner als die Länge der Liste ist, wird j um 1 erhöht und folgendes ausgeführt: {', color: highlightColor5), 
     PseudoCode(id: '7', title: '}', color: highlightColor5), 
-    PseudoCode(id: '8', title: 'Falls der Eintrag der Liste an der Stelle j kleiner ist als der Eintrag an der Stelle min, dann: {', color: highlightColor6), 
-    PseudoCode(id: '9', title: '}', color: highlightColor6), 
-    PseudoCode(id: '10', title: 'weise der Variable min den aktuellen Wert von j zu', color: highlightColor7), 
-    PseudoCode(id: '11', title: 'Falls der Wert von min nicht der gleiche ist, wie der von i: {', color: highlightColor3),
-    PseudoCode(id: '12', title: '}', color: highlightColor3), 
-    PseudoCode(id: '13', title: 'tausche das Listenelement an der Stelle i mit dem an der Stelle min', color: highlightColor4), 
+    PseudoCode(id: '12', title: 'Falls der Eintrag der Liste an der Stelle j kleiner ist als der Eintrag an der Stelle min, dann: {', color: highlightColor6), 
+    PseudoCode(id: '8', title: '}', color: highlightColor6), 
+    PseudoCode(id: '10', title: 'Es sei i eine Variable, die ganze Zahlen speichert', color: highlightColor1), 
+    PseudoCode(id: '5', title: 'tausche das Listenelement an der Stelle i mit dem an der Stelle min', color: highlightColor4), 
+    PseudoCode(id: '11', title: 'weise der Variable min den aktuellen Wert von j zu', color: highlightColor7), 
   ];
 
   Widget pseudoCodeTile (PseudoCode pseudoCode){
@@ -576,7 +581,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(8);
                   });
                 },
-                color: (correctAnswers[0] == answers[0])
+                color: (correctAnswers[8] == answers[8])
                     ? greenSuccess
                     : secondaryBlue,
               ),
@@ -647,7 +652,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(6);
                   });
                 },
-                color: (correctAnswers[0] == answers[0])
+                color: (correctAnswers[6] == answers[6])
                     ? greenSuccess
                     : secondaryBlue,
               ),
