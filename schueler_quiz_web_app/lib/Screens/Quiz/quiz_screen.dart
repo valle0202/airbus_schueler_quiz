@@ -153,19 +153,19 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List correctAnswers = [
     '22',
-    '',
+    '1;4;9;16;25;36;49;64;81;100',
     '1',
-    '5,3,2,9,7,6,4,1,8,5',
+    '5;3;2;9;7;6;4;1;8;5',
     'rmulinzgrp',
-    '',
     '10; 4; 9; 6; 3; 12; 11; 8; 7; 1; 5; 13; 2; ',
+    '1;2;3;6;8;7;4;1;5;9',
     '1112213211',
-    '0.25'
+    '1;4;7;8;6;3;2;1;5;9'
   ];
 
   List tips = [
     'überlege dir zuerst wie viele A320 an einem Tag produziert werden können, dann wie viele Triebwerke pro Tag übrig bleiben',
-    'tip2',
+    'Betrachte die Teiler der Zahlen 1-100',
     'Kabel 1 endet bei 5, Kabel 2 endet bei 2 und Kabel 3 endet bei 4',
     'Der Anfang ist 5, 3, 2, 9,',
     'Die Wörter airbus und zriyfh gehören zusammen',
@@ -175,7 +175,7 @@ class _QuizScreenState extends State<QuizScreen> {
     'tip2',
   ];
 
-  List answerSize = [100, 0, 100, 500, 400, 0, 600, 300, 100];
+  List answerSize = [100, 500, 100, 500, 400, 200, 600, 300, 100];
 
   List quizPunkte = [3, 4, 6, 7, 3, 2, 4, 3, 7];
 
@@ -189,7 +189,9 @@ class _QuizScreenState extends State<QuizScreen> {
         return true;
       }
     } else if (currentLevel == 1) {
-      if (correctAnswers[5] == answers[5] && correctAnswers[6] == answers[6]) {
+      if ((correctAnswers[5] == answers[5] ||
+              correctAnswers[9] == answers[5]) &&
+          correctAnswers[6] == answers[6]) {
         return true;
       }
     } else {
@@ -229,15 +231,19 @@ class _QuizScreenState extends State<QuizScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
               suffixIcon: Tooltip(
-                decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
+                decoration: BoxDecoration(
+                    color: primaryBlue,
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
                 message: 'Eingabe Speichern und zurück zum 360° Bild',
                 child: IconButton(
                   color: greenSuccess,
                   icon: Icon(Icons.check),
                   onPressed: () {
                     setState(() {
-                      if(answers[selectedIndex] == '' && answerController.text != '') beantwortet++;
-                      if(answers[selectedIndex] != '' && answerController.text == '') beantwortet--;
+                      if (answers[selectedIndex] == '' &&
+                          answerController.text != '') beantwortet++;
+                      if (answers[selectedIndex] != '' &&
+                          answerController.text == '') beantwortet--;
                       answers[selectedIndex] = answerController.text;
                       show360 = true;
                       if (checkAnswers()) {
@@ -329,13 +335,17 @@ class _QuizScreenState extends State<QuizScreen> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  show360?
-                    Tooltip(
-                      decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
-                      message: 'Jedes Level nimmt an Schwierigkeit zu, aber an Anzahl der Fragen ab.',
-                      child: Text("Level: " + (currentLevel+1).toString() + "/3")
-                    ):
-                    Text("Punkte: " + quizPunkte[selectedIndex].toString()),
+                  show360
+                      ? Tooltip(
+                          decoration: BoxDecoration(
+                              color: primaryBlue,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4))),
+                          message:
+                              'Jedes Level nimmt an Schwierigkeit zu, aber an Anzahl der Fragen ab.',
+                          child: Text(
+                              "Level: " + (currentLevel + 1).toString() + "/3"))
+                      : Text("Punkte: " + quizPunkte[selectedIndex].toString()),
                   SizedBox(width: 20),
                   if (seconds > 9 && minutes > 9)
                     Text(minutes.toString() + ':' + seconds.toString()),
@@ -345,26 +355,36 @@ class _QuizScreenState extends State<QuizScreen> {
                     Text('0' + minutes.toString() + ':' + seconds.toString()),
                   if (seconds < 10 && minutes < 10)
                     Text('0' +
-                        minutes.toString() + ':' + '0' + seconds.toString()),
+                        minutes.toString() +
+                        ':' +
+                        '0' +
+                        seconds.toString()),
                   SizedBox(width: 20),
-                  show360?
-                    Tooltip(
-                      decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
-                      message: 'Anzahl an Fragen in dieser Stufe die du bereits beantwortet hast ',
-                      child: Text('beantwortet: ' + beantwortet.toString() + '/' + questionsPerLevel[currentLevel].toString()),  
-                    ):
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          if (tipsLeft > 0 &&
-                              tiptaken[selectedIndex] == false) {
-                            tipsLeft--;
-                            tiptaken[selectedIndex] = true;
-                          }
-                        });
-                      },
-                      child: Text("Tip (" + tipsLeft.toString() + " übrig)")
-                    ),
+                  show360
+                      ? Tooltip(
+                          decoration: BoxDecoration(
+                              color: primaryBlue,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4))),
+                          message:
+                              'Anzahl an Fragen in dieser Stufe die du bereits beantwortet hast ',
+                          child: Text('beantwortet: ' +
+                              beantwortet.toString() +
+                              '/' +
+                              questionsPerLevel[currentLevel].toString()),
+                        )
+                      : TextButton(
+                          onPressed: () {
+                            setState(() {
+                              if (tipsLeft > 0 &&
+                                  tiptaken[selectedIndex] == false) {
+                                tipsLeft--;
+                                tiptaken[selectedIndex] = true;
+                              }
+                            });
+                          },
+                          child:
+                              Text("Tip (" + tipsLeft.toString() + " übrig)")),
                 ],
               ),
             ),
@@ -465,7 +485,6 @@ class _QuizScreenState extends State<QuizScreen> {
       }));
     }
 
-
     List quizWidgets = [
       question1(context),
       question2(context),
@@ -485,24 +504,24 @@ class _QuizScreenState extends State<QuizScreen> {
           children: [
             topBar(),
             tiptaken[selectedIndex]
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text(
-                    "Tip: " + tips[selectedIndex],
-                    style: TextStyle(fontSize: 16, color: Colors.orange),
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Text(
+                      "Tip: " + tips[selectedIndex],
+                      style: TextStyle(fontSize: 16, color: Colors.orange),
+                    ),
+                  )
+                : SizedBox(
+                    height: 39,
                   ),
-                )
-              : SizedBox(
-                  height: 39,
-                ),
             Expanded(
               child: quizWidgets.elementAt(selectedIndex),
               //child: Text("$selectedIndex"),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-                  child: answer(answerSize[selectedIndex]),
-              ),
+              child: answer(answerSize[selectedIndex]),
+            ),
           ],
         ),
         Container(
@@ -532,30 +551,12 @@ class _QuizScreenState extends State<QuizScreen> {
                 icon: Icons.code,
                 onPressed: () {
                   setState(() {
-                    onItemClicked(5);
-                  });
-                },
-                color: (correctAnswers[5] == answers[5])
-                    ? greenSuccess
-                    : Colors.blue,
-              ),
-            ),
-            Hotspot(
-              latitude: -1.5,
-              longitude: 55.47,
-              width: 80,
-              height: 80,
-              widget: hotspotButton(
-                text: "Transportbänder",
-                icon: Icons.transfer_within_a_station,
-                onPressed: () {
-                  setState(() {
                     onItemClicked(6);
                   });
                 },
                 color: (correctAnswers[6] == answers[6])
                     ? greenSuccess
-                    : secondaryBlue,
+                    : Colors.blue,
               ),
             ),
           ],
@@ -568,6 +569,25 @@ class _QuizScreenState extends State<QuizScreen> {
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
+            Hotspot(
+              latitude: -1.5,
+              longitude: 55.47,
+              width: 80,
+              height: 80,
+              widget: hotspotButton(
+                text: "Transportbänder",
+                icon: Icons.transfer_within_a_station,
+                onPressed: () {
+                  setState(() {
+                    onItemClicked(5);
+                  });
+                },
+                color: (correctAnswers[5] == answers[5] ||
+                        correctAnswers[9] == answers[5])
+                    ? greenSuccess
+                    : secondaryBlue,
+              ),
+            ),
             Hotspot(
               latitude: 0,
               longitude: 0,
@@ -611,16 +631,35 @@ class _QuizScreenState extends State<QuizScreen> {
         panorama = Panorama(
           //animSpeed: 3,
           sensitivity: 1.5,
-           //zoom: 1.2,
-           //minLongitude: -135,
-           //maxLongitude: 135,
-           //minLatitude: -30,
-           //maxLatitude: 30,
+          //zoom: 1.2,
+          //minLongitude: -135,
+          //maxLongitude: 135,
+          //minLatitude: -30,
+          //maxLatitude: 30,
           child: Image.asset('assets/images/a340Cockpit.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
+            Hotspot(
+              latitude: -1.5,
+              longitude: 55.47,
+              width: 80,
+              height: 80,
+              widget: hotspotButton(
+                text: "Transportbänder",
+                icon: Icons.transfer_within_a_station,
+                onPressed: () {
+                  setState(() {
+                    onItemClicked(5);
+                  });
+                },
+                color: (correctAnswers[5] == answers[5] ||
+                        correctAnswers[9] == answers[5])
+                    ? greenSuccess
+                    : secondaryBlue,
+              ),
+            ),
             Hotspot(
               latitude: -3.5,
               longitude: 44.5,
@@ -649,7 +688,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 icon: Icons.vertical_split,
                 onPressed: () {
                   setState(() {
-                    onItemClicked(6);
+                    onItemClicked(8);
                   });
                 },
                 color: (correctAnswers[6] == answers[6])
@@ -657,13 +696,13 @@ class _QuizScreenState extends State<QuizScreen> {
                     : secondaryBlue,
               ),
             ),
-            /*Hotspot(
-              latitude: -1.5,
-              longitude: 55.47,
+            Hotspot(
+              latitude: -10,
+              longitude: 200,
               width: 80,
               height: 80,
               widget: hotspotButton(
-                text: "Produktionsplan",
+                text: "PseudoCode",
                 icon: Icons.grid_on,
                 onPressed: () {
                   setState(() {
@@ -674,7 +713,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     ? greenSuccess
                     : secondaryBlue,
               ),
-            ),*/
+            ),
             Hotspot(
               latitude: -29.7,
               longitude: -177.1,
@@ -761,8 +800,11 @@ class _QuizScreenState extends State<QuizScreen> {
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: Text('© Airbus - Schwarzbild Medienproduktion - Kevin Müller', style: TextStyle(color: Colors.white, fontSize: 10),),
-              ), 
+                child: Text(
+                  '© Airbus - Schwarzbild Medienproduktion - Kevin Müller',
+                  style: TextStyle(color: Colors.white, fontSize: 10),
+                ),
+              ),
               color: Colors.black45,
             ),
           ),
@@ -770,33 +812,41 @@ class _QuizScreenState extends State<QuizScreen> {
           topBar(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 28),
-            child: Container(color: mainBlue, height: 2,),
+            child: Container(
+              color: mainBlue,
+              height: 2,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 28),
-            child: Container(color: mainBlue, height: 6, width: 140,),
+            child: Container(
+              color: mainBlue,
+              height: 6,
+              width: 140,
+            ),
           ),
           Container(
               child: Image.asset('assets/images/airbusblue.png'), height: 70),
           show360
-            ? SizedBox(height: 0)
-            : Center(
-              child: Container(
-                //height: size.height - 50,
-                //width: size.width - 50,
-                child: questionScreen(),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.black, primaryBlue],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight)),
+              ? SizedBox(height: 0)
+              : Center(
+                  child: Container(
+                    //height: size.height - 50,
+                    //width: size.width - 50,
+                    child: questionScreen(),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Colors.black, primaryBlue],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight)),
+                  ),
                 ),
-              ),
           if (showEasyDone) easyDone(context),
         ],
       ),
-      floatingActionButton: !show360? 
-        /*FloatingActionButton(
+      floatingActionButton: !show360
+          ?
+          /*FloatingActionButton(
           child: Icon(Icons.check),
           backgroundColor: greenSuccess,
           onPressed: () {
@@ -817,28 +867,35 @@ class _QuizScreenState extends State<QuizScreen> {
             });
           },
         )*/
-        Padding(
-          padding: const EdgeInsets.only(left: 0),
-          child: Tooltip(
-            decoration: BoxDecoration(color: primaryBlue, borderRadius: BorderRadius.all(Radius.circular(4))),
-            child: TextButton.icon(
-              onPressed: (){
-                setState(() {
-                  show360 = true;
-                  answerController.text = '';
-                });
-              }, 
-              icon: Icon(Icons.arrow_back), 
-              label: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Zurück', style: TextStyle(color: primaryBlue),),
-              ), 
-              style: TextButton.styleFrom(backgroundColor: Colors.yellow, ),
-            ),
-            message: 'zurück zum 360° Bild ohne die Eingabe zu speichern',
-          ),
-        )
-      : SizedBox(height: 0),
+          Padding(
+              padding: const EdgeInsets.only(left: 0),
+              child: Tooltip(
+                decoration: BoxDecoration(
+                    color: primaryBlue,
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
+                child: TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      show360 = true;
+                      answerController.text = '';
+                    });
+                  },
+                  icon: Icon(Icons.arrow_back),
+                  label: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Zurück',
+                      style: TextStyle(color: primaryBlue),
+                    ),
+                  ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.yellow,
+                  ),
+                ),
+                message: 'zurück zum 360° Bild ohne die Eingabe zu speichern',
+              ),
+            )
+          : SizedBox(height: 0),
     );
   }
 }

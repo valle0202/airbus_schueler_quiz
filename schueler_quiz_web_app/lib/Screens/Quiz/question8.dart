@@ -20,7 +20,7 @@ Widget question8(BuildContext context) {
         Flexible(
           flex: 1,
           child: Text(
-            'What is the next entry?',
+            'Wie lautet der nächste Eintrag?',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )

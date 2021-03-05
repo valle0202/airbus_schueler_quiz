@@ -9,14 +9,26 @@ Widget question6(BuildContext context) {
       children: [
         Flexible(
           flex: 1,
-          child: Text('In einer Halle soll ein Transportband mit 9 Bauplätzen in beliebiger Reihenfolge verbunden werden. Das Transportband darf beliebig oft an jedem Bauplatz entlang gehen und ist beliebig lang. Einzige Beschränkung: Alle Transportbänder verlaufen gerade und es gibt nur 4 Richtungsänderer.',
+          child: Text(
+            'In einer Halle soll ein Transportband mit 9 Bauplätzen in beliebiger Reihenfolge verbunden werden. Das Transportband darf beliebig oft an jedem Bauplatz entlang gehen und ist beliebig lang. Einzige Beschränkung: Alle Transportbänder verlaufen gerade und es gibt nur 4 Richtungsänderer.',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
-        Flexible(flex: 10, child: Container(child: Image.asset('assets/images/Nr_X_Ver_3_Weiss.png'))),
+        Flexible(
+            flex: 10,
+            child: Container(
+                child: Image.asset('assets/images/Nr_X_Ver_4_Weiss.png'))),
         Flexible(
           flex: 1,
-          child: Text('Frage: Signifikante Punkte und so?',
+          child: Text(
+            'Das Transportband muss zu Beginn in Station 1 starten muss aber in keiner bestimmten Station enden, gib den Verlauf der vier Bandabschnitte an indem du in chronologischer reihenfolge die Stationen aufschreibst, du die das Band verläuft (manche Station dürfen 2 oder 3 fach durchlaufen werden).',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ),
+        Flexible(
+          flex: 1,
+          child: Text(
+            'Eingabebeispiel "123698741" (dieses Band würde nur die äußeren Stationen ablaufen und wäre daher keine valide Antwort)',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )
