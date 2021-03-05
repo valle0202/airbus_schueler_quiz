@@ -169,10 +169,10 @@ class _QuizScreenState extends State<QuizScreen> {
     'Betrachte die Teiler der Zahlen 1-100',
     'Kabel 1 endet bei 5, Kabel 2 endet bei 2 und Kabel 3 endet bei 4',
     'Der Anfang ist 5, 3, 2, 9,',
-    'Die Wörter airbus und zriyfh gehören zusammen',
-    'tip2',
-    'tip2',
-    'tip2',
+    'Die Wörter "airbus" und "zriyfh" gehören zusammen',
+    'Die Ecken der Linien können überall liegen',
+    'Es handelt sich um selection sort und die ersten Elemente sind: 10; 4; 9; 6; 8',
+    'Um dieses Rätsel zu lösen musst du nur bis 3 zählen können',
     'tip2',
   ];
 
@@ -411,7 +411,7 @@ class _QuizScreenState extends State<QuizScreen> {
         id: '9',
         title:
             'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird',
-        color: highlightColor3),
+        color: Colors.deepOrange[400]),
     PseudoCode(
         id: '1',
         title: 'Falls der Wert von min nicht der gleiche ist, wie der von i: {',
@@ -471,7 +471,10 @@ class _QuizScreenState extends State<QuizScreen> {
       items.insert(newindex, item);
       String selectedOrder = '';
       for (int i = 0; i < items.length; i++) {
-        selectedOrder += items[i].id + '; ';
+        selectedOrder += items[i].id;
+        if(i != (items.length-1)) {
+          selectedOrder += '; ';
+        }
       }
       answerController.text = selectedOrder;
     });
@@ -494,7 +497,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
           ),
           Flexible(
-            flex: 10,
+            flex: 9,
             child: Container(
               constraints: BoxConstraints(maxWidth: 1000),
               child: ReorderableListView(
@@ -729,7 +732,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 icon: Icons.vertical_split,
                 onPressed: () {
                   setState(() {
-                    onItemClicked(8);
+                    onItemClicked(6);
                   });
                 },
                 color: (correctAnswers[6] == answers[6])
