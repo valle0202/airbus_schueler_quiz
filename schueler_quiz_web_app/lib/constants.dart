@@ -10,10 +10,10 @@ const greenSuccess = Color(0xFF08875B);
 const yellowWarning = Color(0xFFFBCA32);
 const redDanger = Color(0xFFE4002B);
 
-const highlightColor1 = Color.fromARGB(0, 132, 189, 0);
-const highlightColor2 = Color.fromARGB(0, 225, 224, 0);
-const highlightColor3 = Color.fromARGB(0, 254, 80, 0);
-const highlightColor4 = Color.fromARGB(0, 228, 0, 43);
-const highlightColor5 = Color.fromARGB(0, 218, 24, 132);
-const highlightColor6 = Color.fromARGB(0, 165, 24, 144);
-const highlightColor7 = Color.fromARGB(0, 0, 174, 199);
+const highlightColor1 = Color.fromARGB(100, 132, 189, 0);
+const highlightColor2 = Color.fromARGB(100, 225, 224, 0);
+const highlightColor3 = Color.fromARGB(100, 254, 80, 0);
+const highlightColor4 = Color.fromARGB(100, 228, 0, 43);
+const highlightColor5 = Color.fromARGB(100, 218, 24, 132);
+const highlightColor6 = Color.fromARGB(100, 165, 24, 144);
+const highlightColor7 = Color.fromARGB(100, 0, 174, 199);

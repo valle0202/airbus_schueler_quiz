@@ -10,12 +10,24 @@ import 'package:schueler_quiz_web_app/Screens/Quiz/question3.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question4.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question5.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question6.dart';
-import 'package:schueler_quiz_web_app/Screens/Quiz/question7.dart';
+//import 'package:schueler_quiz_web_app/Screens/Quiz/question7.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question8.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question9.dart';
 import 'package:schueler_quiz_web_app/Screens/afterRare.dart';
 import 'package:schueler_quiz_web_app/Screens/ende.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
+
+class PseudoCode {
+  String id;
+  String title;
+  Color color;
+
+  PseudoCode ({
+    @required this.id,
+    @required this.title,
+    @required this.color,
+  });
+}
 
 class QuizScreen extends StatefulWidget {
   @override
@@ -244,6 +256,12 @@ class _QuizScreenState extends State<QuizScreen> {
           onSubmitted: (String s) {
             answers[selectedIndex] = s;
           },
+          onChanged: (String s) {
+            if(selectedIndex == 7){
+              //TODO: reorder list 'items'
+              //reorderData(oldindex, newindex)
+            }
+          },
         ),
       ),
     );
@@ -351,20 +369,46 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  List tileColors = [highlightColor1, highlightColor2, highlightColor3, highlightColor4, highlightColor5, highlightColor6, highlightColor1, highlightColor2, highlightColor3, highlightColor1];
+  List<PseudoCode> items = [
+    PseudoCode(id: '1', title: 'Es sei i eine Variable, die ganze Zahlen speichert', color: highlightColor1), 
+    PseudoCode(id: '2', title: 'solange i kleiner als die Länge der Liste ist, wird i um 1 erhöht und folgendes ausgeführt: {', color: highlightColor2), 
+    PseudoCode(id: '3', title: '}', color: highlightColor2), 
+    PseudoCode(id: '4', title: 'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird', color: highlightColor3), 
+    PseudoCode(id: '5', title: 'Es sei j eine Variable, in die der aktuelle Wert von i+1 gespeichert wird', color: highlightColor4), 
+    PseudoCode(id: '6', title: 'solange j kleiner als die Länge der Liste ist, wird j um 1 erhöht und folgendes ausgeführt: {', color: highlightColor5), 
+    PseudoCode(id: '7', title: '}', color: highlightColor5), 
+    PseudoCode(id: '8', title: 'Falls der Eintrag der Liste an der Stelle j kleiner ist als der Eintrag an der Stelle min, dann: {', color: highlightColor6), 
+    PseudoCode(id: '9', title: '}', color: highlightColor6), 
+    PseudoCode(id: '10', title: 'weise der Variable min den aktuellen Wert von j zu', color: highlightColor7), 
+    PseudoCode(id: '11', title: 'Falls der Wert von min nicht der gleiche ist, wie der von i: {', color: highlightColor3),
+    PseudoCode(id: '12', title: '}', color: highlightColor3), 
+    PseudoCode(id: '13', title: 'tausche das Listenelement an der Stelle i mit dem an der Stelle min', color: highlightColor4), 
+  ];
 
-  List<String> item = ['Es sei i eine Variable, die ganze Zahlen Speichert', 'solange i kleiner als die Länge der Liste ist, wird i um 1 erhöht und folgendes ausgeführt: {', '}', 
-    'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird', 'Es sei j eine Variable, in die der aktuelle Wert von i+1 gespeichert wird', 
-    'solange j kleiner als die Länge der Liste ist, wird j um 1 erhöht und folgendes ausgeführt: {', '}', 'Falls der Eintrag der Liste an der Stelle j kleiner ist als der Eintrag an der Stelle min, dann: {', 
-    '}', 'weise der Variable min den aktuellen Wert von j zu', 'Falls der Wert von min nicht der gleiche ist, wie der von i: {', '}', 'tausche das Listenelement an der Stelle i mit dem an der Stelle min', ];
+  Widget pseudoCodeTile (PseudoCode pseudoCode){
+    return Card(
+      color: pseudoCode.color,
+      key: Key(pseudoCode.id),
+      elevation: 12,
+      child: ListTile(
+        leading: Text(pseudoCode.id, style: Theme.of(context).textTheme.bodyText1,),
+        title: Text(pseudoCode.title, style: Theme.of(context).textTheme.bodyText1,),
+      ),
+    );
+  }
 
   void reorderData(int oldindex, int newindex){
     setState(() {
       if(newindex>oldindex){
         newindex-=1;
       }
-      final items =item.removeAt(oldindex);
-      item.insert(newindex, items);
+      final item =items.removeAt(oldindex);
+      items.insert(newindex, item);
+      String selectedOrder = '';
+      for(int i=0; i < items.length; i++){
+        selectedOrder += items[i].id + '; ';
+      }
+      answerController.text = selectedOrder;
     });
   }
 
@@ -376,25 +420,23 @@ class _QuizScreenState extends State<QuizScreen> {
       children: [
         Flexible(
           flex: 1,
-          child: Text('Bringe den folgenden Code in die richtige Reihenfolge, damit eine Liste in aufsteigender Reihenfolge sortiert wird',
-            style: Theme.of(context).textTheme.bodyText1,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Text('Bringe den folgenden Code in die richtige Reihenfolge, damit eine Liste in aufsteigender Reihenfolge sortiert wird. Nutze dazu die zwei Striche am rechten Rand.',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           ),
         ),
         Flexible(
           flex: 10, 
-          child: ReorderableListView(
-            children: [
-              for(final items in item)
-                Card(
-                  //color: tileColors[],
-                  key: ValueKey(items),
-                  elevation: 2,
-                  child: ListTile(
-                    title: Text(items, style: Theme.of(context).textTheme.bodyText1,),
-                  ),
-                ),
-            ],
-            onReorder: reorderData,
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 1000),
+            child: ReorderableListView(
+              children: items.map((pseudoCode) {
+                return pseudoCodeTile(pseudoCode);
+              }).toList(),
+              onReorder: reorderData,
+            ),
           ),
         ),
       ],
