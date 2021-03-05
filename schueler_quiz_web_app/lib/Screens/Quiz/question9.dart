@@ -9,20 +9,24 @@ Widget question9(BuildContext context) {
       children: [
         Flexible(
           flex: 2,
-          child: Text(
-            'In einem Kriegsgebiet kommt es durch ein Attentat zu vielen Verletzten, ' +
-                'welches zu einem Mangel an Bluttransfusionen führt. Es werden daher umgehend' +
-                ' 300 weitere Transfusion aus dem nächstligenden Krankenhaus (300km entfernt)  angefordert. ' +
-                'Zum Transport dieser liegt dem Krankhaus leider nur ein Helikopter (durchnittsgeschwindigkeit 180kmh) ' +
-                'mit einer Tragfähigkeit von 200 Transfusionen zur verfügung. Zudem können aber entlang der Gesamten Strecke ' +
-                'Autos (durchnittsgeschwindigkeit 45kmh) genutzt werden, welche eine uneingeschränkte Tragfähigkeit haben.',
-            style: Theme.of(context).textTheme.bodyText1,
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 1000),
+            child: Text(
+              'In einem Kriegsgebiet kommt es durch ein Attentat zu vielen Verletzten, ' +
+                  'welches zu einem Mangel an Bluttransfusionen führt. Es werden daher umgehend' +
+                  ' 300 weitere Transfusion aus dem nächstligenden Krankenhaus (300km entfernt)  angefordert. ' +
+                  'Zum Transport dieser liegt dem Krankhaus leider nur ein Helikopter (durchnittsgeschwindigkeit 180kmh) ' +
+                  'mit einer Tragfähigkeit von 200 Transfusionen zur verfügung. Zudem können aber entlang der Gesamten Strecke ' +
+                  'Autos (durchnittsgeschwindigkeit 45kmh) genutzt werden, welche eine uneingeschränkte Tragfähigkeit haben.',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           ),
         ),
         Flexible(
             flex: 10,
-            child:
-                Container(child: Image.asset('assets/images/Transport.png'))),
+            child: Container(
+                constraints: BoxConstraints(maxWidth: 1000),
+                child: Image.asset('assets/images/Transport.png'))),
         Flexible(
           flex: 1,
           child: Text(
