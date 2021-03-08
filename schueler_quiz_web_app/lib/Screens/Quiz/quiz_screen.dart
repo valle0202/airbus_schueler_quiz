@@ -248,8 +248,15 @@ class _QuizScreenState extends State<QuizScreen> {
                       answers[selectedIndex] = answerController.text;
                       show360 = true;
                       if (checkAnswers()) {
+                        print('alles richtig');
                         currentLevel++;
                         if (currentLevel == 1) {
+                          showEasyDone = true;
+                        }
+                        if (currentLevel == 2) {
+                          showEasyDone = true;
+                        }
+                        if (currentLevel == 3) {
                           showEasyDone = true;
                         }
                         //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
