@@ -248,8 +248,15 @@ class _QuizScreenState extends State<QuizScreen> {
                       answers[selectedIndex] = answerController.text;
                       show360 = true;
                       if (checkAnswers()) {
+                        print('alles richtig');
                         currentLevel++;
                         if (currentLevel == 1) {
+                          showEasyDone = true;
+                        }
+                        if (currentLevel == 2) {
+                          showEasyDone = true;
+                        }
+                        if (currentLevel == 3) {
                           showEasyDone = true;
                         }
                         //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
@@ -280,7 +287,7 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Widget hotspotButton(
-      {String text, String image, VoidCallback onPressed, Color color}) {
+      {String text, String image, VoidCallback onPressed}) {
     return /*TextButton(
       style: TextButton.styleFrom(
         shape: CircleBorder(),
@@ -604,7 +611,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(6);
                   });
                 },
-                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -620,7 +626,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(7);
                   });
                 },
-                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -636,7 +641,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(5);
                   });
                 },
-                color: primaryBlue,
               ),
             ),
           ],
@@ -664,7 +668,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(1);
                   });
                 },
-                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -680,7 +683,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(8);
                   });
                 },
-                color: primaryBlue,
               ),
             ),
           ],
@@ -715,7 +717,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(0);
                   });
                 },
-                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -731,7 +732,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(2);
                   });
                 },
-                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -747,7 +747,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(3);
                   });
                 },
-                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -763,7 +762,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(4);
                   });
                 },
-                color: primaryBlue,
               ),
             ),
           ],
