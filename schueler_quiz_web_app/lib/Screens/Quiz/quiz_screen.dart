@@ -280,7 +280,7 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Widget hotspotButton(
-      {String text, IconData icon, VoidCallback onPressed, Color color}) {
+      {String text, String image, VoidCallback onPressed, Color color}) {
     return /*TextButton(
       style: TextButton.styleFrom(
         shape: CircleBorder(),
@@ -298,10 +298,7 @@ class _QuizScreenState extends State<QuizScreen> {
             shape: CircleBorder(),
             backgroundColor: Colors.black38,
           ),
-          child: Icon(
-            icon,
-            color: color,
-          ),
+          child: Image.asset(image, height: 30, width: 30),
           onPressed: onPressed,
         ),
         text != null
@@ -589,7 +586,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Sortieren",
-                icon: Icons.code,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(6);
@@ -617,7 +614,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Transportbänder",
-                icon: Icons.transfer_within_a_station,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(5);
@@ -636,7 +633,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Dreieck",
-                icon: Icons.vertical_split,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(8);
@@ -654,7 +651,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Sequenz",
-                icon: Icons.no_encryption,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(7);
@@ -689,7 +686,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Transportbänder",
-                icon: Icons.transfer_within_a_station,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(5);
@@ -708,7 +705,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "A320 Produktion",
-                icon: Icons.airplanemode_active,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(0);
@@ -726,7 +723,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Dreieck",
-                icon: Icons.vertical_split,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(8);
@@ -744,7 +741,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "PseudoCode",
-                icon: Icons.grid_on,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(1);
@@ -762,7 +759,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Kabelgewirr",
-                icon: Icons.alt_route,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(2);
@@ -780,7 +777,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Flugplan",
-                icon: Icons.router,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(3);
@@ -798,7 +795,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Verschlüsselung",
-                icon: Icons.no_encryption,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(4);
@@ -816,7 +813,7 @@ class _QuizScreenState extends State<QuizScreen> {
               height: 80,
               widget: hotspotButton(
                 text: "Sequenz",
-                icon: Icons.no_encryption,
+                image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
                     onItemClicked(7);
