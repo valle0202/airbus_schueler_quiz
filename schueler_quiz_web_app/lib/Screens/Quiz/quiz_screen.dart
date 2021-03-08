@@ -607,18 +607,22 @@ class _QuizScreenState extends State<QuizScreen> {
                 color: primaryBlue,
               ),
             ),
-          ],
-        );
-        break;
-      case 2:
-        panorama = Panorama(
-          minZoom: 1.0,
-          maxZoom: 1.0,
-          child: Image.asset('assets/images/eurofighter360.jpg'),
-          onViewChanged: onViewChanged,
-          onTap: (longitude, latitude, tilt) =>
-              print('onTap: $longitude, $latitude, $tilt'),
-          hotspots: [
+            Hotspot(
+              latitude: 0,
+              longitude: -20,
+              width: 80,
+              height: 80,
+              widget: hotspotButton(
+                text: "Sequenz",
+                image: "assets/images/SequenceIcon.png",
+                onPressed: () {
+                  setState(() {
+                    onItemClicked(7);
+                  });
+                },
+                color: primaryBlue,
+              ),
+            ),
             Hotspot(
               latitude: -1.5,
               longitude: 55.47,
@@ -635,17 +639,29 @@ class _QuizScreenState extends State<QuizScreen> {
                 color: primaryBlue,
               ),
             ),
+          ],
+        );
+        break;
+      case 2:
+        panorama = Panorama(
+          minZoom: 1.0,
+          maxZoom: 1.0,
+          child: Image.asset('assets/images/eurofighter360.jpg'),
+          onViewChanged: onViewChanged,
+          onTap: (longitude, latitude, tilt) =>
+              print('onTap: $longitude, $latitude, $tilt'),
+          hotspots: [
             Hotspot(
-              latitude: 0,
-              longitude: 0,
+              latitude: -10,
+              longitude: 200,
               width: 80,
               height: 80,
               widget: hotspotButton(
-                text: "Dreieck",
+                text: "PseudoCode",
                 image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
-                    onItemClicked(8);
+                    onItemClicked(1);
                   });
                 },
                 color: primaryBlue,
@@ -653,15 +669,15 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
             Hotspot(
               latitude: 0,
-              longitude: -20,
+              longitude: 0,
               width: 80,
               height: 80,
               widget: hotspotButton(
-                text: "Sequenz",
+                text: "Bluttransport",
                 image: "assets/images/SequenceIcon.png",
                 onPressed: () {
                   setState(() {
-                    onItemClicked(7);
+                    onItemClicked(8);
                   });
                 },
                 color: primaryBlue,
@@ -687,22 +703,6 @@ class _QuizScreenState extends State<QuizScreen> {
               print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
-              latitude: -1.5,
-              longitude: 55.47,
-              width: 80,
-              height: 80,
-              widget: hotspotButton(
-                text: "Transportbänder",
-                image: "assets/images/SequenceIcon.png",
-                onPressed: () {
-                  setState(() {
-                    onItemClicked(5);
-                  });
-                },
-                color: primaryBlue,
-              ),
-            ),
-            Hotspot(
               latitude: -3.5,
               longitude: 44.5,
               width: 80,
@@ -713,37 +713,6 @@ class _QuizScreenState extends State<QuizScreen> {
                 onPressed: () {
                   setState(() {
                     onItemClicked(0);
-                  });
-                },
-                color: primaryBlue,
-              ),
-            ),
-            Hotspot(
-              latitude: 0,
-              longitude: 0,
-              width: 80,
-              height: 80,
-              widget: hotspotButton(
-                  text: "Dreieck",
-                  image: "assets/images/SequenceIcon.png",
-                  onPressed: () {
-                    setState(() {
-                      onItemClicked(6);
-                    });
-                  },
-                  color: primaryBlue),
-            ),
-            Hotspot(
-              latitude: -10,
-              longitude: 200,
-              width: 80,
-              height: 80,
-              widget: hotspotButton(
-                text: "PseudoCode",
-                image: "assets/images/SequenceIcon.png",
-                onPressed: () {
-                  setState(() {
-                    onItemClicked(1);
                   });
                 },
                 color: primaryBlue,
@@ -792,22 +761,6 @@ class _QuizScreenState extends State<QuizScreen> {
                 onPressed: () {
                   setState(() {
                     onItemClicked(4);
-                  });
-                },
-                color: primaryBlue,
-              ),
-            ),
-            Hotspot(
-              latitude: 0,
-              longitude: -20,
-              width: 80,
-              height: 80,
-              widget: hotspotButton(
-                text: "Sequenz",
-                image: "assets/images/SequenceIcon.png",
-                onPressed: () {
-                  setState(() {
-                    onItemClicked(7);
                   });
                 },
                 color: primaryBlue,
