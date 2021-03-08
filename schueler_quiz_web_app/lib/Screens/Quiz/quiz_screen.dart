@@ -160,7 +160,7 @@ class _QuizScreenState extends State<QuizScreen> {
     ['1; 2; 3; 6; 8; 7; 4; 1; 5; 9', '1; 4; 7; 8; 6; 3; 2; 1; 5; 9'],
     ['10; 4; 9; 6; 3; 12; 11; 8; 7; 1; 5; 13; 2'],
     ['1112213211'],
-    [''],
+    ['183', '184', '185', '186', '187', '188'],
   ];
 
   List tips = [
@@ -172,7 +172,7 @@ class _QuizScreenState extends State<QuizScreen> {
     'Die Ecken der Linien können überall liegen',
     'Es handelt sich um selection sort und die ersten Elemente sind: 10; 4; 9; 6; 8',
     'Um dieses Rätsel zu lösen musst du nur bis 3 zählen können',
-    'tip2',
+    'Es wird an zwei Stellen auf der Strecke von dem Hubschrauber in ein Auto umgeladen',
   ];
 
   List answerSize = [100, 500, 100, 500, 400, 200, 600, 300, 100];
@@ -195,7 +195,8 @@ class _QuizScreenState extends State<QuizScreen> {
         return true;
       }
     } else {
-      if (correctAnswers[7][0] == answers[7] && correctAnswers[8][0] == answers[8]) {
+      if (correctAnswers[7][0] == answers[7] &&
+          correctAnswers[8][0] == answers[8]) {
         return true;
       }
     }
@@ -468,7 +469,7 @@ class _QuizScreenState extends State<QuizScreen> {
       String selectedOrder = '';
       for (int i = 0; i < items.length; i++) {
         selectedOrder += items[i].id;
-        if(i != (items.length-1)) {
+        if (i != (items.length - 1)) {
           selectedOrder += '; ';
         }
       }
@@ -723,15 +724,14 @@ class _QuizScreenState extends State<QuizScreen> {
               width: 80,
               height: 80,
               widget: hotspotButton(
-                text: "Dreieck",
-                image: "assets/images/SequenceIcon.png",
-                onPressed: () {
-                  setState(() {
-                    onItemClicked(6);
-                  });
-                },
-                color: primaryBlue
-              ),
+                  text: "Dreieck",
+                  image: "assets/images/SequenceIcon.png",
+                  onPressed: () {
+                    setState(() {
+                      onItemClicked(6);
+                    });
+                  },
+                  color: primaryBlue),
             ),
             Hotspot(
               latitude: -10,
