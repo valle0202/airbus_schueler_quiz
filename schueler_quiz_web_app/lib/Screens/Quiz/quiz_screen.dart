@@ -13,7 +13,9 @@ import 'package:schueler_quiz_web_app/Screens/Quiz/question6.dart';
 //import 'package:schueler_quiz_web_app/Screens/Quiz/question7.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question8.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question9.dart';
+import 'package:schueler_quiz_web_app/Screens/afterMedium.dart';
 import 'package:schueler_quiz_web_app/Screens/afterRare.dart';
+import 'package:schueler_quiz_web_app/Screens/afterWellDone.dart';
 import 'package:schueler_quiz_web_app/Screens/ende.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
 
@@ -181,7 +183,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   bool checkAnswers() {
     if (currentLevel == 0) {
-      if (correctAnswers[0][0] == answers[0][0] &&
+      if (correctAnswers[0][0] == answers[0] &&
           correctAnswers[2][0] == answers[2] &&
           correctAnswers[3][0] == answers[3] &&
           correctAnswers[4][0] == answers[4]) {
@@ -300,15 +302,24 @@ class _QuizScreenState extends State<QuizScreen> {
         Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TextButton(
-          style: TextButton.styleFrom(
-            shape: CircleBorder(),
-            backgroundColor: Colors.black38,
+        Tooltip(
+          textStyle: Theme.of(context).textTheme.bodyText1,
+          margin: EdgeInsets.all(4.0),
+          decoration: BoxDecoration(
+            color: Colors.black38,
+            borderRadius: BorderRadius.all(Radius.circular(4))
           ),
-          child: Image.asset(image, height: 30, width: 30),
-          onPressed: onPressed,
+          message: text,
+          child: TextButton(
+            style: TextButton.styleFrom(
+              shape: CircleBorder(),
+              backgroundColor: Colors.black38,
+            ),
+            child: Image.asset(image, height: 50, width: 50),
+            onPressed: onPressed,
+          ),
         ),
-        text != null
+        /*text != null
             ? Container(
                 padding: EdgeInsets.all(4.0),
                 decoration: BoxDecoration(
@@ -318,7 +329,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     child:
                         Text(text, style: TextStyle(color: Colors.white))), //
               )
-            : Container(),
+            : Container(),*/
       ],
     );
   }
@@ -521,6 +532,32 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget zwischenInfos (Widget widget, int nr){
+    return Stack(
+      alignment: AlignmentDirectional.bottomCenter,
+      children: [
+        widget,
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: TextButton(
+            style: TextButton.styleFrom(backgroundColor: greenSuccess),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('Weiter', style: Theme.of(context).textTheme.bodyText1,),
+            ), 
+            onPressed: () {
+              setState(() {
+                if(nr == 0) showEasyDone = !showEasyDone;
+                if(nr == 1) showMediumDone = !showMediumDone;
+                if(nr == 2) showHardDone = !showHardDone;
+              });
+            },
+          ),
+        ),
+      ]
     );
   }
 
@@ -819,7 +856,12 @@ class _QuizScreenState extends State<QuizScreen> {
                             end: Alignment.bottomRight)),
                   ),
                 ),
-          if (showEasyDone) easyDone(context),
+          if (showEasyDone) 
+            zwischenInfos(easyDone(context), 0),
+          if (showMediumDone) 
+            zwischenInfos(mediumDone(context), 1),
+          if (showHardDone) 
+            zwischenInfos(hardDone(context), 2),
         ],
       ),
       floatingActionButton: !show360

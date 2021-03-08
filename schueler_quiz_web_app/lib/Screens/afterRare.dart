@@ -14,7 +14,6 @@ Widget easyDone(BuildContext context) {
             Text('Klasse, du hast das erste Level von 3 geschafft. Der Timer ist jetzt pausiert bis du auf weiter klickst. \n Hier sind noch ein par Infos über Airbus und IT bei Airbus, die dir bei unserem nächsten Quiz während des richtigen Events weiterhelfen werden!',
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            TextButton(child: Text('Weiter'), onPressed: () {Navigator.pop(context);},),
           ],
         ),
       ),
