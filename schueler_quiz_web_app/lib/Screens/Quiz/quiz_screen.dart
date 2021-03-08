@@ -182,7 +182,6 @@ class _QuizScreenState extends State<QuizScreen> {
   bool checkAnswers() {
     if (currentLevel == 0) {
       if (correctAnswers[0][0] == answers[0][0] &&
-          correctAnswers[1][0] == answers[1] &&
           correctAnswers[2][0] == answers[2] &&
           correctAnswers[3][0] == answers[3] &&
           correctAnswers[4][0] == answers[4]) {
@@ -190,12 +189,13 @@ class _QuizScreenState extends State<QuizScreen> {
       }
     } else if (currentLevel == 1) {
       if ((correctAnswers[5][0] == answers[5] ||
-              correctAnswers[5][0] == answers[5]) &&
-          correctAnswers[6][0] == answers[6]) {
+              correctAnswers[5][1] == answers[5]) &&
+          correctAnswers[6][0] == answers[6] &&
+          correctAnswers[7][0] == answers[7]) {
         return true;
       }
     } else {
-      if (correctAnswers[7][0] == answers[7] &&
+      if (correctAnswers[1][0] == answers[1] &&
           correctAnswers[8][0] == answers[8]) {
         return true;
       }
