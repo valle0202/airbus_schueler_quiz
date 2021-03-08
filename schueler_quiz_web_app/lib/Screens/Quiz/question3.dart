@@ -17,11 +17,11 @@ Widget question3(BuildContext context) {
         Flexible(
             flex: 10,
             child: Container(
-                child: Image.asset('assets/images/Aufgabe_3_Ver_1_Weiss.png'))),
+                child: Image.asset('assets/images/Aufgabe_3_Ver_2_Weiss.png'))),
         Flexible(
           flex: 1,
           child: Text(
-            'Frage: Welches Kabelende gehört zu dem Kabel mit der Startnummer 4?',
+            'Frage: Welches Kabelende gehört zu dem Kabel, das bei 4 startet?',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )

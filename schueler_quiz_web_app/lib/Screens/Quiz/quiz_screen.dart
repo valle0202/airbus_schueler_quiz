@@ -152,22 +152,21 @@ class _QuizScreenState extends State<QuizScreen> {
   ];
 
   List correctAnswers = [
-    '22',
-    '1; 4; 9; 16; 25; 36; 49; 64; 81; 100',
-    '1',
-    '5; 3; 2; 9; 7; 6; 4; 1; 8; 5',
-    'rmulinzgrp',
-    '1; 2; 3; 6; 8; 7; 4; 1; 5; 9',
-    '10; 4; 9; 6; 3; 12; 11; 8; 7; 1; 5; 13; 2',
-    '1112213211',
-    '',
-    '1; 4; 7; 8; 6; 3; 2; 1; 5; 9'
+    ['22'],
+    ['1; 4; 9; 16; 25; 36; 49; 64; 81; 100'],
+    ['1'],
+    ['5; 3; 2; 9; 7; 6; 4; 1; 8; 5'],
+    ['rmulinzgrp'],
+    ['1; 2; 3; 6; 8; 7; 4; 1; 5; 9', '1; 4; 7; 8; 6; 3; 2; 1; 5; 9'],
+    ['10; 4; 9; 6; 3; 12; 11; 8; 7; 1; 5; 13; 2'],
+    ['1112213211'],
+    [''],
   ];
 
   List tips = [
     'überlege dir zuerst wie viele A320 an einem Tag produziert werden können, dann wie viele Triebwerke pro Tag übrig bleiben',
     'Betrachte die Teiler der Zahlen 1-100',
-    'Kabel 1 endet bei 5, Kabel 2 endet bei 2 und Kabel 3 endet bei 4',
+    'Kabel A endet bei 5, Kabel B endet bei 2 und Kabel C endet bei 4',
     'Der Anfang ist 5, 3, 2, 9,',
     'Die Wörter "airbus" und "zriyfh" gehören zusammen',
     'Die Ecken der Linien können überall liegen',
@@ -182,21 +181,21 @@ class _QuizScreenState extends State<QuizScreen> {
 
   bool checkAnswers() {
     if (currentLevel == 0) {
-      if (correctAnswers[0] == answers[0] &&
-          correctAnswers[1] == answers[1] &&
-          correctAnswers[2] == answers[2] &&
-          correctAnswers[3] == answers[3] &&
-          correctAnswers[4] == answers[4]) {
+      if (correctAnswers[0][0] == answers[0][0] &&
+          correctAnswers[1][0] == answers[1] &&
+          correctAnswers[2][0] == answers[2] &&
+          correctAnswers[3][0] == answers[3] &&
+          correctAnswers[4][0] == answers[4]) {
         return true;
       }
     } else if (currentLevel == 1) {
-      if ((correctAnswers[5] == answers[5] ||
-              correctAnswers[9] == answers[5]) &&
-          correctAnswers[6] == answers[6]) {
+      if ((correctAnswers[5][0] == answers[5] ||
+              correctAnswers[5][0] == answers[5]) &&
+          correctAnswers[6][0] == answers[6]) {
         return true;
       }
     } else {
-      if (correctAnswers[7] == answers[7] && correctAnswers[8] == answers[8]) {
+      if (correctAnswers[7][0] == answers[7] && correctAnswers[8][0] == answers[8]) {
         return true;
       }
     }
@@ -508,6 +507,13 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
           ),
+          Flexible(
+            flex: 1,
+            child: Text(
+              'HINWEIS: Zusammengehörige "{" und "}" haben die gleiche Farbe und müssen entsprechend sortiert werden',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ),
         ],
       ),
     );
@@ -580,6 +586,8 @@ class _QuizScreenState extends State<QuizScreen> {
     switch (currentLevel) {
       case 1:
         panorama = Panorama(
+          minZoom: 1.0,
+          maxZoom: 1.0,
           child: Image.asset('assets/images/helicopter.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
@@ -598,9 +606,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(6);
                   });
                 },
-                color: (correctAnswers[6] == answers[6])
-                    ? greenSuccess
-                    : Colors.blue,
+                color: primaryBlue,
               ),
             ),
           ],
@@ -608,6 +614,8 @@ class _QuizScreenState extends State<QuizScreen> {
         break;
       case 2:
         panorama = Panorama(
+          minZoom: 1.0,
+          maxZoom: 1.0,
           child: Image.asset('assets/images/eurofighter360.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
@@ -626,10 +634,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(5);
                   });
                 },
-                color: (correctAnswers[5] == answers[5] ||
-                        correctAnswers[9] == answers[5])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -645,9 +650,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(8);
                   });
                 },
-                color: (correctAnswers[8] == answers[8])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -663,9 +666,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(7);
                   });
                 },
-                color: (correctAnswers[7] == answers[7])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
           ],
@@ -676,6 +677,8 @@ class _QuizScreenState extends State<QuizScreen> {
           //animSpeed: 3,
           sensitivity: 1.5,
           //zoom: 1.2,
+          minZoom: 1.0,
+          maxZoom: 1.0,
           //minLongitude: -135,
           //maxLongitude: 135,
           //minLatitude: -30,
@@ -698,10 +701,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(5);
                   });
                 },
-                color: (correctAnswers[5] == answers[5] ||
-                        correctAnswers[9] == answers[5])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -717,9 +717,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(0);
                   });
                 },
-                color: (correctAnswers[0] == answers[0])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -735,9 +733,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(6);
                   });
                 },
-                color: (correctAnswers[6] == answers[6])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue
               ),
             ),
             Hotspot(
@@ -753,9 +749,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(1);
                   });
                 },
-                color: (correctAnswers[1] == answers[1])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -771,9 +765,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(2);
                   });
                 },
-                color: (correctAnswers[2] == answers[2])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -789,9 +781,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(3);
                   });
                 },
-                color: (correctAnswers[3] == answers[3])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -807,9 +797,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(4);
                   });
                 },
-                color: (correctAnswers[4] == answers[4])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
             Hotspot(
@@ -825,9 +813,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     onItemClicked(7);
                   });
                 },
-                color: (correctAnswers[7] == answers[7])
-                    ? greenSuccess
-                    : secondaryBlue,
+                color: primaryBlue,
               ),
             ),
           ],
