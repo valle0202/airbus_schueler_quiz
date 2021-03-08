@@ -250,7 +250,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       answers[selectedIndex] = answerController.text;
                       show360 = true;
                       if (checkAnswers()) {
-                        print('alles richtig');
+                        beantwortet = 0;
                         currentLevel++;
                         if (currentLevel == 1) {
                           showEasyDone = true;
@@ -345,6 +345,8 @@ class _QuizScreenState extends State<QuizScreen> {
               color: show360 ? Colors.white54 : Colors.grey[200],
               borderRadius: BorderRadius.all(Radius.circular(6)),
             ),
+            //width: MediaQuery.of(context).size.width,
+            //height: 55,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               child: Row(
@@ -687,7 +689,7 @@ class _QuizScreenState extends State<QuizScreen> {
         panorama = Panorama(
           minZoom: 1.0,
           maxZoom: 1.0,
-          child: Image.asset('assets/images/eurofighter360.jpg'),
+          child: Image.asset('assets/images/eurofighter.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -727,7 +729,6 @@ class _QuizScreenState extends State<QuizScreen> {
         break;
       default:
         panorama = Panorama(
-          //animSpeed: 3,
           sensitivity: 1.5,
           //zoom: 1.2,
           minZoom: 1.0,
