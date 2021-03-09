@@ -47,6 +47,7 @@ class _QuizScreenState extends State<QuizScreen> {
   bool showMediumDone = false;
   bool showHardDone = false;
   bool isLoading = true;
+  bool isLoadingFirst = true;
   int beantwortet = 0;
 
   double _lon = 0;
@@ -114,7 +115,7 @@ class _QuizScreenState extends State<QuizScreen> {
   ];
 
   onItemClicked(int index) {
-    setState(() {
+    if(!isLoading) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
       lastLon = _lon;
       lastLat = _lat;
@@ -126,7 +127,7 @@ class _QuizScreenState extends State<QuizScreen> {
         answerController.text = answers[selectedIndex];
       }
       //tiptaken = false;
-    });
+    }
   }
 
   List tiptaken = [
@@ -169,7 +170,7 @@ class _QuizScreenState extends State<QuizScreen> {
     'überlege dir zuerst wie viele A320 an einem Tag produziert werden können, dann wie viele Triebwerke pro Tag übrig bleiben',
     'Betrachte die Teiler der Zahlen 1-100',
     'Kabel A endet bei 5, Kabel B endet bei 2 und Kabel C endet bei 4',
-    'Der Anfang ist 5, 3, 2, 9,',
+    'Der Anfang ist: 5; 3; 2; 9;',
     'Die Wörter "airbus" und "zriyfh" gehören zusammen',
     'Die Ecken der Linien können überall liegen',
     'Es handelt sich um selection sort und die ersten Elemente sind: 10; 4; 9; 6; 8',
@@ -250,6 +251,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       answers[selectedIndex] = answerController.text;
                       show360 = true;
                       if (checkAnswers()) {
+                        isLoading = true;
                         beantwortet = 0;
                         currentLevel++;
                         if (currentLevel == 1) {
@@ -551,6 +553,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ), 
             onPressed: () {
               setState(() {
+                isLoading = false;
                 if(nr == 0) showEasyDone = !showEasyDone;
                 if(nr == 1) showMediumDone = !showMediumDone;
                 if(nr == 2) showHardDone = !showHardDone;
@@ -562,9 +565,35 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
+  Widget startTimerWidget(){
+    return Center(
+      child: Container(
+        padding: EdgeInsets.all(15),
+        height: 200,
+        width: 400,
+        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.black87,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Bitte klicke auf den Button, sobald das 360° Bild geladen ist, um die Zeit zu starten', style: Theme.of(context).textTheme.bodyText1),
+            TextButton(
+              child: Text('Timer starten'),
+              onPressed: () {
+                setState(() {
+                  startTimer();
+                  isLoading = false;
+                  isLoadingFirst = false;
+                });
+              },
+            )
+          ],
+        )
+      ),
+    );
+  }
+
   @override
   void initState() {
-    startTimer();
     super.initState();
   }
 
@@ -688,7 +717,7 @@ class _QuizScreenState extends State<QuizScreen> {
         panorama = Panorama(
           minZoom: 1.0,
           maxZoom: 1.0,
-          child: Image.asset('assets/images/eurofighter.jpg'),
+          child: Image.asset('assets/images/eurofighter.jpg',),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -736,7 +765,7 @@ class _QuizScreenState extends State<QuizScreen> {
           //maxLongitude: 135,
           //minLatitude: -30,
           //maxLatitude: 30,
-          child: Image.asset('assets/images/a340Cockpit.jpg'),
+          child: Image.asset('assets/images/a340Cockpit.jpg',),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -810,6 +839,7 @@ class _QuizScreenState extends State<QuizScreen> {
       body: Stack(
         children: [
           panorama,
+          if(isLoadingFirst) startTimerWidget(),
           Align(
             alignment: Alignment.bottomRight,
             child: Container(

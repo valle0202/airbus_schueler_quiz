@@ -28,7 +28,7 @@ Widget question4(BuildContext context) {
         Flexible(flex: 10, child: Image(image: AssetImage("assets/images/Aufgabe_4_Ver_4_Weiss.png"),)),
         Flexible(
           flex: 1,
-            child: Text('Gebe die Reihenfolge der Flugplätze an. Eine mögliche Eingabe wäre z.B. 5, 6, 1, 8, 3, 9, 2, 4, 7, 5',
+            child: Text('Gebe die Reihenfolge der Flugplätze an. Eine mögliche Eingabe wäre z.B. 5; 6; 1; 8; 3; 9; 2; 4; 7; 5',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
