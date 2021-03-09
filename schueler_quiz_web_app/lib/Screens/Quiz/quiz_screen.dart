@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:panorama/panorama.dart';
+//import 'package:video_player/video_player.dart';
 
 import 'package:schueler_quiz_web_app/Screens/Quiz/question1.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question2.dart';
@@ -180,7 +181,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List answerSize = [100, 500, 100, 500, 400, 200, 600, 300, 100];
 
-  List quizPunkte = [3, 4, 6, 7, 3, 2, 4, 3, 7];
+  List quizPunkte = [7, 4, 6, 7, 3, 2, 4, 3, 7];
 
   bool checkAnswers() {
     if (currentLevel == 0) {
@@ -515,7 +516,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
           ),
           Flexible(
-            flex: 9,
+            flex: 8,
             child: Container(
               constraints: BoxConstraints(maxWidth: 1000),
               child: ReorderableListView(
@@ -660,14 +661,14 @@ class _QuizScreenState extends State<QuizScreen> {
         panorama = Panorama(
           minZoom: 1.0,
           maxZoom: 1.0,
-          child: Image.asset('assets/images/helicopter.jpg'),
+          child: Image.asset('assets/images/eurofighter.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
-              latitude: -35.7054290,
-              longitude: 114.01527664,
+              latitude: 3.4,
+              longitude: 126.7,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -681,8 +682,8 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             Hotspot(
-              latitude: 0,
-              longitude: -20,
+              latitude: 90,
+              longitude: 0,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -696,8 +697,8 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             Hotspot(
-              latitude: -1.5,
-              longitude: 55.47,
+              latitude: -4.12,
+              longitude: 15.47,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -717,14 +718,14 @@ class _QuizScreenState extends State<QuizScreen> {
         panorama = Panorama(
           minZoom: 1.0,
           maxZoom: 1.0,
-          child: Image.asset('assets/images/eurofighter.jpg',),
+          child: Image.asset('assets/images/helicopter.jpg',),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
-              latitude: -10,
-              longitude: 200,
+              latitude: -2.98,
+              longitude: -63.5,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -738,8 +739,8 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             Hotspot(
-              latitude: 0,
-              longitude: 0,
+              latitude: -8,
+              longitude: 57.4,
               width: 80,
               height: 80,
               widget: hotspotButton(

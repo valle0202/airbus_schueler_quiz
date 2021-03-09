@@ -12,8 +12,19 @@ Widget question4(BuildContext context) {
           flex: 3,
             child: Container(
             constraints: BoxConstraints(maxWidth: 1000),
-            child: Text("In folgendem Bild sind 9 Flughäfen. Unter jedem Flughafen steht ein Ziel und ein Gewicht einer Fracht. Ein Frachtflugzeug startet bei Flughafen 5 und soll am Ende dort auch wieder landen. Es soll alle Frachten zu den jeweiligen Orten bringen. Das Flugzeug kann maximal 60 Tonnen transportieren. Finde die Route, bei der das Frachtflugzeug auf jedem Flugplatz nur einmal landet und das niedrigste Durchschnittsgewicht insgesamt transportieren muss.",
-              style: Theme.of(context).textTheme.bodyText1,
+            child: RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.bodyText1,
+                children: <TextSpan>[
+                  TextSpan(text: "In folgendem Bild sind 9 Flughäfen. Unter jedem Flughafen steht ein Ziel und ein Gewicht einer Fracht. Ein Frachtflugzeug "),
+                  TextSpan(text: "startet bei Flughafen 5 und soll am Ende dort auch wieder landen. ", style: Theme.of(context).textTheme.headline1),
+                  TextSpan(text: "Es soll alle Frachten zu den jeweiligen Orten bringen. Das Flugzeug kann "),
+                  TextSpan(text: "maximal 60 Tonnen ", style: Theme.of(context).textTheme.headline1),
+                  TextSpan(text: "transportieren. Finde die Route, bei der das Frachtflugzeug "),
+                  TextSpan(text: "auf jedem Flugplatz nur einmal landet und das niedrigste Durchschnittsgewicht ", style: Theme.of(context).textTheme.headline1),
+                  TextSpan(text: "insgesamt transportieren muss."),
+                ],
+              ),
             ),
           ),
         ),
