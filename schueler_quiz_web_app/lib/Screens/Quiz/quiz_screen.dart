@@ -200,7 +200,12 @@ class _QuizScreenState extends State<QuizScreen> {
       }
     } else {
       if (correctAnswers[1][0] == answers[1] &&
-          correctAnswers[8][0] == answers[8]) {
+              correctAnswers[8][0] == answers[8] ||
+          correctAnswers[8][1] == answers[8] ||
+          correctAnswers[8][2] == answers[8] ||
+          correctAnswers[8][3] == answers[8] ||
+          correctAnswers[8][4] == answers[8] ||
+          correctAnswers[8][5] == answers[8]) {
         return true;
       }
     }
