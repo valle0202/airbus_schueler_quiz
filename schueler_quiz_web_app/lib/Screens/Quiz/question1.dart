@@ -55,7 +55,7 @@ Widget puzzle1 (BuildContext context){
         ),
         Flexible(
           flex: 1,
-          child: Text("Frage: Wie viele überschüssige Triebwerke stauen sich nach 11 Werktagen(24h/Tag Produktion) Tagen auf dem Werksgelände an? ",
+          child: Text("Frage: Wie viele überschüssige Triebwerke stauen sich nach 11 Werktagen (24h/Tag Produktion) auf dem Werksgelände an? ",
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),

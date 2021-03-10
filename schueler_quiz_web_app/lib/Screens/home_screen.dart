@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 420,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Text('Info: Das folgende Quiz besteht aus 3 360 Bildern mit jeweils ein par Fragen. Wenn du auf ein Symbol in diesem Bild klickst kommst du zu der Frage sobald du eine Frage richtig beantwortet hast wird diese grün usw. Du musst alle Fragen richtig haben um in die nächste Stufe zu kommen, Für jede Frage gibt es unterschiedlich viele Punkte, du hast insgesamt 4 Tips nutze sie weise',
+              child: Text('Info: Das folgende Quiz besteht aus 3 360° Bildern mit jeweils ein par Fragen. Du musst alle Fragen eines Levels richtig beantwortet haben um in die nächste Stufe zu kommen, Für jede Frage gibt es unterschiedlich viele Punkte, du hast insgesamt 4 Tips nutze sie weise',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),

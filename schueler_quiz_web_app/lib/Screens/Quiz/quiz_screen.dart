@@ -570,15 +570,15 @@ class _QuizScreenState extends State<QuizScreen> {
     return Center(
       child: Container(
         padding: EdgeInsets.all(15),
-        height: 200,
-        width: 400,
+        height: 140,
+        width: 300,
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.black87,),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Bitte klicke auf den Button, sobald das 360° Bild geladen ist, um die Zeit zu starten', style: Theme.of(context).textTheme.bodyText1),
+            Text('Bitte klicke auf den Button, sobald das 360° Bild geladen ist, um die Zeit zu starten:', style: Theme.of(context).textTheme.bodyText1),
             TextButton(
-              child: Text('Timer starten'),
+              child: Text('Timer starten', style: TextStyle(color: secondaryBlue),),
               onPressed: () {
                 setState(() {
                   startTimer();
