@@ -19,9 +19,9 @@ Widget question3(BuildContext context) {
             child: Container(
                 child: Image.asset('assets/images/Aufgabe_3_Ver_2_Weiss.png'))),
         Flexible(
-          flex: 1,
+          flex: 2,
           child: Text(
-            'Frage: Welches Kabelende gehört zu dem Kabel, das bei D startet?',
+            'Frage: Welches Kabelende gehört zu dem Kabel, das bei D startet? \nBeispiel zum Eingabeformat: "1"',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )

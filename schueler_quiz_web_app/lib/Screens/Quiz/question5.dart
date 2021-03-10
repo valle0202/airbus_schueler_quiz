@@ -17,13 +17,19 @@ Widget question5(BuildContext context) {
             ),
           ),
         ),
-        Flexible(flex: 5, child: Container(child: Image.asset('assets/images/cyberbodyguards.jpg'))),
+        Flexible(flex: 7, child: Container(child: Image.asset('assets/images/cyberbodyguards.jpg'))),
         Flexible(
           flex: 1,
-          child: Text('Frage: Wie lautet die Verschlüsselung des Wortes "informatik" nach der gleichen Regel?',
+          child: Text('Wie lautet die Verschlüsselung des Wortes "informatik" nach der gleichen Regel?',
             style: Theme.of(context).textTheme.bodyText1,
           ),
-        )
+        ),
+        Flexible(
+          flex: 1,
+          child: Text('Beispiel zum Eingabeformat: "aslödkfjalskdjf"',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ),
       ],
     ),
   );

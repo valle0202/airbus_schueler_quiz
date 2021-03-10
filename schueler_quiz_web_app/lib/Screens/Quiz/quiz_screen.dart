@@ -174,7 +174,7 @@ class _QuizScreenState extends State<QuizScreen> {
     'Der Anfang ist: 5; 3; 2; 9;',
     'Die Wörter "airbus" und "zriyfh" gehören zusammen',
     'Die Ecken der Linien können überall liegen',
-    'Es handelt sich um selection sort und die ersten Elemente sind: 10; 4; 9; 6; 8',
+    'Es handelt sich um selection sort und die ersten Elemente sind: 10; 4; 9; 6; 3',
     'Um dieses Rätsel zu lösen musst du nur bis 3 zählen können',
     'Es wird an zwei Stellen auf der Strecke von dem Hubschrauber in ein Auto umgeladen',
   ];
@@ -317,7 +317,7 @@ class _QuizScreenState extends State<QuizScreen> {
               shape: CircleBorder(),
               backgroundColor: Colors.black38,
             ),
-            child: Image.asset(image, height: 50, width: 50),
+            child: Image.asset(image, height: 30, width: 30),
             onPressed: onPressed,
           ),
         ),
