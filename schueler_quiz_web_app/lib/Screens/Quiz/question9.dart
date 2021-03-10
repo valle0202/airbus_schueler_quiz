@@ -35,6 +35,13 @@ Widget question9(BuildContext context) {
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
+        Flexible(
+          flex: 1,
+          child: Text(
+            'Beispiel zum Eingabeformat: "1034"',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        )
       ],
     ),
   );

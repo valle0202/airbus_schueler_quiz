@@ -25,7 +25,7 @@ Widget question6(BuildContext context) {
         Flexible(
           flex: 1,
           child: Text(
-            'Eingabebeispiel "1; 2; 3; 6; 9; 8; 7; 4; 1" (dieses Band würde nur die äußeren Stationen ablaufen und wäre daher keine valide Antwort)',
+            'Beispiel zum Eingabeformat: "1; 2; 3; 6; 9; 8; 7; 4; 1"',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )

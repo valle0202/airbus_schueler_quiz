@@ -21,14 +21,14 @@ Widget question2(BuildContext context) {
         Flexible(
           flex: 1,
           child: Text(
-            'Welche boolean sind nach dem Ausführen des Programmes true?',
+            'Welche boolean sind nach dem Ausführen des Programmes true? Wie lautet der Output?',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
         Flexible(
           flex: 1,
           child: Text(
-            'Geben sie den Output des pseudocodes in folgendem beispielhaften Format an (99;4;101;2;17;3)',
+            'Beispiel zum Eingabeformat: "99; 4; 101; 2; 17; 3"',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )
