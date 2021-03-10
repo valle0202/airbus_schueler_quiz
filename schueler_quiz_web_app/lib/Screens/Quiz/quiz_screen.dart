@@ -16,7 +16,6 @@ import 'package:schueler_quiz_web_app/Screens/Quiz/question8.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question9.dart';
 import 'package:schueler_quiz_web_app/Screens/afterMedium.dart';
 import 'package:schueler_quiz_web_app/Screens/afterRare.dart';
-import 'package:schueler_quiz_web_app/Screens/afterWellDone.dart';
 import 'package:schueler_quiz_web_app/Screens/ende.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
 
@@ -56,6 +55,7 @@ class _QuizScreenState extends State<QuizScreen> {
   //double _tilt = 0;
   double lastLon = 0;
   double lastLat = 0;
+  double punktzahl = 0;
 
   void onViewChanged(longitude, latitude, tilt) {
     setState(() {
@@ -181,7 +181,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List answerSize = [100, 500, 100, 500, 400, 200, 600, 300, 100];
 
-  List quizPunkte = [7, 4, 6, 7, 3, 2, 4, 3, 7];
+  List quizPunkte = [9, 14, 7, 10, 8, 11, 13, 12, 15];
 
   bool checkAnswers() {
     if (currentLevel == 0) {
@@ -205,6 +205,16 @@ class _QuizScreenState extends State<QuizScreen> {
       }
     }
     return false;
+  }
+
+  void updatePunktzahl () {
+    for(int i=0; i < correctAnswers[selectedIndex].length; i++){
+      if(correctAnswers[selectedIndex][0] == answers[selectedIndex]){
+        punktzahl += quizPunkte[selectedIndex];
+        break;
+      }
+    }
+    print(punktzahl);
   }
 
   Widget answer(double width) {
@@ -250,6 +260,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       if (answers[selectedIndex] != '' &&
                           answerController.text == '') beantwortet--;
                       answers[selectedIndex] = answerController.text;
+                      updatePunktzahl();
                       show360 = true;
                       if (checkAnswers()) {
                         isLoading = true;
@@ -259,10 +270,10 @@ class _QuizScreenState extends State<QuizScreen> {
                           showEasyDone = true;
                         }
                         if (currentLevel == 2) {
-                          showEasyDone = true;
+                          showMediumDone = true;
                         }
                         if (currentLevel == 3) {
-                          showEasyDone = true;
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {return Ende(punktzahl);}));
                         }
                         //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
                         //if (currentLevel == 2)
@@ -604,7 +615,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     if (noTimeLeft == true) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return Ende();
+        return Ende(punktzahl);
       }));
     }
 
@@ -891,8 +902,6 @@ class _QuizScreenState extends State<QuizScreen> {
             zwischenInfos(easyDone(context), 0),
           if (showMediumDone) 
             zwischenInfos(mediumDone(context), 1),
-          if (showHardDone) 
-            zwischenInfos(hardDone(context), 2),
         ],
       ),
       floatingActionButton: !show360
