@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:panorama/panorama.dart';
+//import 'package:video_player/video_player.dart';
 
 import 'package:schueler_quiz_web_app/Screens/Quiz/question1.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question2.dart';
@@ -13,7 +14,9 @@ import 'package:schueler_quiz_web_app/Screens/Quiz/question6.dart';
 //import 'package:schueler_quiz_web_app/Screens/Quiz/question7.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question8.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question9.dart';
+import 'package:schueler_quiz_web_app/Screens/afterMedium.dart';
 import 'package:schueler_quiz_web_app/Screens/afterRare.dart';
+import 'package:schueler_quiz_web_app/Screens/afterWellDone.dart';
 import 'package:schueler_quiz_web_app/Screens/ende.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
 
@@ -45,6 +48,7 @@ class _QuizScreenState extends State<QuizScreen> {
   bool showMediumDone = false;
   bool showHardDone = false;
   bool isLoading = true;
+  bool isLoadingFirst = true;
   int beantwortet = 0;
 
   double _lon = 0;
@@ -112,7 +116,7 @@ class _QuizScreenState extends State<QuizScreen> {
   ];
 
   onItemClicked(int index) {
-    setState(() {
+    if(!isLoading) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
       lastLon = _lon;
       lastLat = _lat;
@@ -124,7 +128,7 @@ class _QuizScreenState extends State<QuizScreen> {
         answerController.text = answers[selectedIndex];
       }
       //tiptaken = false;
-    });
+    }
   }
 
   List tiptaken = [
@@ -167,7 +171,7 @@ class _QuizScreenState extends State<QuizScreen> {
     'überlege dir zuerst wie viele A320 an einem Tag produziert werden können, dann wie viele Triebwerke pro Tag übrig bleiben',
     'Betrachte die Teiler der Zahlen 1-100',
     'Kabel A endet bei 5, Kabel B endet bei 2 und Kabel C endet bei 4',
-    'Der Anfang ist 5, 3, 2, 9,',
+    'Der Anfang ist: 5; 3; 2; 9;',
     'Die Wörter "airbus" und "zriyfh" gehören zusammen',
     'Die Ecken der Linien können überall liegen',
     'Es handelt sich um selection sort und die ersten Elemente sind: 10; 4; 9; 6; 8',
@@ -177,7 +181,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List answerSize = [100, 500, 100, 500, 400, 200, 600, 300, 100];
 
-  List quizPunkte = [3, 4, 6, 7, 3, 2, 4, 3, 7];
+  List quizPunkte = [7, 4, 6, 7, 3, 2, 4, 3, 7];
 
   bool checkAnswers() {
     if (currentLevel == 0) {
@@ -248,7 +252,8 @@ class _QuizScreenState extends State<QuizScreen> {
                       answers[selectedIndex] = answerController.text;
                       show360 = true;
                       if (checkAnswers()) {
-                        print('alles richtig');
+                        isLoading = true;
+                        beantwortet = 0;
                         currentLevel++;
                         if (currentLevel == 1) {
                           showEasyDone = true;
@@ -299,15 +304,24 @@ class _QuizScreenState extends State<QuizScreen> {
         Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TextButton(
-          style: TextButton.styleFrom(
-            shape: CircleBorder(),
-            backgroundColor: Colors.black38,
+        Tooltip(
+          textStyle: Theme.of(context).textTheme.bodyText1,
+          margin: EdgeInsets.all(4.0),
+          decoration: BoxDecoration(
+            color: Colors.black38,
+            borderRadius: BorderRadius.all(Radius.circular(4))
           ),
-          child: Image.asset(image, height: 30, width: 30),
-          onPressed: onPressed,
+          message: text,
+          child: TextButton(
+            style: TextButton.styleFrom(
+              shape: CircleBorder(),
+              backgroundColor: Colors.black38,
+            ),
+            child: Image.asset(image, height: 50, width: 50),
+            onPressed: onPressed,
+          ),
         ),
-        text != null
+        /*text != null
             ? Container(
                 padding: EdgeInsets.all(4.0),
                 decoration: BoxDecoration(
@@ -317,7 +331,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     child:
                         Text(text, style: TextStyle(color: Colors.white))), //
               )
-            : Container(),
+            : Container(),*/
       ],
     );
   }
@@ -333,6 +347,8 @@ class _QuizScreenState extends State<QuizScreen> {
               color: show360 ? Colors.white54 : Colors.grey[200],
               borderRadius: BorderRadius.all(Radius.circular(6)),
             ),
+            //width: MediaQuery.of(context).size.width,
+            //height: 55,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               child: Row(
@@ -500,7 +516,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
           ),
           Flexible(
-            flex: 9,
+            flex: 8,
             child: Container(
               constraints: BoxConstraints(maxWidth: 1000),
               child: ReorderableListView(
@@ -523,9 +539,62 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
+  Widget zwischenInfos (Widget widget, int nr){
+    return Stack(
+      alignment: AlignmentDirectional.bottomCenter,
+      children: [
+        widget,
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: TextButton(
+            style: TextButton.styleFrom(backgroundColor: greenSuccess),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('Weiter', style: Theme.of(context).textTheme.bodyText1,),
+            ), 
+            onPressed: () {
+              setState(() {
+                isLoading = false;
+                if(nr == 0) showEasyDone = !showEasyDone;
+                if(nr == 1) showMediumDone = !showMediumDone;
+                if(nr == 2) showHardDone = !showHardDone;
+              });
+            },
+          ),
+        ),
+      ]
+    );
+  }
+
+  Widget startTimerWidget(){
+    return Center(
+      child: Container(
+        padding: EdgeInsets.all(15),
+        height: 140,
+        width: 300,
+        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.black87,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Bitte klicke auf den Button, sobald das 360° Bild geladen ist, um die Zeit zu starten:', style: Theme.of(context).textTheme.bodyText1),
+            TextButton(
+              child: Text('Timer starten', style: TextStyle(color: secondaryBlue),),
+              onPressed: () {
+                setState(() {
+                  startTimer();
+                  isLoading = false;
+                  isLoadingFirst = false;
+                });
+              },
+            )
+          ],
+        )
+      ),
+    );
+  }
+
   @override
   void initState() {
-    startTimer();
     super.initState();
   }
 
@@ -592,14 +661,14 @@ class _QuizScreenState extends State<QuizScreen> {
         panorama = Panorama(
           minZoom: 1.0,
           maxZoom: 1.0,
-          child: Image.asset('assets/images/helicopter.jpg'),
+          child: Image.asset('assets/images/eurofighter.jpg'),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
-              latitude: -35.7054290,
-              longitude: 114.01527664,
+              latitude: 3.4,
+              longitude: 126.7,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -613,8 +682,8 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             Hotspot(
-              latitude: 0,
-              longitude: -20,
+              latitude: 90,
+              longitude: 0,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -628,8 +697,8 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             Hotspot(
-              latitude: -1.5,
-              longitude: 55.47,
+              latitude: -4.12,
+              longitude: 15.47,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -649,14 +718,14 @@ class _QuizScreenState extends State<QuizScreen> {
         panorama = Panorama(
           minZoom: 1.0,
           maxZoom: 1.0,
-          child: Image.asset('assets/images/eurofighter360.jpg'),
+          child: Image.asset('assets/images/helicopter.jpg',),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
-              latitude: -10,
-              longitude: 200,
+              latitude: -2.98,
+              longitude: -63.5,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -670,8 +739,8 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             Hotspot(
-              latitude: 0,
-              longitude: 0,
+              latitude: -8,
+              longitude: 57.4,
               width: 80,
               height: 80,
               widget: hotspotButton(
@@ -689,7 +758,6 @@ class _QuizScreenState extends State<QuizScreen> {
         break;
       default:
         panorama = Panorama(
-          //animSpeed: 3,
           sensitivity: 1.5,
           //zoom: 1.2,
           minZoom: 1.0,
@@ -698,7 +766,7 @@ class _QuizScreenState extends State<QuizScreen> {
           //maxLongitude: 135,
           //minLatitude: -30,
           //maxLatitude: 30,
-          child: Image.asset('assets/images/a340Cockpit.jpg'),
+          child: Image.asset('assets/images/a340Cockpit.jpg',),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -772,6 +840,7 @@ class _QuizScreenState extends State<QuizScreen> {
       body: Stack(
         children: [
           panorama,
+          if(isLoadingFirst) startTimerWidget(),
           Align(
             alignment: Alignment.bottomRight,
             child: Container(
@@ -818,7 +887,12 @@ class _QuizScreenState extends State<QuizScreen> {
                             end: Alignment.bottomRight)),
                   ),
                 ),
-          if (showEasyDone) easyDone(context),
+          if (showEasyDone) 
+            zwischenInfos(easyDone(context), 0),
+          if (showMediumDone) 
+            zwischenInfos(mediumDone(context), 1),
+          if (showHardDone) 
+            zwischenInfos(hardDone(context), 2),
         ],
       ),
       floatingActionButton: !show360
