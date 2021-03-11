@@ -229,6 +229,7 @@ class _QuizScreenState extends State<QuizScreen> {
       }
       print(punktzahl);
       if(oldPunktzahl == punktzahl){ // wenn die Eingabe falsch ist werden die möglichen Punkte um 1 verringert
+        answerController.
         quizPunkte[selectedIndex]--;
         tries[selectedIndex]++;
       }
