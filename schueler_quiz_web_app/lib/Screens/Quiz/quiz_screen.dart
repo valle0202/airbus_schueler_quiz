@@ -179,8 +179,6 @@ class _QuizScreenState extends State<QuizScreen> {
     'Es wird an zwei Stellen auf der Strecke von dem Hubschrauber in ein Auto umgeladen',
   ];
 
-  List answerSize = [100, 500, 100, 500, 400, 200, 600, 300, 100];
-
   int maxTries = 3;
 
   List tries = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -216,7 +214,12 @@ class _QuizScreenState extends State<QuizScreen> {
       }
     } else {
       if (correctAnswers[1][0] == answers[1] &&
-          correctAnswers[8][0] == answers[8]) {
+          (correctAnswers[8][0] == answers[8] ||
+              correctAnswers[8][1] == answers[8] ||
+              correctAnswers[8][2] == answers[8] ||
+              correctAnswers[8][3] == answers[8] ||
+              correctAnswers[8][4] == answers[8] ||
+              correctAnswers[8][5] == answers[8])) {
         return true;
       }
     }
@@ -230,7 +233,7 @@ class _QuizScreenState extends State<QuizScreen> {
       double oldPunktzahl = punktzahl;
       for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
         //alle möglichen richtigen Antworten werden mit der Eingabe vergliichen
-        if (correctAnswers[selectedIndex][0] == answers[selectedIndex]) {
+        if (correctAnswers[selectedIndex][i] == answers[selectedIndex]) {
           richtigBeantwortet[selectedIndex] = true;
           if (tiptaken[selectedIndex]) {
             punktzahl += 0.5 *
@@ -711,7 +714,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: answer(answerSize[selectedIndex]),
+              child: answer(600),
             ),
           ],
         ),
