@@ -115,6 +115,20 @@ class _QuizScreenState extends State<QuizScreen> {
     '',
   ];
 
+  List answersDigitsOnly = [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
+
+  List intAnswers = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
   onItemClicked(int index) {
     if (!isLoading) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
@@ -157,12 +171,12 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List correctAnswers = [
     ['22'],
-    ['1; 4; 9; 16; 25; 36; 49; 64; 81; 100'],
+    ['149162536496481100'],
     ['1'],
-    ['5; 3; 2; 9; 7; 6; 4; 1; 8; 5'],
+    ['5329764185'],
     ['rmulinzgrp'],
-    ['1; 2; 3; 6; 8; 7; 4; 1; 5; 9', '1; 4; 7; 8; 6; 3; 2; 1; 5; 9'],
-    ['10; 4; 9; 6; 3; 12; 11; 8; 7; 1; 5; 13; 2'],
+    ['1236874159', '1478632159'],
+    ['10496312118715132'],
     ['1112213211'],
     ['183', '184', '185', '186', '187', '188'],
   ];
@@ -183,29 +197,36 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List quizPunkte = [9, 14, 7, 10, 8, 11, 13, 12, 15];
 
+  List richtigBeantwortet = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
+
   bool checkAnswers() {
     if (currentLevel == 0) {
-      if (correctAnswers[0][0] == answers[0] &&
-          correctAnswers[2][0] == answers[2] &&
-          correctAnswers[3][0] == answers[3] &&
-          correctAnswers[4][0] == answers[4]) {
+      if (correctAnswers[0][0] == intAnswers[0] &&
+          correctAnswers[2][0] == intAnswers[2] &&
+          correctAnswers[3][0] == intAnswers[3] &&
+          correctAnswers[4][0] == intAnswers[4]) {
         return true;
       }
     } else if (currentLevel == 1) {
-      if ((correctAnswers[5][0] == answers[5] ||
-              correctAnswers[5][1] == answers[5]) &&
-          correctAnswers[6][0] == answers[6] &&
-          correctAnswers[7][0] == answers[7]) {
+      if ((correctAnswers[5][0] == intAnswers[5] ||
+              correctAnswers[5][1] == intAnswers[5]) &&
+          correctAnswers[6][0] == intAnswers[6] &&
+          correctAnswers[7][0] == intAnswers[7]) {
         return true;
       }
     } else {
-      if (correctAnswers[1][0] == answers[1] &&
-              correctAnswers[8][0] == answers[8] ||
-          correctAnswers[8][1] == answers[8] ||
-          correctAnswers[8][2] == answers[8] ||
-          correctAnswers[8][3] == answers[8] ||
-          correctAnswers[8][4] == answers[8] ||
-          correctAnswers[8][5] == answers[8]) {
+      if (correctAnswers[1][0] == intAnswers[1] &&
+          correctAnswers[8][0] == intAnswers[8]) {
         return true;
       }
     }
@@ -213,13 +234,16 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void updatePunktzahl() {
-    for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
-      if (correctAnswers[selectedIndex][0] == answers[selectedIndex]) {
-        punktzahl += quizPunkte[selectedIndex];
-        break;
+    if (!richtigBeantwortet[selectedIndex]) {
+      for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
+        if (correctAnswers[selectedIndex][0] == intAnswers[selectedIndex]) {
+          richtigBeantwortet[selectedIndex] = true;
+          punktzahl += quizPunkte[selectedIndex];
+          break;
+        }
       }
+      print(punktzahl);
     }
-    print(punktzahl);
   }
 
   Widget answer(double width) {
@@ -265,6 +289,12 @@ class _QuizScreenState extends State<QuizScreen> {
                       if (answers[selectedIndex] != '' &&
                           answerController.text == '') beantwortet--;
                       answers[selectedIndex] = answerController.text;
+                      answersDigitsOnly[selectedIndex] = answers[selectedIndex]
+                          .replaceAll(new RegExp(r'[^0-9]'), '');
+                      intAnswers[selectedIndex] =
+                          int.parse(answersDigitsOnly[selectedIndex]);
+                      print(intAnswers);
+
                       updatePunktzahl();
                       show360 = true;
                       if (checkAnswers()) {
