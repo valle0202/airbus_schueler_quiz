@@ -101,10 +101,13 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 20),
           Container(
             decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.all(Radius.circular(10))),
-            width: 420,
+            width: 620,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Text('Info: Das folgende Quiz besteht aus 3 360° Bildern mit jeweils ein par Fragen. Du musst alle Fragen eines Levels richtig beantwortet haben um in die nächste Stufe zu kommen, Für jede Frage gibt es unterschiedlich viele Punkte, du hast insgesamt 4 Tips nutze sie weise',
+              child: Text('Das folgende Quiz besteht aus 3 360° Bildern mit jeweils ein par Fragen, manche davon sind ein bisschen versteckt. Du musst alle Fragen eines Levels ' + 
+              'richtig beantwortet haben um in die nächste Stufe zu kommen. Nimm dir ein Stift und Papier, du wirst es für einige Fragen brauchen. Für jede Frage gibt es ' +
+              'unterschiedlich viele Punkte. Insgesamt gibt es 100 Punkte. Außerdem kannst du als Hilfe immer einen deiner 4 Tips verwenden, bekommst dann aber nur die Hälfte der Punkte für die jeweilige Frage ' + 
+              'Rechts unten findest du auf jeder Fragefolie einen "SKIP" button, mit dem die Frage übersprungen werden kann. Du erhälst dann aber keine Punkte für die Frage.',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),

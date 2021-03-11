@@ -16,7 +16,6 @@ import 'package:schueler_quiz_web_app/Screens/Quiz/question8.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question9.dart';
 import 'package:schueler_quiz_web_app/Screens/afterMedium.dart';
 import 'package:schueler_quiz_web_app/Screens/afterRare.dart';
-import 'package:schueler_quiz_web_app/Screens/afterWellDone.dart';
 import 'package:schueler_quiz_web_app/Screens/ende.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
 
@@ -56,6 +55,7 @@ class _QuizScreenState extends State<QuizScreen> {
   //double _tilt = 0;
   double lastLon = 0;
   double lastLat = 0;
+  double punktzahl = 0;
 
   void onViewChanged(longitude, latitude, tilt) {
     setState(() {
@@ -174,14 +174,14 @@ class _QuizScreenState extends State<QuizScreen> {
     'Der Anfang ist: 5; 3; 2; 9;',
     'Die Wörter "airbus" und "zriyfh" gehören zusammen',
     'Die Ecken der Linien können überall liegen',
-    'Es handelt sich um selection sort und die ersten Elemente sind: 10; 4; 9; 6; 8',
+    'Es handelt sich um selection sort und die ersten Elemente sind: 10; 4; 9; 6; 3',
     'Um dieses Rätsel zu lösen musst du nur bis 3 zählen können',
     'Es wird an zwei Stellen auf der Strecke von dem Hubschrauber in ein Auto umgeladen',
   ];
 
   List answerSize = [100, 500, 100, 500, 400, 200, 600, 300, 100];
 
-  List quizPunkte = [7, 4, 6, 7, 3, 2, 4, 3, 7];
+  List quizPunkte = [9, 14, 7, 10, 8, 11, 13, 12, 15];
 
   bool checkAnswers() {
     if (currentLevel == 0) {
@@ -210,6 +210,16 @@ class _QuizScreenState extends State<QuizScreen> {
       }
     }
     return false;
+  }
+
+  void updatePunktzahl() {
+    for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
+      if (correctAnswers[selectedIndex][0] == answers[selectedIndex]) {
+        punktzahl += quizPunkte[selectedIndex];
+        break;
+      }
+    }
+    print(punktzahl);
   }
 
   Widget answer(double width) {
@@ -255,6 +265,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       if (answers[selectedIndex] != '' &&
                           answerController.text == '') beantwortet--;
                       answers[selectedIndex] = answerController.text;
+                      updatePunktzahl();
                       show360 = true;
                       if (checkAnswers()) {
                         isLoading = true;
@@ -264,10 +275,13 @@ class _QuizScreenState extends State<QuizScreen> {
                           showEasyDone = true;
                         }
                         if (currentLevel == 2) {
-                          showEasyDone = true;
+                          showMediumDone = true;
                         }
                         if (currentLevel == 3) {
-                          showEasyDone = true;
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Ende(punktzahl);
+                          }));
                         }
                         //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
                         //if (currentLevel == 2)
@@ -321,7 +335,7 @@ class _QuizScreenState extends State<QuizScreen> {
               shape: CircleBorder(),
               backgroundColor: Colors.black38,
             ),
-            child: Image.asset(image, height: 50, width: 50),
+            child: Image.asset(image, height: 30, width: 30),
             onPressed: onPressed,
           ),
         ),
@@ -613,9 +627,9 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size; //height and width of the screen
 
-    if (noTimeLeft == true) {
+    if (noTimeLeft) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return Ende();
+        return Ende(punktzahl);
       }));
     }
 
@@ -904,7 +918,6 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
           if (showEasyDone) zwischenInfos(easyDone(context), 0),
           if (showMediumDone) zwischenInfos(mediumDone(context), 1),
-          if (showHardDone) zwischenInfos(hardDone(context), 2),
         ],
       ),
       floatingActionButton: !show360

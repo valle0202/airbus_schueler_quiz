@@ -17,3 +17,11 @@ const highlightColor4 = Color.fromARGB(150, 228, 0, 43);
 const highlightColor5 = Color.fromARGB(150, 218, 24, 132);
 const highlightColor6 = Color.fromARGB(150, 165, 24, 144);
 const highlightColor7 = Color.fromARGB(150, 0, 174, 199);
+
+const highlightColor1F = Color.fromARGB(255, 132, 189, 0);
+const highlightColor2F = Color.fromARGB(255, 225, 224, 0);
+const highlightColor3F = Color.fromARGB(255, 254, 80, 0);
+const highlightColor4F = Color.fromARGB(255, 228, 0, 43);
+const highlightColor5F = Color.fromARGB(255, 218, 24, 132);
+const highlightColor6F = Color.fromARGB(255, 165, 24, 144);
+const highlightColor7F = Color.fromARGB(255, 0, 174, 199);

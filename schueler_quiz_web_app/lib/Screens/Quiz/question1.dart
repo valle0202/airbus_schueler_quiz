@@ -34,7 +34,7 @@ Widget puzzle1 (BuildContext context){
                 TextSpan(text: "3 Rumpfteile ", style: Theme.of(context).textTheme.headline1),
                 TextSpan(text: "und "),
                 TextSpan(text: "1 Leitwerk ", style: Theme.of(context).textTheme.headline1),
-                TextSpan(text: "benötigt. Aktuell werden folgende Produktionszeiten benötigt:\n"),
+                TextSpan(text: "benötigt. Bei 24h pro Tag Produktion dauert die Herstellung der Teile aktuell:\n"),
               ],
             ),
           ),
@@ -55,7 +55,7 @@ Widget puzzle1 (BuildContext context){
         ),
         Flexible(
           flex: 1,
-          child: Text("Wie viele überschüssige Triebwerke stauen sich nach 11 Werktagen (24h/Tag Produktion) auf dem Werksgelände an? ",
+          child: Text('Wie viele überschüssige Triebwerke stauen sich nach 11 Werktagen auf dem Werksgelände an? \nBeispiel zum Eingabeformat: "31" ',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
