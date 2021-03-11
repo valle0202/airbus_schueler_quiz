@@ -115,18 +115,6 @@ class _QuizScreenState extends State<QuizScreen> {
     '',
   ];
 
-  List answersDigitsOnly = [
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-  ];
-
   onItemClicked(int index) {
     if (!isLoading) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
@@ -195,7 +183,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   int maxTries = 3;
 
-  bool showError = false;
+  Color borderColor = primaryBlue;
 
   List tries = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -257,7 +245,7 @@ class _QuizScreenState extends State<QuizScreen> {
       }
       print(punktzahl);
       if (oldPunktzahl == punktzahl) {
-        showError = true;
+        borderColor = redDanger;
         // wenn die Eingabe falsch ist werden die möglichen Punkte um 1 verringert
         quizPunkte[selectedIndex]--;
         tries[selectedIndex]++;
@@ -282,7 +270,8 @@ class _QuizScreenState extends State<QuizScreen> {
           style: Theme.of(context).textTheme.bodyText1,
           controller: answerController,
           decoration: InputDecoration(
-            errorText: showError? 'falsche Antwort' : '',
+            //errorText: showError? '' : null,
+            //errorStyle: TextStyle(fontSize: 0),
             hintText: 'Antwort',
             hintStyle: TextStyle(color: Colors.white70),
             contentPadding:
@@ -296,13 +285,9 @@ class _QuizScreenState extends State<QuizScreen> {
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: primaryBlue, width: 2.0),
+              borderSide: BorderSide(color: borderColor, width: 2.0),
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
             ),
-            errorBorder: showError? OutlineInputBorder(
-              borderSide: BorderSide(color: redDanger, width: 2.0),
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            ) : null,
             suffixIcon: Tooltip(
               decoration: BoxDecoration(
                   color: primaryBlue,
@@ -355,15 +340,18 @@ class _QuizScreenState extends State<QuizScreen> {
           onSubmitted: (String s) {
             answers[selectedIndex] = s;
           },
-          /*onChanged: (String s) {
-            if(selectedIndex == 7){
+          onChanged: (String s) {
+            setState(() {
+              borderColor = primaryBlue;
+            });   
+            /*if(selectedIndex == 7){
               List newOrder = s.split('; ');
               for(int i=0; i<items.length; i++){
                 print(newOrder[i] + ' ');
               }
               //reorderData(oldindex, newindex)
-            }
-          },*/
+            }*/
+          },
         ),
       ),
     );
