@@ -213,16 +213,10 @@ class _QuizScreenState extends State<QuizScreen> {
     return false;
   }
 
-<<<<<<< HEAD
-  void updatePunktzahl() {
-    if(!richtigBeantwortet[selectedIndex]) {
-      for(int i=0; i < correctAnswers[selectedIndex].length; i++){
-=======
   void updatePunktzahl () { //überprüft die Eingabe, wenn auf den grünen haken gedrückt wurde
     if(!richtigBeantwortet[selectedIndex]) { //nur wenn die Frage noch nicht richtig beantwortet wurde
       double oldPunktzahl = punktzahl; 
       for(int i=0; i < correctAnswers[selectedIndex].length; i++){ //alle möglichen richtigen Antworten werden mit der Eingabe vergliichen
->>>>>>> leander
         if(correctAnswers[selectedIndex][0] == answers[selectedIndex]){
           richtigBeantwortet[selectedIndex] = true;
           if(tiptaken[selectedIndex]) {
