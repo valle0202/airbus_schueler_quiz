@@ -115,18 +115,6 @@ class _QuizScreenState extends State<QuizScreen> {
     '',
   ];
 
-  List answersDigitsOnly = [
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-  ];
-
   onItemClicked(int index) {
     if (!isLoading) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
