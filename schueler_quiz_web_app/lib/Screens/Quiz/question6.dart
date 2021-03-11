@@ -11,11 +11,33 @@ Widget question6(BuildContext context) {
           flex: 2,
           child: Container(
             constraints: BoxConstraints(maxWidth: 1000),
-            child: Text(
-              'In einer Halle soll ein Transportband mit 9 Bauplätzen zur Eurofighter Produktion in beliebiger Reihenfolge verbunden werden. Das Transportband darf beliebig oft an jedem Bauplatz entlang gehen und ist beliebig lang. Einzige Beschränkung: Alle Transportbänder verlaufen gerade und es gibt nur 4 Richtungsänderer.' +
+            child: RichText(
+                text: TextSpan(
+              text: 'In einer Halle soll ein Transportband mit 9 Bauplätzen zur Eurofighter Produktion in beliebiger Reihenfolge verbunden werden. Das Transportband darf beliebig oft an jedem Bauplatz entlang gehen und ist beliebig lang. Einzige Beschränkung: Alle Transportbänder verlaufen gerade und es gibt nur 3 Richtungsänderer.' +
                   'Das Transportband muss zu Beginn in Station 1 starten muss aber in keiner bestimmten Station enden, gib den Verlauf der vier Bandabschnitte an indem du in chronologischer reihenfolge die Stationen aufschreibst, du die das Band verläuft (manche Station dürfen 2 oder 3 fach durchlaufen werden).',
               style: Theme.of(context).textTheme.bodyText1,
-            ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'In einer Halle sollen',
+                ),
+                TextSpan(
+                    text: '9 Bauplätzen',
+                    style: Theme.of(context).textTheme.headline1),
+                TextSpan(
+                    text:
+                        'zur Eurofighter Produktion mit einem Transportband verbunden werden. Das Transportband darf beliebig oft durch jeden Bauplatz und ist beliebig lang, es gibt aber nur 3 Richtungsänderer. Das bedeutet, dass das Transportband schlussendlich aus'),
+                TextSpan(
+                    text: '4 Geraden',
+                    style: Theme.of(context).textTheme.headline1),
+                TextSpan(text: 'besteht. Das Transportband muss zu'),
+                TextSpan(
+                    text: 'Beginn in Station 1',
+                    style: Theme.of(context).textTheme.headline1),
+                TextSpan(
+                    text:
+                        'starten muss aber in keiner bestimmten Station enden, gib den Verlauf der vier Bandabschnitte an indem du in chronologischer reihenfolge die Stationen aufschreibst, durch die das Band verläuft (manche Station dürfen 2 oder 3 fach durchlaufen werden).'),
+              ],
+            )),
           ),
         ),
         Flexible(
@@ -25,7 +47,7 @@ Widget question6(BuildContext context) {
         Flexible(
           flex: 1,
           child: Text(
-            'Eingabebeispiel "1; 2; 3; 6; 9; 8; 7; 4; 1" (dieses Band würde nur die äußeren Stationen ablaufen und wäre daher keine valide Antwort)',
+            'Beispiel zum Eingabeformat: "1; 2; 3; 6; 9; 8; 7; 4; 1"',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )

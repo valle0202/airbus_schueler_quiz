@@ -115,8 +115,20 @@ class _QuizScreenState extends State<QuizScreen> {
     '',
   ];
 
+  List answersDigitsOnly = [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
+
   onItemClicked(int index) {
-    if(!isLoading) {
+    if (!isLoading) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
       lastLon = _lon;
       lastLat = _lat;
@@ -157,12 +169,12 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List correctAnswers = [
     ['22'],
-    ['1; 4; 9; 16; 25; 36; 49; 64; 81; 100'],
+    ['149162536496481100'],
     ['1'],
-    ['5; 3; 2; 9; 7; 6; 4; 1; 8; 5'],
+    ['5329764185'],
     ['rmulinzgrp'],
-    ['1; 2; 3; 6; 8; 7; 4; 1; 5; 9', '1; 4; 7; 8; 6; 3; 2; 1; 5; 9'],
-    ['10; 4; 9; 6; 3; 12; 11; 8; 7; 1; 5; 13; 2'],
+    ['1236874159', '1478632159'],
+    ['10496312118715132'],
     ['1112213211'],
     ['183', '184', '185', '186', '187', '188'],
   ];
@@ -187,7 +199,17 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List quizPunkte = [9, 14, 7, 10, 8, 11, 13, 12, 15];
 
-  List richtigBeantwortet = [false, false, false, false, false, false, false, false, false];
+  List richtigBeantwortet = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   bool checkAnswers() {
     if (currentLevel == 0) {
@@ -213,27 +235,33 @@ class _QuizScreenState extends State<QuizScreen> {
     return false;
   }
 
-  void updatePunktzahl () { //überprüft die Eingabe, wenn auf den grünen haken gedrückt wurde
-    if(!richtigBeantwortet[selectedIndex]) { //nur wenn die Frage noch nicht richtig beantwortet wurde
-      double oldPunktzahl = punktzahl; 
-      for(int i=0; i < correctAnswers[selectedIndex].length; i++){ //alle möglichen richtigen Antworten werden mit der Eingabe vergliichen
-        if(correctAnswers[selectedIndex][0] == answers[selectedIndex]){
+  void updatePunktzahl() {
+    //überprüft die Eingabe, wenn auf den grünen haken gedrückt wurde
+    if (!richtigBeantwortet[selectedIndex]) {
+      //nur wenn die Frage noch nicht richtig beantwortet wurde
+      double oldPunktzahl = punktzahl;
+      for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
+        //alle möglichen richtigen Antworten werden mit der Eingabe vergliichen
+        if (correctAnswers[selectedIndex][0] == answers[selectedIndex]) {
           richtigBeantwortet[selectedIndex] = true;
-          if(tiptaken[selectedIndex]) {
-            punktzahl += 0.5*quizPunkte[selectedIndex]; //wenn ein Tip benutzt wurde gibt es nur die Hälfte der Punkte 
+          if (tiptaken[selectedIndex]) {
+            punktzahl += 0.5 *
+                quizPunkte[
+                    selectedIndex]; //wenn ein Tip benutzt wurde gibt es nur die Hälfte der Punkte
           } else {
-            punktzahl += quizPunkte[selectedIndex]; //ansonsten werden die gesamten Punkte draufaddiert
+            punktzahl += quizPunkte[
+                selectedIndex]; //ansonsten werden die gesamten Punkte draufaddiert
           }
           break;
         }
       }
       print(punktzahl);
-      if(oldPunktzahl == punktzahl){ // wenn die Eingabe falsch ist werden die möglichen Punkte um 1 verringert
-        answerController.
+      if (oldPunktzahl == punktzahl) {
+        // wenn die Eingabe falsch ist werden die möglichen Punkte um 1 verringert
         quizPunkte[selectedIndex]--;
         tries[selectedIndex]++;
       }
-      if(tries[selectedIndex] >= maxTries){
+      if (tries[selectedIndex] >= maxTries) {
         richtigBeantwortet[selectedIndex] = true;
         //punktzahl wird nicht erhöht!
       }
@@ -268,7 +296,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 borderSide: BorderSide(color: primaryBlue, width: 2.0),
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
-              errorBorder:  OutlineInputBorder(
+              errorBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: redDanger, width: 2.0),
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
@@ -283,9 +311,11 @@ class _QuizScreenState extends State<QuizScreen> {
                   onPressed: () {
                     setState(() {
                       if (answers[selectedIndex] == '' &&
-                          answerController.text != '') beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
+                          answerController.text != '')
+                        beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
                       if (answers[selectedIndex] != '' &&
-                          answerController.text == '') beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine
+                          answerController.text == '')
+                        beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine
                       if (selectedIndex != 4) {
                         answers[selectedIndex] = answerController.text
                             .replaceAll(new RegExp(r'[^0-9]'), '');
@@ -296,7 +326,8 @@ class _QuizScreenState extends State<QuizScreen> {
                       //if(richtigBeantwortet[selectedIndex]){
                       //  show360 = true;
                       //}
-                      if (checkAnswers()) { // wenn die gesamte Stufe richtig ist
+                      if (checkAnswers()) {
+                        // wenn die gesamte Stufe richtig ist
                         isLoading = true;
                         beantwortet = 0;
                         currentLevel++;
@@ -307,7 +338,10 @@ class _QuizScreenState extends State<QuizScreen> {
                           showMediumDone = true;
                         }
                         if (currentLevel == 3) {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {return Ende(punktzahl);}));
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Ende(punktzahl);
+                          }));
                         }
                       } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
                     });
@@ -348,9 +382,8 @@ class _QuizScreenState extends State<QuizScreen> {
           textStyle: Theme.of(context).textTheme.bodyText1,
           margin: EdgeInsets.all(4.0),
           decoration: BoxDecoration(
-            color: Colors.black38,
-            borderRadius: BorderRadius.all(Radius.circular(4))
-          ),
+              color: Colors.black38,
+              borderRadius: BorderRadius.all(Radius.circular(4))),
           message: text,
           child: TextButton(
             style: TextButton.styleFrom(
@@ -579,57 +612,64 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget zwischenInfos (Widget widget, int nr){
-    return Stack(
-      alignment: AlignmentDirectional.bottomCenter,
-      children: [
-        widget,
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: TextButton(
-            style: TextButton.styleFrom(backgroundColor: greenSuccess),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Weiter', style: Theme.of(context).textTheme.bodyText1,),
-            ), 
-            onPressed: () {
-              setState(() {
-                isLoading = false;
-                if(nr == 0) showEasyDone = !showEasyDone;
-                if(nr == 1) showMediumDone = !showMediumDone;
-                if(nr == 2) showHardDone = !showHardDone;
-              });
-            },
+  Widget zwischenInfos(Widget widget, int nr) {
+    return Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+      widget,
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: TextButton(
+          style: TextButton.styleFrom(backgroundColor: greenSuccess),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Weiter',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           ),
+          onPressed: () {
+            setState(() {
+              isLoading = false;
+              if (nr == 0) showEasyDone = !showEasyDone;
+              if (nr == 1) showMediumDone = !showMediumDone;
+              if (nr == 2) showHardDone = !showHardDone;
+            });
+          },
         ),
-      ]
-    );
+      ),
+    ]);
   }
 
-  Widget startTimerWidget(){
+  Widget startTimerWidget() {
     return Center(
       child: Container(
-        padding: EdgeInsets.all(15),
-        height: 140,
-        width: 300,
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.black87,),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Bitte klicke auf den Button, sobald das 360° Bild geladen ist, um die Zeit zu starten:', style: Theme.of(context).textTheme.bodyText1),
-            TextButton(
-              child: Text('Timer starten', style: TextStyle(color: secondaryBlue),),
-              onPressed: () {
-                setState(() {
-                  startTimer();
-                  isLoading = false;
-                  isLoadingFirst = false;
-                });
-              },
-            )
-          ],
-        )
-      ),
+          padding: EdgeInsets.all(15),
+          height: 140,
+          width: 300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: Colors.black87,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                  'Bitte klicke auf den Button, sobald das 360° Bild geladen ist, um die Zeit zu starten:',
+                  style: Theme.of(context).textTheme.bodyText1),
+              TextButton(
+                child: Text(
+                  'Timer starten',
+                  style: TextStyle(color: secondaryBlue),
+                ),
+                onPressed: () {
+                  setState(() {
+                    startTimer();
+                    isLoading = false;
+                    isLoadingFirst = false;
+                  });
+                },
+              )
+            ],
+          )),
     );
   }
 
@@ -758,7 +798,9 @@ class _QuizScreenState extends State<QuizScreen> {
         panorama = Panorama(
           minZoom: 1.0,
           maxZoom: 1.0,
-          child: Image.asset('assets/images/helicopter.jpg',),
+          child: Image.asset(
+            'assets/images/helicopter.jpg',
+          ),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -806,7 +848,9 @@ class _QuizScreenState extends State<QuizScreen> {
           //maxLongitude: 135,
           //minLatitude: -30,
           //maxLatitude: 30,
-          child: Image.asset('assets/images/a340Cockpit.jpg',),
+          child: Image.asset(
+            'assets/images/a340Cockpit.jpg',
+          ),
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),
@@ -880,7 +924,7 @@ class _QuizScreenState extends State<QuizScreen> {
       body: Stack(
         children: [
           panorama,
-          if(isLoadingFirst) startTimerWidget(),
+          if (isLoadingFirst) startTimerWidget(),
           Align(
             alignment: Alignment.bottomRight,
             child: Container(
@@ -927,10 +971,8 @@ class _QuizScreenState extends State<QuizScreen> {
                             end: Alignment.bottomRight)),
                   ),
                 ),
-          if (showEasyDone) 
-            zwischenInfos(easyDone(context), 0),
-          if (showMediumDone) 
-            zwischenInfos(mediumDone(context), 1),
+          if (showEasyDone) zwischenInfos(easyDone(context), 0),
+          if (showMediumDone) zwischenInfos(mediumDone(context), 1),
         ],
       ),
       floatingActionButton: !show360

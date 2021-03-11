@@ -23,6 +23,13 @@ Widget question8(BuildContext context) {
             'Wie lautet der nächste Eintrag?',
             style: Theme.of(context).textTheme.bodyText1,
           ),
+        ),
+        Flexible(
+          flex: 1,
+          child: Text(
+            'Beispiel zum Eingabeformat: "13498798"',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
         )
       ],
     ),
