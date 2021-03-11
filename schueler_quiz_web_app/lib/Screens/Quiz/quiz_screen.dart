@@ -116,7 +116,7 @@ class _QuizScreenState extends State<QuizScreen> {
   ];
 
   onItemClicked(int index) {
-    if (!isLoading) {
+    if (!isLoading && !richtigBeantwortet[index]) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
       lastLon = _lon;
       lastLat = _lat;
@@ -128,6 +128,12 @@ class _QuizScreenState extends State<QuizScreen> {
         answerController.text = answers[selectedIndex];
       }
       //tiptaken = false;
+    }
+    if(richtigBeantwortet[index]){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Bereits richtig beantwortet"),
+        backgroundColor: greenSuccess,)
+      );
     }
   }
 
@@ -232,7 +238,8 @@ class _QuizScreenState extends State<QuizScreen> {
       double oldPunktzahl = punktzahl;
       for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
         //alle möglichen richtigen Antworten werden mit der Eingabe vergliichen
-        if (correctAnswers[selectedIndex][0] == answers[selectedIndex]) {
+        if (correctAnswers[selectedIndex][i] == answers[selectedIndex]) {
+          borderColor = greenSuccess;
           richtigBeantwortet[selectedIndex] = true;
           if (tiptaken[selectedIndex]) {
             punktzahl += 0.5 * quizPunkte[selectedIndex]; //wenn ein Tip benutzt wurde gibt es nur die Hälfte der Punkte
@@ -1001,6 +1008,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     setState(() {
                       show360 = true;
                       answerController.text = '';
+                      borderColor = primaryBlue;
                     });
                   },
                   icon: Icon(Icons.arrow_back),
