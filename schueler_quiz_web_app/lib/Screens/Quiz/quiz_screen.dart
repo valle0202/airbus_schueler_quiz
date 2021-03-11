@@ -181,6 +181,10 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List answerSize = [100, 500, 100, 500, 400, 200, 600, 300, 100];
 
+  int maxTries = 3;
+
+  List tries = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
   List quizPunkte = [9, 14, 7, 10, 8, 11, 13, 12, 15];
 
   List richtigBeantwortet = [
@@ -220,15 +224,35 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void updatePunktzahl() {
+    //überprüft die Eingabe, wenn auf den grünen haken gedrückt wurde
     if (!richtigBeantwortet[selectedIndex]) {
+      //nur wenn die Frage noch nicht richtig beantwortet wurde
+      double oldPunktzahl = punktzahl;
       for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
+        //alle möglichen richtigen Antworten werden mit der Eingabe vergliichen
         if (correctAnswers[selectedIndex][0] == answers[selectedIndex]) {
           richtigBeantwortet[selectedIndex] = true;
-          punktzahl += quizPunkte[selectedIndex];
+          if (tiptaken[selectedIndex]) {
+            punktzahl += 0.5 *
+                quizPunkte[
+                    selectedIndex]; //wenn ein Tip benutzt wurde gibt es nur die Hälfte der Punkte
+          } else {
+            punktzahl += quizPunkte[
+                selectedIndex]; //ansonsten werden die gesamten Punkte draufaddiert
+          }
           break;
         }
       }
       print(punktzahl);
+      if (oldPunktzahl == punktzahl) {
+        // wenn die Eingabe falsch ist werden die möglichen Punkte um 1 verringert
+        quizPunkte[selectedIndex]--;
+        tries[selectedIndex]++;
+      }
+      if (tries[selectedIndex] >= maxTries) {
+        richtigBeantwortet[selectedIndex] = true;
+        //punktzahl wird nicht erhöht!
+      }
     }
   }
 
@@ -260,6 +284,10 @@ class _QuizScreenState extends State<QuizScreen> {
                 borderSide: BorderSide(color: primaryBlue, width: 2.0),
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: redDanger, width: 2.0),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
               suffixIcon: Tooltip(
                 decoration: BoxDecoration(
                     color: primaryBlue,
@@ -271,13 +299,23 @@ class _QuizScreenState extends State<QuizScreen> {
                   onPressed: () {
                     setState(() {
                       if (answers[selectedIndex] == '' &&
-                          answerController.text != '') beantwortet++;
+                          answerController.text != '')
+                        beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
                       if (answers[selectedIndex] != '' &&
-                          answerController.text == '') beantwortet--;
-                      answers[selectedIndex] = answerController.text;
+                          answerController.text == '')
+                        beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine
+                      if (selectedIndex != 4) {
+                        answers[selectedIndex] = answerController.text
+                            .replaceAll(new RegExp(r'[^0-9]'), '');
+                      } else {
+                        answers[selectedIndex] = answerController.text;
+                      }
                       updatePunktzahl();
-                      show360 = true;
+                      //if(richtigBeantwortet[selectedIndex]){
+                      //  show360 = true;
+                      //}
                       if (checkAnswers()) {
+                        // wenn die gesamte Stufe richtig ist
                         isLoading = true;
                         beantwortet = 0;
                         currentLevel++;
@@ -293,11 +331,6 @@ class _QuizScreenState extends State<QuizScreen> {
                             return Ende(punktzahl);
                           }));
                         }
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
-                        //if (currentLevel == 2)
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
-                        //if (currentLevel == 3)
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
                       } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
                     });
                   },
