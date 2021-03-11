@@ -183,7 +183,17 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List quizPunkte = [9, 14, 7, 10, 8, 11, 13, 12, 15];
 
-  List richtigBeantwortet = [false, false, false, false, false, false, false, false, false];
+  List richtigBeantwortet = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   bool checkAnswers() {
     if (currentLevel == 0) {
@@ -210,9 +220,9 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void updatePunktzahl() {
-    if(!richtigBeantwortet[selectedIndex]) {
-      for(int i=0; i < correctAnswers[selectedIndex].length; i++){
-        if(correctAnswers[selectedIndex][0] == answers[selectedIndex]){
+    if (!richtigBeantwortet[selectedIndex]) {
+      for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
+        if (correctAnswers[selectedIndex][0] == answers[selectedIndex]) {
           richtigBeantwortet[selectedIndex] = true;
           punktzahl += quizPunkte[selectedIndex];
           break;
@@ -681,7 +691,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     //print("lon:" + lastLon.toString() + " lat: " + lastLat.toString());
     Widget panorama;
-    switch (currentLevel) {
+    switch (2) {
       case 1:
         panorama = Panorama(
           minZoom: 1.0,
