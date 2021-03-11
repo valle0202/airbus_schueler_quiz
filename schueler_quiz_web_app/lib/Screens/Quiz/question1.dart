@@ -55,8 +55,16 @@ Widget puzzle1 (BuildContext context){
         ),
         Flexible(
           flex: 1,
-          child: Text('Wie viele überschüssige Triebwerke stauen sich nach 11 Werktagen auf dem Werksgelände an? \nBeispiel zum Eingabeformat: "31" ',
-            style: Theme.of(context).textTheme.bodyText1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text('Wie viele überschüssige Triebwerke stauen sich nach 11 Werktagen auf dem Werksgelände an?',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              Text('Beispiel zum Eingabeformat: "31"',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
           ),
         ),
         //SizedBox(width: 50,),
