@@ -209,22 +209,11 @@ class _QuizScreenState extends State<QuizScreen> {
     return false;
   }
 
-<<<<<<< HEAD
-  void updatePunktzahl () {
-    if(!richtigBeantwortet[selectedIndex]) {
-      for(int i=0; i < correctAnswers[selectedIndex].length; i++){
-        if(correctAnswers[selectedIndex][0] == answers[selectedIndex]){
-          richtigBeantwortet[selectedIndex] = true;
-          punktzahl += quizPunkte[selectedIndex];
-          break;
-        }
-=======
   void updatePunktzahl() {
     for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
       if (correctAnswers[selectedIndex][0] == answers[selectedIndex]) {
         punktzahl += quizPunkte[selectedIndex];
         break;
->>>>>>> 6385ae74967791638792d920ed391685f2e78ee0
       }
       print(punktzahl);
     }
