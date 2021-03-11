@@ -127,8 +127,6 @@ class _QuizScreenState extends State<QuizScreen> {
     '',
   ];
 
-  List intAnswers = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-
   onItemClicked(int index) {
     if (!isLoading) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
@@ -211,22 +209,22 @@ class _QuizScreenState extends State<QuizScreen> {
 
   bool checkAnswers() {
     if (currentLevel == 0) {
-      if (correctAnswers[0][0] == intAnswers[0] &&
-          correctAnswers[2][0] == intAnswers[2] &&
-          correctAnswers[3][0] == intAnswers[3] &&
-          correctAnswers[4][0] == intAnswers[4]) {
+      if (correctAnswers[0][0] == answers[0] &&
+          correctAnswers[2][0] == answers[2] &&
+          correctAnswers[3][0] == answers[3] &&
+          correctAnswers[4][0] == answers[4]) {
         return true;
       }
     } else if (currentLevel == 1) {
-      if ((correctAnswers[5][0] == intAnswers[5] ||
-              correctAnswers[5][1] == intAnswers[5]) &&
-          correctAnswers[6][0] == intAnswers[6] &&
-          correctAnswers[7][0] == intAnswers[7]) {
+      if ((correctAnswers[5][0] == answers[5] ||
+              correctAnswers[5][1] == answers[5]) &&
+          correctAnswers[6][0] == answers[6] &&
+          correctAnswers[7][0] == answers[7]) {
         return true;
       }
     } else {
-      if (correctAnswers[1][0] == intAnswers[1] &&
-          correctAnswers[8][0] == intAnswers[8]) {
+      if (correctAnswers[1][0] == answers[1] &&
+          correctAnswers[8][0] == answers[8]) {
         return true;
       }
     }
@@ -236,7 +234,7 @@ class _QuizScreenState extends State<QuizScreen> {
   void updatePunktzahl() {
     if (!richtigBeantwortet[selectedIndex]) {
       for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
-        if (correctAnswers[selectedIndex][0] == intAnswers[selectedIndex]) {
+        if (correctAnswers[selectedIndex][0] == answers[selectedIndex]) {
           richtigBeantwortet[selectedIndex] = true;
           punktzahl += quizPunkte[selectedIndex];
           break;
@@ -288,12 +286,12 @@ class _QuizScreenState extends State<QuizScreen> {
                           answerController.text != '') beantwortet++;
                       if (answers[selectedIndex] != '' &&
                           answerController.text == '') beantwortet--;
-                      answers[selectedIndex] = answerController.text;
-                      answersDigitsOnly[selectedIndex] = answers[selectedIndex]
-                          .replaceAll(new RegExp(r'[^0-9]'), '');
-                      intAnswers[selectedIndex] =
-                          int.parse(answersDigitsOnly[selectedIndex]);
-                      print(intAnswers);
+                      if (selectedIndex != 4) {
+                        answers[selectedIndex] = answerController.text
+                            .replaceAll(new RegExp(r'[^0-9]'), '');
+                      } else {
+                        answers[selectedIndex] = answerController.text;
+                      }
 
                       updatePunktzahl();
                       show360 = true;
