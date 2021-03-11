@@ -10,18 +10,32 @@ Widget question4(BuildContext context) {
       children: [
         Flexible(
           flex: 3,
-            child: Container(
+          child: Container(
             constraints: BoxConstraints(maxWidth: 1000),
             child: RichText(
               text: TextSpan(
                 style: Theme.of(context).textTheme.bodyText1,
                 children: <TextSpan>[
-                  TextSpan(text: "In folgendem Bild sind 9 Flughäfen. Unter jedem Flughafen steht ein Ziel und ein Gewicht einer Fracht. Ein Frachtflugzeug "),
-                  TextSpan(text: "startet bei Flughafen 5 und soll am Ende dort auch wieder landen. ", style: Theme.of(context).textTheme.headline1),
-                  TextSpan(text: "Es soll alle Frachten zu den jeweiligen Orten bringen. Das Flugzeug kann "),
-                  TextSpan(text: "maximal 60 Tonnen ", style: Theme.of(context).textTheme.headline1),
-                  TextSpan(text: "transportieren. Finde die Route, bei der das Frachtflugzeug "),
-                  TextSpan(text: "auf jedem Flugplatz nur einmal landet und das niedrigste Durchschnittsgewicht ", style: Theme.of(context).textTheme.headline1),
+                  TextSpan(
+                      text:
+                          "In folgendem Bild sind 9 Flughäfen. Unter jedem Flughafen steht ein Ziel und ein Gewicht einer Fracht. Ein Frachtflugzeug "),
+                  TextSpan(
+                      text:
+                          "startet bei Flughafen 5 und soll am Ende dort auch wieder landen. ",
+                      style: Theme.of(context).textTheme.headline1),
+                  TextSpan(
+                      text:
+                          "Es soll alle Frachten zu den jeweiligen Orten bringen. Das Flugzeug kann "),
+                  TextSpan(
+                      text: "maximal 60 Tonnen ",
+                      style: Theme.of(context).textTheme.headline1),
+                  TextSpan(
+                      text:
+                          "transportieren. Finde die Route, bei der das Frachtflugzeug "),
+                  TextSpan(
+                      text:
+                          "auf jedem Flugplatz nur einmal landet und das niedrigste Durchschnittsgewicht ",
+                      style: Theme.of(context).textTheme.headline1),
                   TextSpan(text: "insgesamt transportieren muss."),
                 ],
               ),
@@ -36,10 +50,15 @@ Widget question4(BuildContext context) {
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [airport(7, 4, 20, context), airport(8, 5, 30, context), airport(9, 7, 30, context)],),
           ],
         ),*/
-        Flexible(flex: 10, child: Image(image: AssetImage("assets/images/Aufgabe_4_Ver_4_Weiss.png"),)),
+        Flexible(
+            flex: 10,
+            child: Image(
+              image: AssetImage("assets/images/Aufgabe_4_Ver_4_Weiss.png"),
+            )),
         Flexible(
           flex: 1,
-            child: Text('Gebe die Reihenfolge der Flugplätze an. Eine mögliche Eingabe wäre z.B. 5; 6; 1; 8; 3; 9; 2; 4; 7; 5',
+          child: Text(
+            'Gebe die Reihenfolge der Flugplätze an. Eine mögliche Eingabe wäre z.B. 5; 6; 1; 8; 3; 9; 2; 4; 7; 5',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
@@ -49,12 +68,15 @@ Widget question4(BuildContext context) {
   );
 }
 
-Widget airport (int number, int to, int weight, BuildContext context) {
-  if(to == 0 && weight == 0) {
+Widget airport(int number, int to, int weight, BuildContext context) {
+  if (to == 0 && weight == 0) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Text(number.toString(), style: Theme.of(context).textTheme.bodyText1,),
+        child: Text(
+          number.toString(),
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
       ),
       decoration: BoxDecoration(
         color: Colors.black26,
@@ -66,9 +88,14 @@ Widget airport (int number, int to, int weight, BuildContext context) {
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Text(
-        number.toString() + "\n->" + to.toString() + '\n' + weight.toString() + 't',
+        number.toString() +
+            "\n->" +
+            to.toString() +
+            '\n' +
+            weight.toString() +
+            't',
         style: Theme.of(context).textTheme.bodyText1,
-        ),
+      ),
     ),
   );
 }
