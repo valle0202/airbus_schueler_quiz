@@ -709,7 +709,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     //print("lon:" + lastLon.toString() + " lat: " + lastLat.toString());
     Widget panorama;
-    switch (currentLevel) {
+    switch (2) {
       case 1:
         panorama = Panorama(
           minZoom: 1.0,

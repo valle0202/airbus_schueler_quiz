@@ -11,8 +11,9 @@ Widget question6(BuildContext context) {
           flex: 2,
           child: Container(
             constraints: BoxConstraints(maxWidth: 1000),
-            child: RichText(
-                text: TextSpan(
+            child: Text(
+              'In einer Halle soll ein Transportband mit 9 Bauplätzen zur Eurofighter Produktion in beliebiger Reihenfolge verbunden werden. Das Transportband darf beliebig oft an jedem Bauplatz entlang gehen und ist beliebig lang. Einzige Beschränkung: Alle Transportbänder verlaufen gerade und es gibt nur 3 Richtungsänderer.' +
+                  'Das Transportband muss zu Beginn in Station 1 starten muss aber in keiner bestimmten Station enden, gib den Verlauf der vier Bandabschnitte an indem du in chronologischer reihenfolge die Stationen aufschreibst, du die das Band verläuft (manche Station dürfen 2 oder 3 fach durchlaufen werden).',
               style: Theme.of(context).textTheme.bodyText1,
               children: <TextSpan>[
                 TextSpan(
