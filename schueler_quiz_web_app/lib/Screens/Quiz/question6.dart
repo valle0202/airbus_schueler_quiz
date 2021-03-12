@@ -13,29 +13,31 @@ Widget question6(BuildContext context) {
             constraints: BoxConstraints(maxWidth: 1000),
             child: RichText(
                 text: TextSpan(
-              text: 'In einer Halle soll ein Transportband mit 9 Bauplätzen zur Eurofighter Produktion in beliebiger Reihenfolge verbunden werden. Das Transportband darf beliebig oft an jedem Bauplatz entlang gehen und ist beliebig lang. Einzige Beschränkung: Alle Transportbänder verlaufen gerade und es gibt nur 3 Richtungsänderer.' +
-                  'Das Transportband muss zu Beginn in Station 1 starten muss aber in keiner bestimmten Station enden, gib den Verlauf der vier Bandabschnitte an indem du in chronologischer reihenfolge die Stationen aufschreibst, du die das Band verläuft (manche Station dürfen 2 oder 3 fach durchlaufen werden).',
               style: Theme.of(context).textTheme.bodyText1,
               children: <TextSpan>[
                 TextSpan(
-                  text: 'In einer Halle sollen',
+                  text: 'In einer Halle sollen ',
                 ),
                 TextSpan(
-                    text: '9 Bauplätzen',
+                    text: '9 Bauplätzen ',
+                    style: Theme.of(context).textTheme.headline1),
+                TextSpan(text: 'der Eurofighter Produktion mit einem in '),
+                TextSpan(
+                    text: 'Station 1 beginnendem ',
                     style: Theme.of(context).textTheme.headline1),
                 TextSpan(
                     text:
-                        'zur Eurofighter Produktion mit einem Transportband verbunden werden. Das Transportband darf beliebig oft durch jeden Bauplatz und ist beliebig lang, es gibt aber nur 3 Richtungsänderer. Das bedeutet, dass das Transportband schlussendlich aus'),
+                        'Transportband in beliebiger Reihenfolge verbunden werden. Das Transportband muss mindestens einmal mittig durch jeden Bauplatz und ist beliebig lang. Die einzigen Beschränkungen sind, dass alle Transportbänder gerade verlaufen müssen und nur 3 Richtungsänderer genutzt werden können. Das bedeutet, dass das Transportband schlussendlich aus '),
                 TextSpan(
-                    text: '4 Geraden',
+                    text: '4 Geraden ',
                     style: Theme.of(context).textTheme.headline1),
-                TextSpan(text: 'besteht. Das Transportband muss zu'),
-                TextSpan(
-                    text: 'Beginn in Station 1',
-                    style: Theme.of(context).textTheme.headline1),
-                TextSpan(
+                TextSpan(text: 'besteht.\n\n'),
+                /*TextSpan(
+                    text: 'beginnt in Station 1',
+                    style: Theme.of(context).textTheme.headline1),*/
+                /*TextSpan(
                     text:
-                        'starten muss aber in keiner bestimmten Station enden, gib den Verlauf der vier Bandabschnitte an indem du in chronologischer reihenfolge die Stationen aufschreibst, durch die das Band verläuft (manche Station dürfen 2 oder 3 fach durchlaufen werden).'),
+                        'Gib den Verlauf der vier Bandabschnitte an indem du in chronologischer Reihenfolge die Stationen aufschreibst, durch die das Band verläuft.'),*/
               ],
             )),
           ),
@@ -47,7 +49,7 @@ Widget question6(BuildContext context) {
         Flexible(
           flex: 1,
           child: Text(
-            'Beispiel zum Eingabeformat: "1; 2; 3; 6; 9; 8; 7; 4; 1"',
+            'Gib den Verlauf der vier Bandabschnitte an indem du in chronologischer Reihenfolge die Stationen aufschreibst, durch die das Band verläuft.',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )

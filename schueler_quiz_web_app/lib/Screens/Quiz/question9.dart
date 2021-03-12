@@ -11,14 +11,38 @@ Widget question9(BuildContext context) {
           flex: 2,
           child: Container(
             constraints: BoxConstraints(maxWidth: 1000),
-            child: Text(
-              'In einem Kriegsgebiet kommt es durch ein Attentat zu vielen Verletzten, ' +
-                  'welches zu einem Mangel an Bluttransfusionen führt. Es werden daher umgehend' +
-                  ' 300 weitere Transfusion aus dem nächstligenden Krankenhaus (300km entfernt) angefordert. ' +
-                  'Zum Transport dieser liegt dem Krankhaus leider nur ein Helikopter (Durchnittsgeschwindigkeit 180kmh) ' +
-                  'mit einer Tragfähigkeit von 200 Transfusionen zur Verfügung. Zudem können aber entlang der gesamten Strecke ' +
-                  'Autos (Durchnittsgeschwindigkeit 45kmh) genutzt werden, welche eine uneingeschränkte Tragfähigkeit haben.',
-              style: Theme.of(context).textTheme.bodyText1,
+            child: RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.bodyText1,
+                children: <TextSpan>[
+                  TextSpan(
+                      text:
+                          'In einem Kriegsgebiet kommt es durch ein Attentat zu vielen Verletzten, welches zu einem Mangel an Bluttransfusionen führt. Es werden daher umgehend '),
+                  TextSpan(
+                      text: '300 weitere Transfusionen ',
+                      style: Theme.of(context).textTheme.headline1),
+                  TextSpan(text: 'aus dem nächstligenden Krankenhaus '),
+                  TextSpan(
+                      text: '(300km entfernt) ',
+                      style: Theme.of(context).textTheme.headline1),
+                  TextSpan(
+                      text:
+                          'angefordert. Zum Transport dieser liegt dem Krankhaus leider nur ein '),
+                  TextSpan(
+                      text:
+                          'Helikopter (Durchnittsgeschwindigkeit 180km/h) mit einer Tragfähigkeit von 200 Transfusionen ',
+                      style: Theme.of(context).textTheme.headline1),
+                  TextSpan(
+                      text:
+                          'zur Verfügung. Zudem können aber entlang der gesamten Strecke '),
+                  TextSpan(
+                      text: 'Autos (Durchnittsgeschwindigkeit 45km/h) ',
+                      style: Theme.of(context).textTheme.headline1),
+                  TextSpan(
+                      text:
+                          'genutzt werden, welche eine uneingeschränkte Tragfähigkeit haben.'),
+                ],
+              ),
             ),
           ),
         ),

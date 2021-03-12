@@ -21,7 +21,7 @@ Widget question3(BuildContext context) {
         Flexible(
           flex: 2,
           child: Text(
-            'Frage: Welches Kabelende gehört zu dem Kabel, das bei D startet? \nBeispiel zum Eingabeformat: "1"',
+            'Welches Kabelende gehört zu dem Kabel, das bei D startet?',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         )

@@ -18,25 +18,24 @@ Widget question4(BuildContext context) {
                 children: <TextSpan>[
                   TextSpan(
                       text:
-                          "In folgendem Bild sind 9 Flughäfen. Unter jedem Flughafen steht ein Ziel und ein Gewicht einer Fracht. Ein Frachtflugzeug "),
+                          "In folgendem Bild sind 9 Flughäfen zu sehen. An jedem dieser Flughäfen befindet sich einer Fracht welche an einen der anderen Flughäfen ausgeliefert werden muss. Ein Frachtflugzeug "),
                   TextSpan(
                       text:
-                          "startet bei Flughafen 5 und soll am Ende dort auch wieder landen. ",
+                          "startet unbeladen an Flughafen 5 und soll dort auch seine Rundreise beenden. ",
                       style: Theme.of(context).textTheme.headline1),
                   TextSpan(
                       text:
-                          "Es soll alle Frachten zu den jeweiligen Orten bringen. Das Flugzeug kann "),
+                          "Es soll jede Fracht zu dessen jeweiligen Zielflughafen bringen. Das Flugzeug kann mehrere Frachten gleichzeitig laden mit einem "),
                   TextSpan(
-                      text: "maximal 60 Tonnen ",
+                      text: "Maximum von 60 Tonnen. ",
                       style: Theme.of(context).textTheme.headline1),
                   TextSpan(
-                      text:
-                          "transportieren. Finde die Route, bei der das Frachtflugzeug "),
+                      text: "Finde die Route, bei der das Frachtflugzeug "),
                   TextSpan(
                       text:
                           "auf jedem Flugplatz nur einmal landet und das niedrigste Durchschnittsgewicht ",
                       style: Theme.of(context).textTheme.headline1),
-                  TextSpan(text: "insgesamt transportieren muss."),
+                  TextSpan(text: "über die gesamte Flugstrecke transportiert."),
                 ],
               ),
             ),
@@ -58,17 +57,17 @@ Widget question4(BuildContext context) {
         Flexible(
           flex: 1,
           child: Text(
-            'Gebe die Reihenfolge der Flugplätze an.',
+            'Gib die Reihenfolge der angeflogenen Flugplätze an.',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
-        Flexible(
+        /*Flexible(
           flex: 1,
           child: Text(
             'Beispiel zum Eingabeformat: "5; 6; 1; 8; 3; 9; 2; 4; 7; 5"',
             style: Theme.of(context).textTheme.bodyText1,
           ),
-        ),
+        ),*/
         //answer(500),
       ],
     ),

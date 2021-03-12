@@ -12,22 +12,27 @@ Widget question5(BuildContext context) {
           flex: 2,
           child: Container(
             constraints: BoxConstraints(maxWidth: 1000),
-            child: Text('In deinem Paket befinden sich 10 kleine Zettel mit Wörtern und deren Verschlüsselungen. \nErkenne die Verschlüsselungsregel und ordne den Worten ihre Verschlüsselung zu.',
+            child: Text(
+              'In deinem Paket findest du 10 Zettel mit 5 Wörter und deren Verschlüsselungen. \nErkenne die Verschlüsselungsregel indem du die Wörter ihren Verschlüsselungen zuordnest.',
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ),
         ),
-        Flexible(flex: 7, child: Container(child: Image.asset('assets/images/cyberbodyguards.jpg'))),
+        Flexible(
+            flex: 7,
+            child: Container(
+                child: Image.asset('assets/images/cyberbodyguards.jpg'))),
         Flexible(
           flex: 1,
           child: Column(
             children: [
-              Text('Wie lautet die Verschlüsselung des Wortes "informatik" nach der gleichen Regel?',
+              Text(
+                'Verschlüssele das Wort "Informatik" nach der selben Regel?',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
-              Text('Beispiel zum Eingabeformat: "aslödkfjalskdjf"',
+              /*Text('Beispiel zum Eingabeformat: "aslödkfjalskdjf"',
             style: Theme.of(context).textTheme.bodyText1,
-          ),
+          ),*/
             ],
           ),
         ),

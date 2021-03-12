@@ -129,11 +129,11 @@ class _QuizScreenState extends State<QuizScreen> {
       }
       //tiptaken = false;
     }
-    if(richtigBeantwortet[index]){
+    if (richtigBeantwortet[index]) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Bereits richtig beantwortet"),
-        backgroundColor: greenSuccess,)
-      );
+        backgroundColor: greenSuccess,
+      ));
     }
   }
 
@@ -178,7 +178,7 @@ class _QuizScreenState extends State<QuizScreen> {
     'Betrachte die Teiler der Zahlen 1-100',
     'Kabel A endet bei 5, Kabel B endet bei 2 und Kabel C endet bei 4',
     'Der Anfang ist: 5; 3; 2; 9;',
-    'Die Wörter "airbus" und "zriyfh" gehören zusammen',
+    'Die Wörter "Airbus" und "Zriyfh" gehören zusammen',
     'Die Ecken der Linien können überall liegen',
     'Es handelt sich um selection sort und die ersten Elemente sind: 10; 4; 9; 6; 3',
     'Um dieses Rätsel zu lösen musst du nur bis 3 zählen können',
@@ -245,7 +245,9 @@ class _QuizScreenState extends State<QuizScreen> {
           borderColor = greenSuccess;
           richtigBeantwortet[selectedIndex] = true;
           if (tiptaken[selectedIndex]) {
-            punktzahl += 0.5 * quizPunkte[selectedIndex]; //wenn ein Tip benutzt wurde gibt es nur die Hälfte der Punkte
+            punktzahl += 0.5 *
+                quizPunkte[
+                    selectedIndex]; //wenn ein Tip benutzt wurde gibt es nur die Hälfte der Punkte
           } else {
             punktzahl += quizPunkte[
                 selectedIndex]; //ansonsten werden die gesamten Punkte draufaddiert
@@ -280,80 +282,80 @@ class _QuizScreenState extends State<QuizScreen> {
           style: Theme.of(context).textTheme.bodyText1,
           controller: answerController,
           decoration: InputDecoration(
-            //errorText: showError? '' : null,
-            //errorStyle: TextStyle(fontSize: 0),
-            hintText: 'Antwort',
-            hintStyle: TextStyle(color: Colors.white70),
-            contentPadding:
-                EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: secondaryBlue, width: 1.0),
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: secondaryBlue, width: 1.0),
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: borderColor, width: 2.0),
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            ),
-            suffixIcon: Tooltip(
-              decoration: BoxDecoration(
-                  color: primaryBlue,
-                  borderRadius: BorderRadius.all(Radius.circular(4))),
-              message: 'Eingabe überprüfen und speichern',
-              child: IconButton(
-                color: greenSuccess,
-                icon: Icon(Icons.check),
-                onPressed: () {
-                  setState(() {
-                    if (answers[selectedIndex] == '' &&
-                        answerController.text != '')
-                      beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
-                    if (answers[selectedIndex] != '' &&
-                        answerController.text == '')
-                      beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine
-                    if (selectedIndex != 4) {
-                      answers[selectedIndex] = answerController.text
-                          .replaceAll(new RegExp(r'[^0-9]'), '');
-                    } else {
-                      answers[selectedIndex] = answerController.text;
-                    }
-                    updatePunktzahl();
-                    //if(richtigBeantwortet[selectedIndex]){
-                    //  show360 = true;
-                    //}
-                    if (checkAnswers()) {
-                      // wenn die gesamte Stufe richtig ist
-                      isLoading = true;
-                      beantwortet = 0;
-                      currentLevel++;
-                      if (currentLevel == 1) {
-                        showEasyDone = true;
-                      }
-                      if (currentLevel == 2) {
-                        showMediumDone = true;
-                      }
-                      if (currentLevel == 3) {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return Ende(punktzahl);
-                        }));
-                      }
-                    } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
-                  });
-                },
+              //errorText: showError? '' : null,
+              //errorStyle: TextStyle(fontSize: 0),
+              hintText: 'Antwort',
+              hintStyle: TextStyle(color: Colors.white70),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: secondaryBlue, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
-            )
-          ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: secondaryBlue, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: borderColor, width: 2.0),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              suffixIcon: Tooltip(
+                decoration: BoxDecoration(
+                    color: primaryBlue,
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
+                message: 'Eingabe überprüfen und speichern',
+                child: IconButton(
+                  color: greenSuccess,
+                  icon: Icon(Icons.check),
+                  onPressed: () {
+                    setState(() {
+                      if (answers[selectedIndex] == '' &&
+                          answerController.text != '')
+                        beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
+                      if (answers[selectedIndex] != '' &&
+                          answerController.text == '')
+                        beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine
+                      if (selectedIndex != 4) {
+                        answers[selectedIndex] = answerController.text
+                            .replaceAll(new RegExp(r'[^0-9]'), '');
+                      } else {
+                        answers[selectedIndex] =
+                            answerController.text.toLowerCase();
+                      }
+                      updatePunktzahl();
+                      //if(richtigBeantwortet[selectedIndex]){
+                      //  show360 = true;
+                      //}
+                      if (checkAnswers()) {
+                        // wenn die gesamte Stufe richtig ist
+                        isLoading = true;
+                        beantwortet = 0;
+                        currentLevel++;
+                        if (currentLevel == 1) {
+                          showEasyDone = true;
+                        }
+                        if (currentLevel == 2) {
+                          showMediumDone = true;
+                        }
+                        if (currentLevel == 3) {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Ende(punktzahl);
+                          }));
+                        }
+                      } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+                    });
+                  },
+                ),
+              )),
           onSubmitted: (String s) {
             answers[selectedIndex] = s;
           },
           onChanged: (String s) {
             setState(() {
               borderColor = primaryBlue;
-            });   
+            });
             /*if(selectedIndex == 7){
               List newOrder = s.split('; ');
               for(int i=0; i<items.length; i++){
@@ -738,7 +740,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     //print("lon:" + lastLon.toString() + " lat: " + lastLat.toString());
     Widget panorama;
-    switch (currentLevel) {
+    switch (2) {
       case 1:
         panorama = Panorama(
           minZoom: 1.0,
