@@ -24,16 +24,9 @@ Widget question5(BuildContext context) {
                 child: Image.asset('assets/images/cyberbodyguards.jpg'))),
         Flexible(
           flex: 1,
-          child: Column(
-            children: [
-              Text(
-                'Verschlüssele das Wort "Informatik" nach der selben Regel?',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              /*Text('Beispiel zum Eingabeformat: "aslödkfjalskdjf"',
+          child: Text(
+            'Verschlüssele das Wort "Informatik" nach der selben Regel.',
             style: Theme.of(context).textTheme.bodyText1,
-          ),*/
-            ],
           ),
         ),
         /*Flexible(
