@@ -11,7 +11,7 @@ Widget mediumDone(BuildContext context) {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Text('Klasse, du hast das erste Level von 3 geschafft. Der Timer ist jetzt pausiert bis du auf weiter klickst. \n Hier sind noch ein par Infos über Airbus und IT bei Airbus, die dir bei unserem nächsten Quiz während des richtigen Events weiterhelfen werden!',
+            Text('Klasse, du hast das zweite Level von 3 geschafft. Der Timer ist jetzt pausiert bis du auf weiter klickst. \n Hier sind noch ein par Infos über Airbus und IT bei Airbus, die dir bei unserem nächsten Quiz während des richtigen Events weiterhelfen werden!',
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ],

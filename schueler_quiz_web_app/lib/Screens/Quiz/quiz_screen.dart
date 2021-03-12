@@ -346,26 +346,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     //if(richtigBeantwortet[selectedIndex]){
                     //  show360 = true;
                     //}
-                    if (checkAnswers()) {
-                      // wenn die gesamte Stufe richtig ist
-                      isLoading = true;
-                      beantwortet = 0;
-                      currentLevel++;
-                      if (currentLevel == 1) {
-                        showEasyDone = true;
-                      }
-                      if (currentLevel == 2) {
-                        showMediumDone = true;
-                      }
-                      if (currentLevel == 3) {
-                        //final answerMap = toMap();
-                        //FirebaseFirestore.instance.collection('antworten').add(answerMap);
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return Ende(punktzahl, widget.personalPassword);
-                        }));
-                      }
-                    } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
                   });
                 },
               ),
@@ -581,6 +561,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void reorderData(int oldindex, int newindex) {
     setState(() {
+      borderColor = primaryBlue;
       if (newindex > oldindex) {
         newindex -= 1;
       }
@@ -763,7 +744,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     //print("lon:" + lastLon.toString() + " lat: " + lastLat.toString());
     Widget panorama;
-    switch (currentLevel) {
+    switch (1) {
       case 1:
         panorama = Panorama(
           minZoom: 1.0,
@@ -1037,6 +1018,26 @@ class _QuizScreenState extends State<QuizScreen> {
                       show360 = true;
                       answerController.text = '';
                       borderColor = primaryBlue;
+                      if (checkAnswers()) {
+                      // wenn die gesamte Stufe richtig ist
+                      isLoading = true;
+                      beantwortet = 0;
+                      currentLevel++;
+                      if (currentLevel == 1) {
+                        showEasyDone = true;
+                      }
+                      if (currentLevel == 2) {
+                        showMediumDone = true;
+                      }
+                      if (currentLevel == 3) {
+                        //final answerMap = toMap();
+                        //FirebaseFirestore.instance.collection('antworten').add(answerMap);
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) {
+                          return Ende(punktzahl, widget.personalPassword);
+                        }));
+                      }
+                    } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
                     });
                   },
                   icon: Icon(Icons.arrow_back),
