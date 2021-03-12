@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:panorama/panorama.dart';
@@ -33,7 +33,6 @@ class PseudoCode {
 }
 
 class QuizScreen extends StatefulWidget {
-
   final String personalPassword;
 
   QuizScreen(this.personalPassword);
@@ -63,17 +62,17 @@ class _QuizScreenState extends State<QuizScreen> {
   double lastLat = 0;
   double punktzahl = 0;
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
-      'Frage 1' : answers[0], 
-      'Frage 2' : answers[1], 
-      'Frage 3' : answers[2], 
-      'Frage 4' : answers[3], 
-      'Frage 5' : answers[4], 
-      'Frage 6' : answers[5], 
-      'Frage 7' : answers[6], 
-      'Frage 8' : answers[7], 
-      'Frage 9' : answers[8], 
+      'Frage 1': answers[0],
+      'Frage 2': answers[1],
+      'Frage 3': answers[2],
+      'Frage 4': answers[3],
+      'Frage 5': answers[4],
+      'Frage 6': answers[5],
+      'Frage 7': answers[6],
+      'Frage 8': answers[7],
+      'Frage 9': answers[8],
     };
   }
 
@@ -302,73 +301,73 @@ class _QuizScreenState extends State<QuizScreen> {
           style: Theme.of(context).textTheme.bodyText1,
           controller: answerController,
           decoration: InputDecoration(
-            //errorText: showError? '' : null,
-            //errorStyle: TextStyle(fontSize: 0),
-            hintText: 'Antwort',
-            hintStyle: TextStyle(color: Colors.white70),
-            contentPadding:
-                EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: secondaryBlue, width: 1.0),
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: secondaryBlue, width: 1.0),
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: borderColor, width: 2.0),
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            ),
-            suffixIcon: Tooltip(
-              decoration: BoxDecoration(
-                  color: primaryBlue,
-                  borderRadius: BorderRadius.all(Radius.circular(4))),
-              message: 'Eingabe überprüfen und speichern',
-              child: IconButton(
-                color: greenSuccess,
-                icon: Icon(Icons.check),
-                onPressed: () {
-                  setState(() {
-                    if (answers[selectedIndex] == '' &&
-                        answerController.text != '')
-                      beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
-                    if (answers[selectedIndex] != '' &&
-                        answerController.text == '')
-                      beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine
-                    if (selectedIndex != 4) {
-                      answers[selectedIndex] = answerController.text
-                          .replaceAll(new RegExp(r'[^0-9]'), '');
-                    } else {
-                      answers[selectedIndex] = answerController.text;
-                    }
-                    updatePunktzahl();
-                    //if(richtigBeantwortet[selectedIndex]){
-                    //  show360 = true;
-                    //}
-                    if (checkAnswers()) {
-                      // wenn die gesamte Stufe richtig ist
-                      isLoading = true;
-                      beantwortet = 0;
-                      currentLevel++;
-                      if (currentLevel == 1) {
-                        showEasyDone = true;
-                      }
-                      if (currentLevel == 2) {
-                        showMediumDone = true;
-                      }
-                      if (currentLevel == 3) {
-                        //final answerMap = toMap();
-                        //FirebaseFirestore.instance.collection('antworten').add(answerMap);
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return Ende(punktzahl, widget.personalPassword);
-                        }));
-                      }
-                    } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
-                  });
-                },
+              //errorText: showError? '' : null,
+              //errorStyle: TextStyle(fontSize: 0),
+              hintText: 'Antwort',
+              hintStyle: TextStyle(color: Colors.white70),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: secondaryBlue, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: secondaryBlue, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: borderColor, width: 2.0),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              suffixIcon: Tooltip(
+                decoration: BoxDecoration(
+                    color: primaryBlue,
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
+                message: 'Eingabe überprüfen und speichern',
+                child: IconButton(
+                  color: greenSuccess,
+                  icon: Icon(Icons.check),
+                  onPressed: () {
+                    setState(() {
+                      if (answers[selectedIndex] == '' &&
+                          answerController.text != '')
+                        beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
+                      if (answers[selectedIndex] != '' &&
+                          answerController.text == '')
+                        beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine
+                      if (selectedIndex != 4) {
+                        answers[selectedIndex] = answerController.text
+                            .replaceAll(new RegExp(r'[^0-9]'), '');
+                      } else {
+                        answers[selectedIndex] = answerController.text;
+                      }
+                      updatePunktzahl();
+                      //if(richtigBeantwortet[selectedIndex]){
+                      //  show360 = true;
+                      //}
+                      if (checkAnswers()) {
+                        // wenn die gesamte Stufe richtig ist
+                        isLoading = true;
+                        beantwortet = 0;
+                        currentLevel++;
+                        if (currentLevel == 1) {
+                          showEasyDone = true;
+                        }
+                        if (currentLevel == 2) {
+                          showMediumDone = true;
+                        }
+                        if (currentLevel == 3) {
+                          //final answerMap = toMap();
+                          //FirebaseFirestore.instance.collection('antworten').add(answerMap);
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Ende(punktzahl, widget.personalPassword);
+                          }));
+                        }
+                      } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+                    });
+                  },
+                ),
               )),
           onSubmitted: (String s) {
             answers[selectedIndex] = s;
