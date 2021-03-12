@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:panorama/panorama.dart';
@@ -32,6 +33,11 @@ class PseudoCode {
 }
 
 class QuizScreen extends StatefulWidget {
+
+  final String personalPassword;
+
+  QuizScreen(this.personalPassword);
+
   @override
   _QuizScreenState createState() => _QuizScreenState();
 }
@@ -57,6 +63,20 @@ class _QuizScreenState extends State<QuizScreen> {
   double lastLat = 0;
   double punktzahl = 0;
 
+  Map<String, dynamic> toMap(){
+    return {
+      'Frage 1' : answers[0], 
+      'Frage 2' : answers[1], 
+      'Frage 3' : answers[2], 
+      'Frage 4' : answers[3], 
+      'Frage 5' : answers[4], 
+      'Frage 6' : answers[5], 
+      'Frage 7' : answers[6], 
+      'Frage 8' : answers[7], 
+      'Frage 9' : answers[8], 
+    };
+  }
+
   void onViewChanged(longitude, latitude, tilt) {
     setState(() {
       _lon = longitude;
@@ -68,7 +88,7 @@ class _QuizScreenState extends State<QuizScreen> {
   // ignore: unused_field
   Timer _timer;
   int seconds = 59;
-  int minutes = 59;
+  int minutes = 0;
   //int hours = 0;
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -333,9 +353,11 @@ class _QuizScreenState extends State<QuizScreen> {
                         showMediumDone = true;
                       }
                       if (currentLevel == 3) {
+                        //final answerMap = toMap();
+                        //FirebaseFirestore.instance.collection('antworten').add(answerMap);
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) {
-                          return Ende(punktzahl);
+                          return Ende(punktzahl, widget.personalPassword);
                         }));
                       }
                     } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
@@ -682,8 +704,10 @@ class _QuizScreenState extends State<QuizScreen> {
     //Size size = MediaQuery.of(context).size; //height and width of the screen
 
     if (noTimeLeft) {
+      //final answerMap = toMap();
+      //FirebaseFirestore.instance.collection('antworten').add(answerMap);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return Ende(punktzahl);
+        return Ende(punktzahl, widget.personalPassword);
       }));
     }
 
