@@ -88,7 +88,7 @@ class _QuizScreenState extends State<QuizScreen> {
   // ignore: unused_field
   Timer _timer;
   int seconds = 59;
-  int minutes = 0;
+  int minutes = 59;
   //int hours = 0;
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -763,7 +763,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     //print("lon:" + lastLon.toString() + " lat: " + lastLat.toString());
     Widget panorama;
-    switch (2) {
+    switch (currentLevel) {
       case 1:
         panorama = Panorama(
           minZoom: 1.0,
