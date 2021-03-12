@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:panorama/panorama.dart';
@@ -33,7 +33,6 @@ class PseudoCode {
 }
 
 class QuizScreen extends StatefulWidget {
-
   final String personalPassword;
 
   QuizScreen(this.personalPassword);
@@ -63,17 +62,17 @@ class _QuizScreenState extends State<QuizScreen> {
   double lastLat = 0;
   double punktzahl = 0;
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
-      'Frage 1' : answers[0], 
-      'Frage 2' : answers[1], 
-      'Frage 3' : answers[2], 
-      'Frage 4' : answers[3], 
-      'Frage 5' : answers[4], 
-      'Frage 6' : answers[5], 
-      'Frage 7' : answers[6], 
-      'Frage 8' : answers[7], 
-      'Frage 9' : answers[8], 
+      'Frage 1': answers[0],
+      'Frage 2': answers[1],
+      'Frage 3': answers[2],
+      'Frage 4': answers[3],
+      'Frage 5': answers[4],
+      'Frage 6': answers[5],
+      'Frage 7': answers[6],
+      'Frage 8': answers[7],
+      'Frage 9': answers[8],
     };
   }
 

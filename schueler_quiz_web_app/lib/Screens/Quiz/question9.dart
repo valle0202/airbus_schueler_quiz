@@ -17,7 +17,7 @@ Widget question9(BuildContext context) {
                 children: <TextSpan>[
                   TextSpan(
                       text:
-                          'In einem Kriegsgebiet kommt es durch ein Attentat zu vielen Verletzten, welches zu einem Mangel an Bluttransfusionen führt. Es werden daher umgehend '),
+                          'In einem Kriegsgebiet kommt es durch ein Attentat zu vielen Verletzten, weshalb ein Mangel an Bluttransfusionen entsteht. Es werden daher umgehend '),
                   TextSpan(
                       text: '300 weitere Transfusionen ',
                       style: Theme.of(context).textTheme.headline1),

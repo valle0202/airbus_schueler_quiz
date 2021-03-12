@@ -18,7 +18,7 @@ Widget question4(BuildContext context) {
                 children: <TextSpan>[
                   TextSpan(
                       text:
-                          "In folgendem Bild sind 9 Flughäfen zu sehen. An jedem dieser Flughäfen befindet sich einer Fracht welche an einen der anderen Flughäfen ausgeliefert werden muss. Ein Frachtflugzeug "),
+                          "In folgendem Bild sind 9 Flughäfen zu sehen. An jedem dieser Flughäfen befindet sich eine Fracht welche an einen der anderen Flughäfen ausgeliefert werden muss. Ein Frachtflugzeug "),
                   TextSpan(
                       text:
                           "startet unbeladen an Flughafen 5 und soll dort auch seine Rundreise beenden. ",

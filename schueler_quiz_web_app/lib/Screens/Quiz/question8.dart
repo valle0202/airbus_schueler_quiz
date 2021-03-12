@@ -16,7 +16,8 @@ Widget question8(BuildContext context) {
         ),
         Flexible(
             flex: 10,
-            child: Container(child: Image.asset('assets/images/Sequence.png'))),
+            child:
+                Container(child: Image.asset('assets/images/Sequence2.0.png'))),
         Flexible(
           flex: 1,
           child: Text(
