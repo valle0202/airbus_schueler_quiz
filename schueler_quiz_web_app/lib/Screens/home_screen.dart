@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/quiz_screen.dart';
@@ -11,13 +12,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  dynamic data;
   bool loginComplete = false;
   double x = 0.0;
   double y = 0.0;
   bool defaultPosition = true;
   double buttonWidth = 420.0;
   double buttonHeight = 140.0;
+  String personalPassword = '';
+
+  DocumentSnapshot snapshot;
+
+  void getData() async {
+    final data =await FirebaseFirestore.instance.collection('passwords').doc('nBmyPDh14CSmUMWKHD0k').get();
+    snapshot = data;
+  }
 
   Widget loginField () {
     //var focusNode = FocusNode();
@@ -42,10 +51,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           onChanged: (String value) {
-            if(value == 'Airbus') {
-              setState(() {
-                loginComplete = true;
-              });
+            if(value.length > 5) {
+              for(int i=0; i < snapshot.data().length; i++){
+                if (snapshot.data()[(i+1).toString()] == value) {
+                  setState(() {
+                    personalPassword = value;
+                    loginComplete = true;
+                  });
+                }
+              }
             }
           },
           //onSubmitted: , Fehlermeldung
@@ -54,8 +68,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+@override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    /*for(int i=0; i<acceptablePasswords.length; i++){
+      print(acceptablePasswords[i]);
+      print('hi');
+    }*/
+    
     Size size = MediaQuery.of(context).size; //height and width of the screen
 
     double percentageX = (x / size.width) * 100;
@@ -93,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {return QuizScreen();}));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {return QuizScreen(personalPassword);}));
                 },
               ),
             ),

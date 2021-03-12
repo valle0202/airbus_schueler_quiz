@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Ende extends StatefulWidget {
 
   final double punktzahl;
+  final String personalPassword;
 
-  Ende(this.punktzahl);
+  Ende(this.punktzahl, this.personalPassword);
 
   @override
   _EndeState createState() => _EndeState();
@@ -33,6 +35,7 @@ class _EndeState extends State<Ende> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {bottomColor = highlightColor3F;}));
+    FirebaseFirestore.instance.collection('punkte').add({widget.personalPassword : widget.punktzahl});
     super.initState();
   }
 
