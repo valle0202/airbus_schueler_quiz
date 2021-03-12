@@ -1018,25 +1018,25 @@ class _QuizScreenState extends State<QuizScreen> {
                       answerController.text = '';
                       borderColor = primaryBlue;
                       if (checkAnswers()) {
-                      // wenn die gesamte Stufe richtig ist
-                      isLoading = true;
-                      beantwortet = 0;
-                      currentLevel++;
-                      if (currentLevel == 1) {
-                        showEasyDone = true;
-                      }
-                      if (currentLevel == 2) {
-                        showMediumDone = true;
-                      }
-                      if (currentLevel == 3) {
-                        //final answerMap = toMap();
-                        //FirebaseFirestore.instance.collection('antworten').add(answerMap);
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return Ende(punktzahl, widget.personalPassword);
-                        }));
-                      }
-                    } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+                        // wenn die gesamte Stufe richtig ist
+                        isLoading = true;
+                        beantwortet = 0;
+                        currentLevel++;
+                        if (currentLevel == 1) {
+                          showEasyDone = true;
+                        }
+                        if (currentLevel == 2) {
+                          showMediumDone = true;
+                        }
+                        if (currentLevel == 3) {
+                          //final answerMap = toMap();
+                          //FirebaseFirestore.instance.collection('antworten').add(answerMap);
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Ende(punktzahl, widget.personalPassword);
+                          }));
+                        }
+                      } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
                     });
                   },
                   icon: Icon(Icons.arrow_back),
