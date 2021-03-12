@@ -116,7 +116,7 @@ class _QuizScreenState extends State<QuizScreen> {
   ];
 
   onItemClicked(int index) {
-    if (!isLoading) {
+    if (!isLoading && !richtigBeantwortet[index]) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
       lastLon = _lon;
       lastLat = _lat;
@@ -128,6 +128,12 @@ class _QuizScreenState extends State<QuizScreen> {
         answerController.text = answers[selectedIndex];
       }
       //tiptaken = false;
+    }
+    if(richtigBeantwortet[index]){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Bereits richtig beantwortet"),
+        backgroundColor: greenSuccess,)
+      );
     }
   }
 
@@ -180,6 +186,8 @@ class _QuizScreenState extends State<QuizScreen> {
   ];
 
   int maxTries = 3;
+
+  Color borderColor = primaryBlue;
 
   List tries = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -234,11 +242,10 @@ class _QuizScreenState extends State<QuizScreen> {
       for (int i = 0; i < correctAnswers[selectedIndex].length; i++) {
         //alle möglichen richtigen Antworten werden mit der Eingabe vergliichen
         if (correctAnswers[selectedIndex][i] == answers[selectedIndex]) {
+          borderColor = greenSuccess;
           richtigBeantwortet[selectedIndex] = true;
           if (tiptaken[selectedIndex]) {
-            punktzahl += 0.5 *
-                quizPunkte[
-                    selectedIndex]; //wenn ein Tip benutzt wurde gibt es nur die Hälfte der Punkte
+            punktzahl += 0.5 * quizPunkte[selectedIndex]; //wenn ein Tip benutzt wurde gibt es nur die Hälfte der Punkte
           } else {
             punktzahl += quizPunkte[
                 selectedIndex]; //ansonsten werden die gesamten Punkte draufaddiert
@@ -248,6 +255,7 @@ class _QuizScreenState extends State<QuizScreen> {
       }
       print(punktzahl);
       if (oldPunktzahl == punktzahl) {
+        borderColor = redDanger;
         // wenn die Eingabe falsch ist werden die möglichen Punkte um 1 verringert
         quizPunkte[selectedIndex]--;
         tries[selectedIndex]++;
@@ -272,85 +280,88 @@ class _QuizScreenState extends State<QuizScreen> {
           style: Theme.of(context).textTheme.bodyText1,
           controller: answerController,
           decoration: InputDecoration(
-              hintText: 'Antwort',
-              hintStyle: TextStyle(color: Colors.white70),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: secondaryBlue, width: 1.0),
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: primaryBlue, width: 2.0),
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: redDanger, width: 2.0),
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              ),
-              suffixIcon: Tooltip(
-                decoration: BoxDecoration(
-                    color: primaryBlue,
-                    borderRadius: BorderRadius.all(Radius.circular(4))),
-                message: 'Eingabe Speichern und zurück zum 360° Bild',
-                child: IconButton(
-                  color: greenSuccess,
-                  icon: Icon(Icons.check),
-                  onPressed: () {
-                    setState(() {
-                      if (answers[selectedIndex] == '' &&
-                          answerController.text != '')
-                        beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
-                      if (answers[selectedIndex] != '' &&
-                          answerController.text == '')
-                        beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine
-                      if (selectedIndex != 4) {
-                        answers[selectedIndex] = answerController.text
-                            .replaceAll(new RegExp(r'[^0-9]'), '');
-                      } else {
-                        answers[selectedIndex] = answerController.text;
+            //errorText: showError? '' : null,
+            //errorStyle: TextStyle(fontSize: 0),
+            hintText: 'Antwort',
+            hintStyle: TextStyle(color: Colors.white70),
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: secondaryBlue, width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: secondaryBlue, width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: borderColor, width: 2.0),
+              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            ),
+            suffixIcon: Tooltip(
+              decoration: BoxDecoration(
+                  color: primaryBlue,
+                  borderRadius: BorderRadius.all(Radius.circular(4))),
+              message: 'Eingabe überprüfen und speichern',
+              child: IconButton(
+                color: greenSuccess,
+                icon: Icon(Icons.check),
+                onPressed: () {
+                  setState(() {
+                    if (answers[selectedIndex] == '' &&
+                        answerController.text != '')
+                      beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
+                    if (answers[selectedIndex] != '' &&
+                        answerController.text == '')
+                      beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine
+                    if (selectedIndex != 4) {
+                      answers[selectedIndex] = answerController.text
+                          .replaceAll(new RegExp(r'[^0-9]'), '');
+                    } else {
+                      answers[selectedIndex] = answerController.text;
+                    }
+                    updatePunktzahl();
+                    //if(richtigBeantwortet[selectedIndex]){
+                    //  show360 = true;
+                    //}
+                    if (checkAnswers()) {
+                      // wenn die gesamte Stufe richtig ist
+                      isLoading = true;
+                      beantwortet = 0;
+                      currentLevel++;
+                      if (currentLevel == 1) {
+                        showEasyDone = true;
                       }
-                      updatePunktzahl();
-                      //if(richtigBeantwortet[selectedIndex]){
-                      //  show360 = true;
-                      //}
-                      if (checkAnswers()) {
-                        // wenn die gesamte Stufe richtig ist
-                        isLoading = true;
-                        beantwortet = 0;
-                        currentLevel++;
-                        if (currentLevel == 1) {
-                          showEasyDone = true;
-                        }
-                        if (currentLevel == 2) {
-                          showMediumDone = true;
-                        }
-                        if (currentLevel == 3) {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) {
-                            return Ende(punktzahl);
-                          }));
-                        }
-                      } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
-                    });
-                  },
-                ),
-              )),
+                      if (currentLevel == 2) {
+                        showMediumDone = true;
+                      }
+                      if (currentLevel == 3) {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) {
+                          return Ende(punktzahl);
+                        }));
+                      }
+                    } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+                  });
+                },
+              ),
+            )
+          ),
           onSubmitted: (String s) {
             answers[selectedIndex] = s;
           },
-          /*onChanged: (String s) {
-            if(selectedIndex == 7){
+          onChanged: (String s) {
+            setState(() {
+              borderColor = primaryBlue;
+            });   
+            /*if(selectedIndex == 7){
               List newOrder = s.split('; ');
               for(int i=0; i<items.length; i++){
                 print(newOrder[i] + ' ');
               }
               //reorderData(oldindex, newindex)
-            }
-          },*/
+            }*/
+          },
         ),
       ),
     );
@@ -1000,6 +1011,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     setState(() {
                       show360 = true;
                       answerController.text = '';
+                      borderColor = primaryBlue;
                     });
                   },
                   icon: Icon(Icons.arrow_back),
