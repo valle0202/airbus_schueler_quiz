@@ -54,7 +54,8 @@ class _QuizScreenState extends State<QuizScreen> {
   bool isLoading = true;
   bool isLoadingFirst = true;
   int beantwortet = 0;
-  bool timerGestartet = false; //wird auf true gesetzt, sobald der Button 'Timer starten' gedrückt wurde
+  bool timerGestartet =
+      false; //wird auf true gesetzt, sobald der Button 'Timer starten' gedrückt wurde
 
   double _lon = 0;
   double _lat = 0;
@@ -152,8 +153,10 @@ class _QuizScreenState extends State<QuizScreen> {
     }
     if (richtigBeantwortet[index]) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: tries[index] < 3? Text("Bereits richtig beantwortet") : Text("Gesperrt wegen zu vieler Versuche!"),
-        backgroundColor: tries[index] < 3? greenSuccess : redDanger,
+        content: tries[index] < 3
+            ? Text("Bereits richtig beantwortet")
+            : Text("Gesperrt wegen zu vieler Versuche!"),
+        backgroundColor: tries[index] < 3 ? greenSuccess : redDanger,
         duration: Duration(seconds: 2),
       ));
     }
@@ -227,17 +230,18 @@ class _QuizScreenState extends State<QuizScreen> {
     false
   ];
 
-  int countBeantwortet(){ //zählt wie viele Fragen bereits beantwortet wurden
+  int countBeantwortet() {
+    //zählt wie viele Fragen bereits beantwortet wurden
     int z = 0;
-    for(int i=0; i < 9; i++){
-      if(richtigBeantwortet[i] == true){
+    for (int i = 0; i < 9; i++) {
+      if (richtigBeantwortet[i] == true) {
         z++; //z wird erhöht wenn eine Eingabe erfolgt ist oder die Frage 3 mal falsch beantwortet wurde
       }
     }
-    if(currentLevel == 1) //wenn der Spieler auf dem 2. Level ist müssen die 4 richtigen aus lvl 1 abgezogen werden
-      z-=4;
-    if(currentLevel == 2)
-      z-=7;
+    if (currentLevel ==
+        1) //wenn der Spieler auf dem 2. Level ist müssen die 4 richtigen aus lvl 1 abgezogen werden
+      z -= 4;
+    if (currentLevel == 2) z -= 7;
     return z;
   }
 
@@ -282,15 +286,15 @@ class _QuizScreenState extends State<QuizScreen> {
         return true;
       }
     } else {
-      if (richtigBeantwortet[8] &&
-          richtigBeantwortet[1]) {
+      if (richtigBeantwortet[8] && richtigBeantwortet[1]) {
         return true;
       }
     }
     return false;
   }
 
-  void changeLevel(){//Das Level wird gewechselt
+  void changeLevel() {
+    //Das Level wird gewechselt
     isLoading = true;
     beantwortet = 0;
     currentLevel++;
@@ -303,8 +307,7 @@ class _QuizScreenState extends State<QuizScreen> {
     if (currentLevel == 3) {
       //final answerMap = toMap();
       //FirebaseFirestore.instance.collection('antworten').add(answerMap);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return Ende(punktzahl, widget.personalPassword);
       }));
     }
@@ -362,48 +365,49 @@ class _QuizScreenState extends State<QuizScreen> {
               style: Theme.of(context).textTheme.bodyText1,
               controller: answerController,
               decoration: InputDecoration(
-                //errorText: showError? '' : null,
-                //errorStyle: TextStyle(fontSize: 0),
-                hintText: 'Antwort',
-                hintStyle: TextStyle(color: Colors.white70),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryBlue, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryBlue, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: borderColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                ),
-                suffixIcon: Tooltip(
-                  decoration: BoxDecoration(
-                      color: primaryBlue,
-                      borderRadius: BorderRadius.all(Radius.circular(4))),
-                  message: 'Eingabe überprüfen und speichern',
-                  child: IconButton(
-                    color: greenSuccess,
-                    icon: Icon(Icons.check),
-                    onPressed: () {
-                      setState(() {
-                        if (selectedIndex != 4) {
-                          answers[selectedIndex] = answerController.text
-                              .replaceAll(new RegExp(r'[^0-9]'), '');
-                        } else {
-                          answers[selectedIndex] = answerController.text.toLowerCase();
-                        }
-                        updatePunktzahl();
-                        if (checkAnswers()) {
-                          // wenn die gesamte Stufe richtig ist
-                          changeLevel();
-                        } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
-                      });
-                    },
+                  //errorText: showError? '' : null,
+                  //errorStyle: TextStyle(fontSize: 0),
+                  hintText: 'Antwort',
+                  hintStyle: TextStyle(color: Colors.white70),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: secondaryBlue, width: 1.0),
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
                   ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: secondaryBlue, width: 1.0),
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: borderColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
+                  suffixIcon: Tooltip(
+                    decoration: BoxDecoration(
+                        color: primaryBlue,
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    message: 'Eingabe überprüfen und speichern',
+                    child: IconButton(
+                      color: greenSuccess,
+                      icon: Icon(Icons.check),
+                      onPressed: () {
+                        setState(() {
+                          if (selectedIndex != 4) {
+                            answers[selectedIndex] = answerController.text
+                                .replaceAll(new RegExp(r'[^0-9]'), '');
+                          } else {
+                            answers[selectedIndex] =
+                                answerController.text.toLowerCase();
+                          }
+                          updatePunktzahl();
+                          if (checkAnswers()) {
+                            // wenn die gesamte Stufe richtig ist
+                            changeLevel();
+                          } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+                        });
+                      },
+                    ),
                   )),
               onSubmitted: (String s) {
                 answers[selectedIndex] = s;
@@ -424,10 +428,12 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
         ),
         SizedBox(width: 10),
-        Container( //Anzeige wie viele Versuche man noch hat
+        Container(
+          //Anzeige wie viele Versuche man noch hat
           child: Text(
             'Versuche: ' + (3 - tries[selectedIndex]).toString(),
-            style: Theme.of(context).textTheme.bodyText1,),
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
         )
       ],
     );
@@ -818,7 +824,7 @@ class _QuizScreenState extends State<QuizScreen> {
           child: Image.asset('assets/images/eurofighter.jpg'),
           onViewChanged: onViewChanged,
           //onTap: (longitude, latitude, tilt) =>
-              //print('onTap: $longitude, $latitude, $tilt'),
+          //print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
               latitude: 3.4,
@@ -877,7 +883,7 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
           onViewChanged: onViewChanged,
           //onTap: (longitude, latitude, tilt) =>
-              //print('onTap: $longitude, $latitude, $tilt'),
+          //print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
               latitude: -2.98,
@@ -927,7 +933,7 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
           onViewChanged: onViewChanged,
           //onTap: (longitude, latitude, tilt) =>
-              //print('onTap: $longitude, $latitude, $tilt'),
+          //print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
               latitude: -3.5,
