@@ -351,6 +351,7 @@ class _QuizScreenState extends State<QuizScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        SizedBox(width: 110),
         Container(
           width: width,
           child: Visibility(
