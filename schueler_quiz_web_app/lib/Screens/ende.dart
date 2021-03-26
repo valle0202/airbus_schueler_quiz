@@ -39,10 +39,6 @@ class _EndeState extends State<Ende> {
     super.initState();
   }
 
-  Widget Link (String text) {
-    return Text()
-  }
-
   @override
   Widget build(BuildContext context) {
 
