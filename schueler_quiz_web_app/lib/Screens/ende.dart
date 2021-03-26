@@ -39,6 +39,10 @@ class _EndeState extends State<Ende> {
     super.initState();
   }
 
+  Widget Link (String text) {
+    return Text()
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -73,23 +77,27 @@ class _EndeState extends State<Ende> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Die Zeit ist abgelaufen vielen Dank für die Teilnahme! Du hast: ' + widget.punktzahl.toString() + ' von 100 Punkten erreicht!', 
+                        'Die Zeit ist abgelaufen vielen Dank für die Teilnahme! Du hast: ' + widget.punktzahl.toString() + ' von 100 Punkten erreicht!\n', 
                         style: Theme.of(context).textTheme.headline2,
                       ),
                       Text(
                         'Glückwunsch! Damit hast du dir eine Eintrittskarte für das kommende Event erspielt:', 
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
-                      
-                      Text(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 60.0),
+                        child: Text('//hier Grafik von Ticket einfügen'),
+                      ),
+                      /*Text(
                         'Hier kannst du dich weiter über ein Duales Studium oder eine Ausbildung bei Airbus informieren:', 
                         style: Theme.of(context).textTheme.bodyText1,
-                      ),
+                      ),*/
                       Text(
                         'Diese Website wurde von den Dualen Studenten Leander Fritsch und David Masloub in einem ihrer Praxiseinsätze erstellt. \n'
-                        + 'Lerne mehr über die Vielfältigen Möglichkeiten bei Uns unter den folgenden Links und am XX.XX.2021 beim LiveEvent, wir freuen uns auf Dich!', 
+                        + 'Lerne mehr über die Vielfältigen Möglichkeiten bei Airbus unter den folgenden Links und am XX.XX.2021 beim LiveEvent, wir freuen uns auf Dich!', 
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
+
                     ],
                   ),
                 ),
@@ -97,7 +105,7 @@ class _EndeState extends State<Ende> {
             )
           )
         ),
-        Image.asset("assets/images/Airbus_CarbonGrid.png"),
+        Center(child: Image.asset("assets/images/Airbus_CarbonGridAusschnitt.png", scale: 5,)),//sieht nicht gut aus :(
         ]
       ),
     );
