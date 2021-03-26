@@ -322,19 +322,21 @@ class _QuizScreenState extends State<QuizScreen> {
         //alle möglichen richtigen Antworten werden mit der Eingabe vergliichen
         if (correctAnswers[selectedIndex][i] == answers[selectedIndex]) {
           borderColor = greenSuccess;
+
           richtigBeantwortet[selectedIndex] = true;
-          if (tiptaken[selectedIndex]) {
+          /*if (tiptaken[selectedIndex]) {
             punktzahl += 0.5 *
                 quizPunkte[
                     selectedIndex]; //wenn ein Tip benutzt wurde gibt es nur die Hälfte der Punkte
           } else {
             punktzahl += quizPunkte[
                 selectedIndex]; //ansonsten werden die gesamten Punkte draufaddiert
-          }
+          }*/ //schon in Zeile 551 die Hälfte der Punkte abgezogen
+          punktzahl += quizPunkte[selectedIndex];
           break;
         }
       }
-      //print(punktzahl);
+      print(punktzahl);
       if (oldPunktzahl == punktzahl) {
         borderColor = redDanger;
         // wenn die Eingabe falsch ist werden die möglichen Punkte um 1 verringert
@@ -484,14 +486,17 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Widget topBar() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15),
+    return Container(
+      decoration: BoxDecoration(
+        color: show360 ? Colors.white54 : Colors.transparent,
+      ),
+      height: 70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             decoration: BoxDecoration(
-              color: show360 ? Colors.white54 : Colors.grey[200],
+              color: show360 ? Colors.black54 : Colors.grey[200],
               borderRadius: BorderRadius.all(Radius.circular(6)),
             ),
             //width: MediaQuery.of(context).size.width,
@@ -511,21 +516,21 @@ class _QuizScreenState extends State<QuizScreen> {
                           message:
                               'Jedes Level nimmt an Schwierigkeit zu, aber an Anzahl der Fragen ab.',
                           child: Text(
-                              "Level: " + (currentLevel + 1).toString() + "/3"))
+                              "Level: " + (currentLevel + 1).toString() + "/3", style: Theme.of(context).textTheme.bodyText1,))
                       : Text("Punkte: " + quizPunkte[selectedIndex].toString()),
                   SizedBox(width: 20),
                   if (seconds > 9 && minutes > 9)
-                    Text(minutes.toString() + ':' + seconds.toString()),
+                    Text(minutes.toString() + ':' + seconds.toString(), style: show360? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.bodyText2,),
                   if (seconds < 10 && minutes > 9)
-                    Text(minutes.toString() + ':' + '0' + seconds.toString()),
+                    Text(minutes.toString() + ':' + '0' + seconds.toString(), style: show360? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.bodyText2,),
                   if (seconds > 9 && minutes < 10)
-                    Text('0' + minutes.toString() + ':' + seconds.toString()),
+                    Text('0' + minutes.toString() + ':' + seconds.toString(), style: show360? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.bodyText2,),
                   if (seconds < 10 && minutes < 10)
                     Text('0' +
                         minutes.toString() +
                         ':' +
                         '0' +
-                        seconds.toString()),
+                        seconds.toString(), style: Theme.of(context).textTheme.bodyText1,),
                   SizedBox(width: 20),
                   show360
                       ? Tooltip(
@@ -538,11 +543,12 @@ class _QuizScreenState extends State<QuizScreen> {
                           child: Text('beantwortet: ' +
                               beantwortet.toString() +
                               '/' +
-                              questionsPerLevel[currentLevel].toString()),
+                              questionsPerLevel[currentLevel].toString(), style: Theme.of(context).textTheme.bodyText1,),
                         )
                       : TextButton(
                           onPressed: () {
                             setState(() {
+                              quizPunkte[selectedIndex] *= 0.5; //es gibt nur die Hälfte der Punkte wenn ein Tip benutzt wurde
                               if (tipsLeft > 0 &&
                                   tiptaken[selectedIndex] == false) {
                                 tipsLeft--;
@@ -1084,35 +1090,37 @@ class _QuizScreenState extends State<QuizScreen> {
                 decoration: BoxDecoration(
                     color: primaryBlue,
                     borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: TextButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      /*if (answers[selectedIndex] == '' &&
-                        answerController.text != '')
-                        beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
-                      if (answers[selectedIndex] != '' &&
-                        answerController.text == '')
-                        beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine*/
-                      beantwortet = countBeantwortet();
-                      show360 = true;
-                      answerController.text = '';
-                      borderColor = primaryBlue;
-                      if (checkAnswers()) {
-                        // wenn die gesamte Stufe richtig ist
-                        changeLevel();
-                      } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
-                    });
-                  },
-                  icon: Icon(Icons.arrow_back),
-                  label: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Zurück',
-                      style: TextStyle(color: primaryBlue),
+                child: Container(
+                  child: TextButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        /*if (answers[selectedIndex] == '' &&
+                          answerController.text != '')
+                          beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
+                        if (answers[selectedIndex] != '' &&
+                          answerController.text == '')
+                          beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine*/
+                        beantwortet = countBeantwortet();
+                        show360 = true;
+                        answerController.text = '';
+                        borderColor = primaryBlue;
+                        if (checkAnswers()) {
+                          // wenn die gesamte Stufe richtig ist
+                          changeLevel();
+                        } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
+                      });
+                    },
+                    icon: Icon(Icons.arrow_back),
+                    label: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        richtigBeantwortet[selectedIndex]? 'Weiter' : 'Zurück',
+                        style: TextStyle(color: richtigBeantwortet[selectedIndex]? Colors.white : primaryBlue),
+                      ),
                     ),
-                  ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.yellow,
+                    style: TextButton.styleFrom(
+                      backgroundColor: richtigBeantwortet[selectedIndex]? greenSuccess : Colors.yellow,
+                    ),
                   ),
                 ),
                 message: 'zurück zum 360° Bild ohne die Eingabe zu speichern',
