@@ -45,32 +45,60 @@ class _EndeState extends State<Ende> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Center(
-        child: AnimatedContainer(
-          duration: Duration(seconds: 2),
-          width: size.width,
-          onEnd: () {
-            setState(() {
-              index = index + 1;
-              bottomColor = colorList[index % colorList.length];
-              topColor = colorList[(index + 1) % colorList.length];
-            });
-          },
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [bottomColor, topColor],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight)
-          ),
-          child: Column(
-            children: [
-              Text(
-                'Die Zeit ist abgelaufen vielen Dank für die Teilname! Du hast: ' + widget.punktzahl.toString() + ' von 100 Punkten erreicht!', 
-                style: Theme.of(context).textTheme.bodyText1,
+      body: Stack(
+        children: [
+          Center(
+          child: AnimatedContainer(
+            duration: Duration(seconds: 2),
+            width: size.width,
+            onEnd: () {
+              setState(() {
+                index = index + 1;
+                bottomColor = colorList[index % colorList.length];
+                topColor = colorList[(index + 1) % colorList.length];
+              });
+            },
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [bottomColor, topColor],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight)
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 20),
+              child: Center(
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: 1200),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Die Zeit ist abgelaufen vielen Dank für die Teilnahme! Du hast: ' + widget.punktzahl.toString() + ' von 100 Punkten erreicht!', 
+                        style: Theme.of(context).textTheme.headline2,
+                      ),
+                      Text(
+                        'Glückwunsch! Damit hast du dir eine Eintrittskarte für das kommende Event erspielt:', 
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      
+                      Text(
+                        'Hier kannst du dich weiter über ein Duales Studium oder eine Ausbildung bei Airbus informieren:', 
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      Text(
+                        'Diese Website wurde von den Dualen Studenten Leander Fritsch und David Masloub in einem ihrer Praxiseinsätze erstellt. \n'
+                        + 'Lerne mehr über die Vielfältigen Möglichkeiten bei Uns unter den folgenden Links und am XX.XX.2021 beim LiveEvent, wir freuen uns auf Dich!', 
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ],
+            )
           )
-        )
+        ),
+        Image.asset("assets/images/Airbus_CarbonGrid.png"),
+        ]
       ),
     );
   }

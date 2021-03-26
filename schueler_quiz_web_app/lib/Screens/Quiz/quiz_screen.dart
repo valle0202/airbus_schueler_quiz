@@ -348,6 +348,10 @@ class _QuizScreenState extends State<QuizScreen> {
         show360 = true;
         beantwortet = countBeantwortet();
         //punktzahl wird nicht erhöht!
+        if (checkAnswers()) {
+          // wenn die gesamte Stufe richtig ist
+          changeLevel();
+        } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
       }
     }
   }
@@ -403,10 +407,6 @@ class _QuizScreenState extends State<QuizScreen> {
                                 answerController.text.toLowerCase();
                           }
                           updatePunktzahl();
-                          if (checkAnswers()) {
-                            // wenn die gesamte Stufe richtig ist
-                            changeLevel();
-                          } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
                         });
                       },
                     ),
@@ -766,7 +766,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size; //height and width of the screen
 
-    if (noTimeLeft) {
+    if (!noTimeLeft) {
       //final answerMap = toMap();
       //FirebaseFirestore.instance.collection('antworten').add(answerMap);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
