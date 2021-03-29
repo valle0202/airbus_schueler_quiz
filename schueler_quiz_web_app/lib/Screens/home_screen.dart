@@ -22,6 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   DocumentSnapshot snapshot;
 
+/*
+* importiert Passwörter aus Firestore 
+*/
   void getData() async {
     final data = await FirebaseFirestore.instance
         .collection('passwords')
@@ -30,15 +33,15 @@ class _HomeScreenState extends State<HomeScreen> {
     snapshot = data;
   }
 
+/*
+* erstellt Login Feld und überprüft Passwort 
+*/
   Widget loginField() {
-    //var focusNode = FocusNode();
-    //focusNode.requestFocus();
     return Center(
       child: Container(
         width: 400,
         height: 60,
         child: TextField(
-          //focusNode: focusNode,
           decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.only(
@@ -80,19 +83,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+/*
+* führt getData() aus 
+*/
   @override
   void initState() {
     super.initState();
     getData();
   }
 
+/*
+* erstellt startbutton, Regelfeld, Tippfeld
+*/
   @override
   Widget build(BuildContext context) {
-    /*for(int i=0; i<acceptablePasswords.length; i++){
-      print(acceptablePasswords[i]);
-      print('hi');
-    }*/
-
     Size size = MediaQuery.of(context).size; //height and width of the screen
 
     double percentageX = (x / size.width) * 100;
@@ -187,28 +191,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          /*Container(
-            decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            width: 1300,
-            child: Row(children: [
-              Flexible(
-                flex: 2,
-                child: Text(
-                  'Regeln: \n1.Das Quiz ist eine Stunde lang und besteht aus drei Schwierigkeitssstufen, die auf drei 360° Bilder aufgeteilt sind, mit jeweils vier, drei und zwei Fragen \n2.Jede Frage kann dreimal beatwortet werden bevor sie gesperrt ist, das richtige Beantworten einer Fragen im zweiten oder dritten Versuche, erbringt jedoch einen bzw. zwei Punkte weniger als im ersten  \n3.Um die nächste Stufe zu erreichen müssen alle Fragen einer Stufe entweder richtig beatwortet oder gesperrt werden\n4.Jede Frage ist ihrer Schwierigkeit entsprechend unterschiedlich stark bepunktet, insgesamt sind 100 mögliche Punkte zu erreichen\n5.Ist eine Frage zu schwer liegen einem vier Tipps zur Verfügung, welche für vier beliebige Fragen eingelöst werden können, jedoch den Punkteertrag für das Lösen der jeweiligen Frage halbiert',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ),
-              Flexible(
-                flex: 2,
-                child: Text(
-                  'Tipps: \n-Lege dir Stift und Papier bereit, da du die für das Lösen mancher Fragen benötigen wirst\n-Manche Fragen sind versteckt, schaue dich auf dem gesamt 360° Bild in allen Achsenrichtungen um, um alle Fragen zu finden\n-Das Quiz ist nicht darauf ausgelegt, dass man in der Zeit alle Fragen richtig beantworten kann, scheue daher nicht davor zurück deine Tipps einzusetzen bzw. eine Frage durch sperren zu überspringen ',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              )
-            ]),
-          ),*/
         ],
       );
     }

@@ -5,11 +5,16 @@ import 'package:schueler_quiz_web_app/constants.dart';
 // Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
 
+//Programmstart ruft App() auf
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(App());
 }
 
+/*
+* Verbindung zu Firebase wird erstellt 
+* ruft MyApp() auf
+*/
 class App extends StatelessWidget {
   // Create the initialization Future outside of `build`:
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
@@ -37,6 +42,10 @@ class App extends StatelessWidget {
   }
 }
 
+/*
+* erstellt Thema mit Schriften und Farben 
+* ruft HomeScreen() auf 
+*/
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -60,10 +69,14 @@ class MyApp extends StatelessWidget {
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
-          bodyText1: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w300),
-          bodyText2: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w300),
-          headline1: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500),
-          headline2: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w300),
+          bodyText1: TextStyle(
+              fontSize: 18, color: Colors.white, fontWeight: FontWeight.w300),
+          bodyText2: TextStyle(
+              fontSize: 18, color: Colors.black, fontWeight: FontWeight.w300),
+          headline1: TextStyle(
+              fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500),
+          headline2: TextStyle(
+              fontSize: 24, color: Colors.white, fontWeight: FontWeight.w300),
           //headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
           //headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
           //bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
@@ -73,4 +86,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

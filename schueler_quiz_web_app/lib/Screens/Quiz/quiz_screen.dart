@@ -1,10 +1,8 @@
 import 'dart:async';
 
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:panorama/panorama.dart';
-//import 'package:video_player/video_player.dart';
 
 import 'package:schueler_quiz_web_app/Screens/Quiz/question1.dart';
 import 'package:schueler_quiz_web_app/Screens/Quiz/question2.dart';
@@ -20,18 +18,6 @@ import 'package:schueler_quiz_web_app/Screens/afterRare.dart';
 import 'package:schueler_quiz_web_app/Screens/ende.dart';
 import 'package:schueler_quiz_web_app/constants.dart';
 
-class PseudoCode {
-  String id;
-  String title;
-  Color color;
-
-  PseudoCode({
-    @required this.id,
-    @required this.title,
-    @required this.color,
-  });
-}
-
 class QuizScreen extends StatefulWidget {
   final String personalPassword;
 
@@ -41,12 +27,14 @@ class QuizScreen extends StatefulWidget {
   _QuizScreenState createState() => _QuizScreenState();
 }
 
+/*
+* Erstellt und ändert die 360° Bilder und Fragen 
+*/
 class _QuizScreenState extends State<QuizScreen> {
-  int currentLevel =
-      0; //if the user is on first second or third panorama(/difficulty)
-  int selectedIndex = 0;
+  int currentLevel = 0; //welches 360° Bild (0,1,2)
+  int selectedIndex = 0; //aktuelle Frage in Bearbeitung
   int tipsLeft = 4;
-  bool show360 = true; //if true displays the panorama, else a question
+  bool show360 = true; //falls true zeigt 360 Bild, ansonsten eine Frage
   bool noTimeLeft = false;
   bool showEasyDone = false;
   bool showMediumDone = false;
@@ -64,6 +52,11 @@ class _QuizScreenState extends State<QuizScreen> {
   double lastLat = 0;
   double punktzahl = 0;
 
+/*
+* verbindet Antworten zu Fragen in Firebase
+* aktuell nicht in Verwendung
+* siehe funktion changeLevel() (ca. Zeile 300-400)
+*/
   Map<String, dynamic> toMap() {
     return {
       'Frage 1': answers[0],
@@ -78,6 +71,9 @@ class _QuizScreenState extends State<QuizScreen> {
     };
   }
 
+  /*
+  * Drehung des 360° Bildes
+  */
   void onViewChanged(longitude, latitude, tilt) {
     setState(() {
       _lon = longitude;
@@ -86,11 +82,13 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  /*
+  * startet und führt den Timer aus 
+  */
   // ignore: unused_field
   Timer _timer;
   int seconds = 59;
-  int minutes = 59;
-  //int hours = 0;
+  int minutes = 60;
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
@@ -110,10 +108,6 @@ class _QuizScreenState extends State<QuizScreen> {
               if (seconds < 0) {
                 minutes--;
                 seconds = 59;
-                /*if (minutes > 59) {
-                  hours += 1;
-                  minutes = 0;
-                }*/
               }
             }
           }
@@ -124,6 +118,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List questionsPerLevel = [4, 3, 2];
 
+  //speichert die Usereingabe
   List answers = [
     '',
     '',
@@ -136,6 +131,12 @@ class _QuizScreenState extends State<QuizScreen> {
     '',
   ];
 
+  /*
+  * Hilfsfunktion für Click on Icon 
+  * - speichert aktuelle Koordinaten auf 360° Bild
+  * - leert Textfeld und setzt dessen Bordercolor auf Blau 
+  * - zeigt eine Snackbar an wenn Frage gesperrt oder richtig beantwortet 
+  */
   onItemClicked(int index) {
     if (!isLoading && !richtigBeantwortet[index]) {
       //print("lon:" + _lon.toString() + " lat: " + _lat.toString());
@@ -174,28 +175,16 @@ class _QuizScreenState extends State<QuizScreen> {
     false
   ];
 
-  List richtige = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
-
   List correctAnswers = [
-    ['22'],
-    ['149162536496481100'],
-    ['1'],
-    ['5329764185'],
-    ['rmulinzgrp'],
-    ['1236874159', '1478632159'],
-    ['10496312118715132'],
-    ['1112213211'],
-    ['183', '184', '185', '186', '187', '188'],
+    ['22'], //question1
+    ['149162536496481100'], //question2
+    ['1'], //question3
+    ['5329764185'], //question4
+    ['rmulinzgrp'], //question5
+    ['1236874159', '1478632159'], //question6
+    ['10496312118715132'], //question7
+    ['1112213211'], //question8
+    ['183', '184', '185', '186', '187', '188'], //question9
   ];
 
   List tips = [
@@ -230,8 +219,10 @@ class _QuizScreenState extends State<QuizScreen> {
     false
   ];
 
+  /*
+  * zählt wie viele Fragen bereits beantwortet wurden
+  */
   int countBeantwortet() {
-    //zählt wie viele Fragen bereits beantwortet wurden
     int z = 0;
     for (int i = 0; i < 9; i++) {
       if (richtigBeantwortet[i] == true) {
@@ -245,33 +236,10 @@ class _QuizScreenState extends State<QuizScreen> {
     return z;
   }
 
+  /*
+  * überprüft Fragen um auf das nächste Bild zu wechseln 
+  */
   bool checkAnswers() {
-    /*if (currentLevel == 0) {
-      if (correctAnswers[0][0] == answers[0] &&
-          correctAnswers[2][0] == answers[2] &&
-          correctAnswers[3][0] == answers[3] &&
-          correctAnswers[4][0] == answers[4]) {
-        return true;
-      }
-    } else if (currentLevel == 1) {
-      if ((correctAnswers[5][0] == answers[5] ||
-              correctAnswers[5][1] == answers[5]) &&
-          correctAnswers[6][0] == answers[6] &&
-          correctAnswers[7][0] == answers[7]) {
-        return true;
-      }
-    } else {
-      if (correctAnswers[1][0] == answers[1] &&
-          (correctAnswers[8][0] == answers[8] ||
-              correctAnswers[8][1] == answers[8] ||
-              correctAnswers[8][2] == answers[8] ||
-              correctAnswers[8][3] == answers[8] ||
-              correctAnswers[8][4] == answers[8] ||
-              correctAnswers[8][5] == answers[8])) {
-        return true;
-      }
-    }*/
-    //print(richtigBeantwortet);
     if (currentLevel == 0) {
       if (richtigBeantwortet[0] &&
           richtigBeantwortet[2] &&
@@ -293,8 +261,8 @@ class _QuizScreenState extends State<QuizScreen> {
     return false;
   }
 
+  //Das Level wird gewechselt
   void changeLevel() {
-    //Das Level wird gewechselt
     isLoading = true;
     beantwortet = 0;
     currentLevel++;
@@ -305,6 +273,7 @@ class _QuizScreenState extends State<QuizScreen> {
       showMediumDone = true;
     }
     if (currentLevel == 3) {
+      // überträgt gegebene Antworten an Firestore
       //final answerMap = toMap();
       //FirebaseFirestore.instance.collection('antworten').add(answerMap);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
@@ -313,6 +282,9 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
+  /*
+  * aktualisiert die Punktzahl
+  */
   void updatePunktzahl() {
     //überprüft die Eingabe, wenn auf den grünen haken gedrückt wurde
     if (!richtigBeantwortet[selectedIndex]) {
@@ -356,6 +328,10 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
+  /* 
+ * erstellt Antwortenfeld, und aktualisiert dessen Farbe entsprechend der Antwort 
+ * ruft Fuktion updatePunktzahl auf wenn grüner Hacken gedrückt wurde
+ */
   Widget answer(double width) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -418,13 +394,6 @@ class _QuizScreenState extends State<QuizScreen> {
                 setState(() {
                   borderColor = primaryBlue;
                 });
-                /*if(selectedIndex == 7){
-                  List newOrder = s.split('; ');
-                  for(int i=0; i<items.length; i++){
-                    print(newOrder[i] + ' ');
-                  }
-                  //reorderData(oldindex, newindex)
-                }*/
               },
             ),
           ),
@@ -441,17 +410,11 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
+  /*
+  * erstellt clickbare Icons zu Fragen  
+  */
   Widget hotspotButton({String text, String image, VoidCallback onPressed}) {
-    return /*TextButton(
-      style: TextButton.styleFrom(
-        shape: CircleBorder(),
-        backgroundColor: Colors.black38,
-      ),
-      child: Icon(icon),
-      onPressed: onPressed,
-    );*/
-
-        Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Tooltip(
@@ -470,21 +433,14 @@ class _QuizScreenState extends State<QuizScreen> {
             onPressed: onPressed,
           ),
         ),
-        /*text != null
-            ? Container(
-                padding: EdgeInsets.all(4.0),
-                decoration: BoxDecoration(
-                    color: Colors.black38,
-                    borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: Center(
-                    child:
-                        Text(text, style: TextStyle(color: Colors.white))), //
-              )
-            : Container(),*/
       ],
     );
   }
 
+  /*
+  * ertsellt obere Leiste in Fragen und 360 Bild 
+  * berechnet angezeigte Punktzahl
+  */
   Widget topBar() {
     return Container(
       decoration: BoxDecoration(
@@ -516,21 +472,37 @@ class _QuizScreenState extends State<QuizScreen> {
                           message:
                               'Jedes Level nimmt an Schwierigkeit zu, aber an Anzahl der Fragen ab.',
                           child: Text(
-                              "Level: " + (currentLevel + 1).toString() + "/3", style: Theme.of(context).textTheme.bodyText1,))
+                            "Level: " + (currentLevel + 1).toString() + "/3",
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ))
                       : Text("Punkte: " + quizPunkte[selectedIndex].toString()),
                   SizedBox(width: 20),
                   if (seconds > 9 && minutes > 9)
-                    Text(minutes.toString() + ':' + seconds.toString(), style: show360? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.bodyText2,),
+                    Text(
+                      minutes.toString() + ':' + seconds.toString(),
+                      style: show360
+                          ? Theme.of(context).textTheme.bodyText1
+                          : Theme.of(context).textTheme.bodyText2,
+                    ),
                   if (seconds < 10 && minutes > 9)
-                    Text(minutes.toString() + ':' + '0' + seconds.toString(), style: show360? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.bodyText2,),
+                    Text(
+                      minutes.toString() + ':' + '0' + seconds.toString(),
+                      style: show360
+                          ? Theme.of(context).textTheme.bodyText1
+                          : Theme.of(context).textTheme.bodyText2,
+                    ),
                   if (seconds > 9 && minutes < 10)
-                    Text('0' + minutes.toString() + ':' + seconds.toString(), style: show360? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.bodyText2,),
+                    Text(
+                      '0' + minutes.toString() + ':' + seconds.toString(),
+                      style: show360
+                          ? Theme.of(context).textTheme.bodyText1
+                          : Theme.of(context).textTheme.bodyText2,
+                    ),
                   if (seconds < 10 && minutes < 10)
-                    Text('0' +
-                        minutes.toString() +
-                        ':' +
-                        '0' +
-                        seconds.toString(), style: Theme.of(context).textTheme.bodyText1,),
+                    Text(
+                      '0' + minutes.toString() + ':' + '0' + seconds.toString(),
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
                   SizedBox(width: 20),
                   show360
                       ? Tooltip(
@@ -540,15 +512,19 @@ class _QuizScreenState extends State<QuizScreen> {
                                   BorderRadius.all(Radius.circular(4))),
                           message:
                               'Anzahl an Fragen in dieser Stufe die du bereits beantwortet hast ',
-                          child: Text('beantwortet: ' +
-                              beantwortet.toString() +
-                              '/' +
-                              questionsPerLevel[currentLevel].toString(), style: Theme.of(context).textTheme.bodyText1,),
+                          child: Text(
+                            'beantwortet: ' +
+                                beantwortet.toString() +
+                                '/' +
+                                questionsPerLevel[currentLevel].toString(),
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
                         )
                       : TextButton(
                           onPressed: () {
                             setState(() {
-                              quizPunkte[selectedIndex] *= 0.5; //es gibt nur die Hälfte der Punkte wenn ein Tip benutzt wurde
+                              quizPunkte[selectedIndex] *=
+                                  0.5; //es gibt nur die Hälfte der Punkte wenn ein Tip benutzt wurde
                               if (tipsLeft > 0 &&
                                   tiptaken[selectedIndex] == false) {
                                 tipsLeft--;
@@ -567,132 +543,10 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  List<PseudoCode> items = [
-    PseudoCode(
-        id: '4',
-        title:
-            'solange i kleiner als die Länge der Liste ist, wird i um 1 erhöht und folgendes ausgeführt: {',
-        color: highlightColor2),
-    PseudoCode(id: '2', title: '}', color: highlightColor2),
-    PseudoCode(
-        id: '6',
-        title:
-            'Es sei j eine Variable, in die der aktuelle Wert von i+1 gespeichert wird',
-        color: highlightColor4),
-    PseudoCode(
-        id: '9',
-        title:
-            'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird',
-        color: Colors.deepOrange[400]),
-    PseudoCode(
-        id: '1',
-        title: 'Falls der Wert von min nicht der gleiche ist, wie der von i: {',
-        color: highlightColor3),
-    PseudoCode(id: '13', title: '}', color: highlightColor3),
-    PseudoCode(
-        id: '3',
-        title:
-            'solange j kleiner als die Länge der Liste ist, wird j um 1 erhöht und folgendes ausgeführt: {',
-        color: highlightColor5),
-    PseudoCode(id: '7', title: '}', color: highlightColor5),
-    PseudoCode(
-        id: '12',
-        title:
-            'Falls der Eintrag der Liste an der Stelle j kleiner ist als der Eintrag an der Stelle min, dann: {',
-        color: highlightColor6),
-    PseudoCode(id: '8', title: '}', color: highlightColor6),
-    PseudoCode(
-        id: '10',
-        title: 'Es sei i eine Variable, die ganze Zahlen speichert',
-        color: highlightColor1),
-    PseudoCode(
-        id: '5',
-        title:
-            'tausche das Listenelement an der Stelle i mit dem an der Stelle min',
-        color: highlightColor4),
-    PseudoCode(
-        id: '11',
-        title: 'weise der Variable min den aktuellen Wert von j zu',
-        color: highlightColor7),
-  ];
-
-  Widget pseudoCodeTile(PseudoCode pseudoCode) {
-    return Card(
-      color: pseudoCode.color,
-      key: Key(pseudoCode.id),
-      elevation: 12,
-      child: ListTile(
-        leading: Text(
-          pseudoCode.id,
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-        title: Text(
-          pseudoCode.title,
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-      ),
-    );
-  }
-
-  void reorderData(int oldindex, int newindex) {
-    setState(() {
-      borderColor = primaryBlue;
-      if (newindex > oldindex) {
-        newindex -= 1;
-      }
-      final item = items.removeAt(oldindex);
-      items.insert(newindex, item);
-      String selectedOrder = '';
-      for (int i = 0; i < items.length; i++) {
-        selectedOrder += items[i].id;
-        if (i != (items.length - 1)) {
-          selectedOrder += '; ';
-        }
-      }
-      answerController.text = selectedOrder;
-    });
-  }
-
-  Widget question7(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text(
-                'Bringe den folgenden Code in die richtige Reihenfolge, damit eine Liste in aufsteigender Reihenfolge sortiert wird. Nutze dazu die zwei Striche am rechten Rand.',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-            ),
-          ),
-          Flexible(
-            flex: 8,
-            child: Container(
-              constraints: BoxConstraints(maxWidth: 1000),
-              child: ReorderableListView(
-                children: items.map((pseudoCode) {
-                  return pseudoCodeTile(pseudoCode);
-                }).toList(),
-                onReorder: reorderData,
-              ),
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            child: Text(
-              'HINWEIS: Zusammengehörige "{" und "}" haben die gleiche Farbe und müssen entsprechend sortiert werden',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
+/*
+* angezeigter Bildschirm während nächstes 360° Bild lädt
+* infos über Airbus sollen noch eingefügt werden
+*/
   Widget zwischenInfos(Widget widget, int nr) {
     return Stack(alignment: AlignmentDirectional.bottomCenter, children: [
       widget,
@@ -720,6 +574,10 @@ class _QuizScreenState extends State<QuizScreen> {
     ]);
   }
 
+/*
+* angezeigter Bildschirm während erstes 360 Bild lädt
+* startet den Timer bei click auf Button
+*/
   Widget startTimerWidget() {
     return Center(
       child: Container(
@@ -764,8 +622,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //Size size = MediaQuery.of(context).size; //height and width of the screen
-
+    /*
+    * überträgt antworten an Firebase und ruft Ende auf falls Zeit abgelaufen ist 
+    */
     if (noTimeLeft) {
       //final answerMap = toMap();
       //FirebaseFirestore.instance.collection('antworten').add(answerMap);
@@ -774,6 +633,7 @@ class _QuizScreenState extends State<QuizScreen> {
       }));
     }
 
+    //erstellt Liste aus Fragen Widgets
     List quizWidgets = [
       question1(context),
       question2(context),
@@ -786,6 +646,9 @@ class _QuizScreenState extends State<QuizScreen> {
       question9(context),
     ];
 
+    /*
+    * Fragebildschirm 
+    */
     Widget questionScreen() {
       return Stack(children: [
         Column(
@@ -820,7 +683,10 @@ class _QuizScreenState extends State<QuizScreen> {
       ]);
     }
 
-    //print("lon:" + lastLon.toString() + " lat: " + lastLat.toString());
+    /*
+    * ruft 360 Bild dem aktuellen Level entsprechend auf 
+    * platziert Frage Icons 
+    */
     Widget panorama;
     switch (currentLevel) {
       case 1:
@@ -829,8 +695,6 @@ class _QuizScreenState extends State<QuizScreen> {
           maxZoom: 1.0,
           child: Image.asset('assets/images/eurofighter.jpg'),
           onViewChanged: onViewChanged,
-          //onTap: (longitude, latitude, tilt) =>
-          //print('onTap: $longitude, $latitude, $tilt'),
           hotspots: [
             Hotspot(
               latitude: 3.4,
@@ -1005,6 +869,10 @@ class _QuizScreenState extends State<QuizScreen> {
         );
     }
 
+    /*
+    * returned Stack der wichtigsten Elemente 
+    * und erstellt weiter/ zurück button
+    */
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: Stack(
@@ -1062,29 +930,7 @@ class _QuizScreenState extends State<QuizScreen> {
         ],
       ),
       floatingActionButton: !show360
-          ?
-          /*FloatingActionButton(
-          child: Icon(Icons.check),
-          backgroundColor: greenSuccess,
-          onPressed: () {
-            setState(() {
-              answers[selectedIndex] = answerController.text;
-              show360 = true;
-              if (checkAnswers()) {
-                currentLevel++;
-                if (currentLevel == 1) {
-                  showEasyDone = true;
-                }
-                //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
-                //if (currentLevel == 2)
-                //Navigator.push(context, MaterialPageRoute(builder: (context) {return ();}));
-                //if (currentLevel == 3)
-                //Navigator.push(context, MaterialPageRoute(builder: (context) {return easyDone();}));
-              } //geht aufs nächste Panorama, wenn alle Antworten richtig sind
-            });
-          },
-        )*/
-          Padding(
+          ? Padding(
               padding: const EdgeInsets.only(left: 0),
               child: Tooltip(
                 decoration: BoxDecoration(
@@ -1094,12 +940,6 @@ class _QuizScreenState extends State<QuizScreen> {
                   child: TextButton.icon(
                     onPressed: () {
                       setState(() {
-                        /*if (answers[selectedIndex] == '' &&
-                          answerController.text != '')
-                          beantwortet++; //beantwortet wird ehöht falls vorher keine Antwort da war und jetzt schon
-                        if (answers[selectedIndex] != '' &&
-                          answerController.text == '')
-                          beantwortet--; //beantwortet wird verringert falls vorher eine Antwort da war und jetzt keine*/
                         beantwortet = countBeantwortet();
                         show360 = true;
                         answerController.text = '';
@@ -1114,12 +954,17 @@ class _QuizScreenState extends State<QuizScreen> {
                     label: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        richtigBeantwortet[selectedIndex]? 'Weiter' : 'Zurück',
-                        style: TextStyle(color: richtigBeantwortet[selectedIndex]? Colors.white : primaryBlue),
+                        richtigBeantwortet[selectedIndex] ? 'Weiter' : 'Zurück',
+                        style: TextStyle(
+                            color: richtigBeantwortet[selectedIndex]
+                                ? Colors.white
+                                : primaryBlue),
                       ),
                     ),
                     style: TextButton.styleFrom(
-                      backgroundColor: richtigBeantwortet[selectedIndex]? greenSuccess : Colors.yellow,
+                      backgroundColor: richtigBeantwortet[selectedIndex]
+                          ? greenSuccess
+                          : Colors.yellow,
                     ),
                   ),
                 ),
@@ -1129,4 +974,160 @@ class _QuizScreenState extends State<QuizScreen> {
           : SizedBox(height: 0),
     );
   }
+
+//------------------------------------------ FRAGE 7 --------------------------------------------------------
+
+  /*
+  * erstellt Layout der siebten Frage  
+  */
+  Widget question7(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                'Bringe den folgenden Code in die richtige Reihenfolge, damit eine Liste in aufsteigender Reihenfolge sortiert wird. Nutze dazu die zwei Striche am rechten Rand.',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 8,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 1000),
+              child: ReorderableListView(
+                children: items.map((pseudoCode) {
+                  return pseudoCodeTile(pseudoCode);
+                }).toList(),
+                onReorder: reorderData,
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: Text(
+              'HINWEIS: Zusammengehörige "{" und "}" haben die gleiche Farbe und müssen entsprechend sortiert werden',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /*
+  * liste der Codeschnipsel für Frage 7 
+  * enthält Objekte der class Pseudocode 
+  */
+  List<PseudoCode> items = [
+    PseudoCode(
+        id: '4',
+        title:
+            'solange i kleiner als die Länge der Liste ist, wird i um 1 erhöht und folgendes ausgeführt: {',
+        color: highlightColor2),
+    PseudoCode(id: '2', title: '}', color: highlightColor2),
+    PseudoCode(
+        id: '6',
+        title:
+            'Es sei j eine Variable, in die der aktuelle Wert von i+1 gespeichert wird',
+        color: highlightColor4),
+    PseudoCode(
+        id: '9',
+        title:
+            'Es sei min eine Variable, in die der aktuelle Wert von i gespeichert wird',
+        color: Colors.deepOrange[400]),
+    PseudoCode(
+        id: '1',
+        title: 'Falls der Wert von min nicht der gleiche ist, wie der von i: {',
+        color: highlightColor3),
+    PseudoCode(id: '13', title: '}', color: highlightColor3),
+    PseudoCode(
+        id: '3',
+        title:
+            'solange j kleiner als die Länge der Liste ist, wird j um 1 erhöht und folgendes ausgeführt: {',
+        color: highlightColor5),
+    PseudoCode(id: '7', title: '}', color: highlightColor5),
+    PseudoCode(
+        id: '12',
+        title:
+            'Falls der Eintrag der Liste an der Stelle j kleiner ist als der Eintrag an der Stelle min, dann: {',
+        color: highlightColor6),
+    PseudoCode(id: '8', title: '}', color: highlightColor6),
+    PseudoCode(
+        id: '10',
+        title: 'Es sei i eine Variable, die ganze Zahlen speichert',
+        color: highlightColor1),
+    PseudoCode(
+        id: '5',
+        title:
+            'tausche das Listenelement an der Stelle i mit dem an der Stelle min',
+        color: highlightColor4),
+    PseudoCode(
+        id: '11',
+        title: 'weise der Variable min den aktuellen Wert von j zu',
+        color: highlightColor7),
+  ];
+
+  /*
+  * ändert die Reihenfolge der List items 
+  */
+  void reorderData(int oldindex, int newindex) {
+    setState(() {
+      borderColor = primaryBlue;
+      if (newindex > oldindex) {
+        newindex -= 1;
+      }
+      final item = items.removeAt(oldindex);
+      items.insert(newindex, item);
+      String selectedOrder = '';
+      for (int i = 0; i < items.length; i++) {
+        selectedOrder += items[i].id;
+        if (i != (items.length - 1)) {
+          selectedOrder += '; ';
+        }
+      }
+      answerController.text = selectedOrder;
+    });
+  }
+
+  /* 
+  * erzeugt Layout eines Codeschnipsels 
+  */
+  Widget pseudoCodeTile(PseudoCode pseudoCode) {
+    return Card(
+      color: pseudoCode.color,
+      key: Key(pseudoCode.id),
+      elevation: 12,
+      child: ListTile(
+        leading: Text(
+          pseudoCode.id,
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        title: Text(
+          pseudoCode.title,
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+      ),
+    );
+  }
+}
+
+/*
+* Variablen für Frage 7 
+*/
+class PseudoCode {
+  String id;
+  String title;
+  Color color;
+
+  PseudoCode({
+    @required this.id,
+    @required this.title,
+    @required this.color,
+  });
 }
