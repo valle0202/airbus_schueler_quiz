@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: Text(
-                    'Regeln: \n - Das Quiz ist eine Stunde lang und besteht aus drei Schwierigkeitssstufen, die auf drei 360° Bilder aufgeteilt sind, mit jeweils vier, drei und zwei Fragen. \n - Jede Frage kann dreimal beatwortet werden bevor sie gesperrt ist, das richtige Beantworten einer Fragen im zweiten oder dritten Versuche, erbringt jedoch einen bzw. zwei Punkte weniger als im ersten.  \n - Um die nächste Stufe zu erreichen müssen alle Fragen einer Stufe entweder richtig beatwortet oder gesperrt werden\n - Jede Frage ist ihrer Schwierigkeit entsprechend unterschiedlich stark bepunktet, insgesamt sind 100 mögliche Punkte zu erreichen\n - Ist eine Frage zu schwer liegen einem vier Tipps zur Verfügung, welche für vier beliebige Fragen eingelöst werden können, jedoch den Punkteertrag für das Lösen der jeweiligen Frage halbiert',
+                    'Regeln: \n - Das Quiz ist eine Stunde lang und besteht aus drei Schwierigkeitssstufen, die auf drei 360° Bilder aufgeteilt sind, mit jeweils vier, drei und zwei Fragen. \n - Jede Frage kann dreimal beantwortet werden bevor sie gesperrt ist, das richtige Beantworten einer Fragen im zweiten oder dritten Versuch, erbringt jedoch einen bzw. zwei Punkte weniger als im Ersten.  \n - Um die nächste Stufe zu erreichen müssen alle Fragen einer Stufe entweder richtig beantwortet oder gesperrt sein.\n - Jede Frage ist ihrer Schwierigkeit entsprechend unterschiedlich stark bepunktet, insgesamt sind 100 mögliche Punkte zu erreichen\n - Zum Lösen der Fragen stehen insgesamt vier Tipps zur Verfügung, welche jedoch den Punkteertrag für das Lösen der jeweiligen Frage halbieren.',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.black87,
                       borderRadius: BorderRadius.all(Radius.circular(10))),
                   child: Text(
-                    'Tipps: \n - Lege dir Stift und Papier bereit, da du die für das Lösen mancher Fragen benötigen wirst\n - Manche Fragen sind versteckt, schaue dich auf dem gesamt 360° Bild in allen Achsenrichtungen um, um alle Fragen zu finden\n - Das Quiz ist nicht darauf ausgelegt, dass man in der Zeit alle Fragen richtig beantworten kann, scheue daher nicht davor zurück deine Tipps einzusetzen bzw. eine Frage durch sperren zu überspringen ',
+                    'Tipps: \n - Lege dir Stift und Papier bereit, da du die für das Lösen mancher Fragen benötigen wirst.\n - Manche Fragen sind versteckt, schaue dich auf dem gesamt 360° Bild in allen Achsenrichtungen um, um alle Fragen zu finden.\n - Das Quiz ist nicht darauf ausgelegt, dass man in der Zeit alle Fragen richtig beantworten kann, scheue daher nicht davor zurück deine Tipps einzusetzen bzw. eine Frage durch Sperren zu überspringen.',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
