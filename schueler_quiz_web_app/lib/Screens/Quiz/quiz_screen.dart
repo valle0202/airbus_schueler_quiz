@@ -766,7 +766,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size; //height and width of the screen
 
-    if (!noTimeLeft) {
+    if (noTimeLeft) {
       //final answerMap = toMap();
       //FirebaseFirestore.instance.collection('antworten').add(answerMap);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
