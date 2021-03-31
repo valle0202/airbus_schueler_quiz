@@ -27,7 +27,7 @@ Widget question6(BuildContext context) {
                     style: Theme.of(context).textTheme.headline1),
                 TextSpan(
                     text:
-                        'Transportband in beliebiger Reihenfolge verbunden werden. Das Transportband muss mindestens einmal mittig durch jeden Bauplatz und ist beliebig lang. Die einzigen Beschränkungen sind, dass alle Transportbänder gerade verlaufen müssen und nur 3 Richtungsänderer genutzt werden können. Dies bedeutet, dass das Transportband schlussendlich aus '),
+                        'Transportband in beliebiger Reihenfolge verbunden werden. Das Transportband muss mindestens einmal mittig durch jeden Bauplatz verlaufen und ist beliebig lang. Die einzigen Beschränkungen sind, dass alle Transportbänder gerade verlaufen müssen und nur 3 Richtungsänderer genutzt werden können. Dies bedeutet, dass das Transportband schlussendlich aus '),
                 TextSpan(
                     text: '4 Geraden ',
                     style: Theme.of(context).textTheme.headline1),

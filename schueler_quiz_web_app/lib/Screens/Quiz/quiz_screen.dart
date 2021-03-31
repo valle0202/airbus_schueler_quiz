@@ -88,7 +88,7 @@ class _QuizScreenState extends State<QuizScreen> {
   // ignore: unused_field
   Timer _timer;
   int seconds = 59;
-  int minutes = 60;
+  int minutes = 59;
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
@@ -179,11 +179,11 @@ class _QuizScreenState extends State<QuizScreen> {
     ['22'], //question1
     ['149162536496481100'], //question2
     ['1'], //question3
-    ['5329764185'], //question4
+    ['5329764185', '32976418', '329764185', '532976418'], //question4
     ['rmulinzgrp'], //question5
     ['1236874159', '1478632159'], //question6
     ['10496312118715132'], //question7
-    ['1112213211'], //question8
+    ['1113213211'], //question8
     ['183', '184', '185', '186', '187', '188'], //question9
   ];
 
@@ -582,8 +582,8 @@ class _QuizScreenState extends State<QuizScreen> {
     return Center(
       child: Container(
           padding: EdgeInsets.all(15),
-          height: 140,
-          width: 300,
+          height: 350,
+          width: 566.3,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             color: Colors.black87,
@@ -592,7 +592,7 @@ class _QuizScreenState extends State<QuizScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                  'Bitte klicke auf den Button, sobald das 360° Bild geladen ist, um die Zeit zu starten:',
+                  'Bitte klicke auf den Button, sobald das 360° Bild geladen ist und du bereit bist, die Zeit zu starten.\n\nHier noch ein par Tipps, die dir helfen werden:\n\n - Lege dir Stift und Papier bereit, da du die für das Lösen mancher\n   Fragen benötigen wirst.\n - Manche Fragen sind versteckt, schaue dich auf dem gesamt 360°\n   Bild in allen Achsenrichtungen um, um alle Fragen zu finden.\n - Das Quiz ist nicht darauf ausgelegt, dass man in der Zeit alle\n   Fragen richtig beantworten kann, scheue daher nicht davor zurück\n   deine Tipps einzusetzen bzw. eine Frage durch Sperren zu\n   überspringen.',
                   style: Theme.of(context).textTheme.bodyText1),
               TextButton(
                 child: Text(

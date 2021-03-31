@@ -12,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   dynamic data;
+  bool showError = false;
   bool loginComplete = false;
   double x = 0.0;
   double y = 0.0;
@@ -43,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 60,
         child: TextField(
           decoration: InputDecoration(
+            errorText: showError? 'falsches Passwort' : null,
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -66,18 +68,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ),
           onChanged: (String value) {
-            if (value.length > 5) {
-              for (int i = 0; i < snapshot.data().length; i++) {
-                if (snapshot.data()[(i + 1).toString()] == value) {
-                  setState(() {
+            setState(() {
+              showError = false;
+              if (value.length > 5) {
+                for (int i = 0; i < snapshot.data().length; i++) {
+                  if (snapshot.data()[(i + 1).toString()] == value) {
                     personalPassword = value;
                     loginComplete = true;
-                  });
+                  }
                 }
               }
-            }
+            });
           },
           //onSubmitted: , Fehlermeldung
+          onSubmitted: (String s) {
+            setState(() {
+              showError = true;
+            });
+          },
         ),
       ),
     );
@@ -148,6 +156,64 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SizedBox(height: 20),
+          Container(
+            width: 900,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.black87,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Text(
+                'Regeln: \n - Das Quiz ist eine Stunde lang und besteht aus drei Schwierigkeitssstufen, die auf drei 360° Bilder aufgeteilt\n   sind, mit jeweils vier, drei und zwei Fragen. \n - Jede Frage kann dreimal beantwortet werden bevor sie gesperrt ist, das richtige Beantworten einer Fragen im\n   zweiten oder dritten Versuch, erbringt jedoch einen bzw. zwei Punkte weniger als im Ersten.  \n - Um die nächste Stufe zu erreichen müssen alle Fragen einer Stufe entweder richtig beantwortet oder gesperrt\n   sein.\n - Jede Frage ist ihrer Schwierigkeit entsprechend unterschiedlich stark bepunktet, insgesamt sind 100 mögliche\n   Punkte zu erreichen\n - Zum Lösen der Fragen stehen insgesamt vier Tipps zur Verfügung, welche jedoch den Punkteertrag für das\n   Lösen der jeweiligen Frage halbieren.',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ),
+          /*Container(
+            width: 900,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.black87,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'Regeln: \n' //- Das Quiz ist eine Stunde lang und besteht aus drei Schwierigkeitssstufen, die auf drei 360° Bilder aufgeteilt sind, mit jeweils vier, drei und zwei Fragen. \n - Jede Frage kann dreimal beantwortet werden bevor sie gesperrt ist, das richtige Beantworten einer Fragen im zweiten oder dritten Versuch, erbringt jedoch einen bzw. zwei Punkte weniger als im Ersten.  \n - Um die nächste Stufe zu erreichen müssen alle Fragen einer Stufe entweder richtig beantwortet oder gesperrt sein.\n - Jede Frage ist ihrer Schwierigkeit entsprechend unterschiedlich stark bepunktet, insgesamt sind 100 mögliche Punkte zu erreichen\n - Zum Lösen der Fragen stehen insgesamt vier Tipps zur Verfügung, welche jedoch den Punkteertrag für das Lösen der jeweiligen Frage halbieren.',
+                  ,style: Theme.of(context).textTheme.bodyText1,
+                ),
+                Row(
+                  children: [
+                    Text('- ', style: Theme.of(context).textTheme.bodyText1,),
+                    Text('Das Quiz ist eine Stunde lang und besteht aus drei Schwierigkeitssstufen, die auf drei 360° Bilder aufgeteilt \n sind, mit jeweils vier, drei und zwei Fragen.', style: Theme.of(context).textTheme.bodyText1,)
+                  ]
+                ),
+                Row(
+                  children: [
+                    Text('- ', style: Theme.of(context).textTheme.bodyText1,),
+                    Text('Jede Frage kann dreimal beantwortet werden bevor sie gesperrt ist, das richtige Beantworten einer Fragen im \n zweiten oder dritten Versuch, erbringt jedoch einen bzw. zwei Punkte weniger als im Ersten.', style: Theme.of(context).textTheme.bodyText1,)
+                  ]
+                ),
+                Row(
+                  children: [
+                    Text('- ', style: Theme.of(context).textTheme.bodyText1,),
+                    Text('Um die nächste Stufe zu erreichen müssen alle Fragen einer Stufe entweder richtig beantwortet oder gesperrt \n sein.', style: Theme.of(context).textTheme.bodyText1,)
+                  ]
+                ),
+                Row(
+                  children: [
+                    Text('- ', style: Theme.of(context).textTheme.bodyText1,),
+                    Text('Jede Frage ist ihrer Schwierigkeit entsprechend unterschiedlich stark bepunktet, insgesamt sind 100 mögliche \nPunkte zu erreichen.', style: Theme.of(context).textTheme.bodyText1,)
+                  ]
+                ),
+                Row(
+                  children: [
+                    Text('- ', style: Theme.of(context).textTheme.bodyText1,),
+                    Text('Zum Lösen der Fragen stehen insgesamt vier Tipps zur Verfügung, welche jedoch den Punkteertrag für das \n Lösen der jeweiligen Frage halbieren.', style: Theme.of(context).textTheme.bodyText1,)
+                  ]
+                )
+              ],
+            ),
+          ),
           Row(
             children: [
               Flexible(
@@ -190,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Container(),
               ),
             ],
-          ),
+          ),*/
         ],
       );
     }
